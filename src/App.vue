@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <um-code language="html"></um-code>
     <router-view/>
   </div>
 </template>
