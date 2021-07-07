@@ -1,5 +1,11 @@
-// 下载非同源图片
-// 调用: _downLoadFile('图片地址', '重命名名称');
+/**
+ * 下载非同源图片 
+ * 
+ * @param {String} fileUrl 图片url地址 
+ * @param {String} fileName 重命名名称
+ * 
+ * @example _downLoadFile(fileUrl, fileName) 
+ */
 export const _downLoadFile = (fileUrl, fileName) => {
   let ajaxObj = null
     if(window.XMLHttpRequest){
@@ -21,8 +27,13 @@ export const _downLoadFile = (fileUrl, fileName) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 改变并显示移动端html的title(IOS环境下, 直接给document.title赋值的话页面上面的title不会改变)
-// 调用: _changeTitle('title名称')
+/**
+ * 改变并显示移动端html的title(IOS环境下, 直接给document.title赋值的话页面上面的title不会改变) 
+ * 
+ * @param {String} title title名称 
+ * 
+ * @example _changeTitle(title) 
+ */
 export const _changeTitle = (title) => {
   document.title = title
   const browser = navigator.userAgent.toLowerCase()
@@ -43,8 +54,14 @@ export const _changeTitle = (title) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 触发一个元素的事件时复制指定内容
-// 调用: _bindCopy(被触发事件的元素, 拷贝的内容-必须是一个变量-否则永远只会复制同一个内容)
+/**
+ * 触发一个元素的事件时复制指定内容 
+ * 
+ * @param {Element} dom 被触发事件的元素 
+ * @param {String} text 拷贝的内容-必须是一个变量-否则永远只会复制同一个内容 
+ * 
+ * @example _bindCopy(dom, text) 
+ */
 export const _copy = (dom, text) => {
   _BD(dom, 'copy', function() {
     if(event.clipboardData) {
@@ -58,7 +75,9 @@ export const _copy = (dom, text) => {
   }, {once: true})
   document.execCommand('copy')
 }
-/*vue中使用解决方案:
+/**
+ * vue中使用解决方案:
+ * 
 template:
   <div @click="toCopy" @copy="copyContent"></div>
 methods:
@@ -75,11 +94,18 @@ methods:
       console.warn('浏览器不支持, 请手动复制')
     }
   }
-*/
+  * 
+ */
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 判断当前浏览器是否为IE, 返回null或者IE版本号
+/**
+ * 判断当前浏览器是否为IE 
+ * 
+ * @returns {Number|Null} 返回null或者IE版本号 
+ * 
+ * @example const isIE = _isIE()
+ */
 export const _isIE = () => {
   const info = window.navigator.userAgent
   if(info.indexOf('Trident') === -1) return null
@@ -92,8 +118,16 @@ export const _isIE = () => {
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 给一个dom元素绑定事件
-// 调用: _BD(dom元素, 事件名, 处理函数, 配置项)
+/**
+ * 给一个dom元素绑定事件 
+ * 
+ * @param {Element} dom 要绑定事件的dom元素
+ * @param {String} eventName 事件名
+ * @param {Function} fn 处理函数
+ * @param {(Object|Boolean)} [option = false] 配置项
+ * 
+ * @example _BD(dom, eventName, fn, option) 
+ */
 export const _BD = (dom, eventName, fn, option = false) => {
   if(dom.addEventListener){
     dom.addEventListener(eventName, fn, option)
@@ -106,8 +140,15 @@ export const _BD = (dom, eventName, fn, option = false) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 解除一个dom元素的绑定事件
-// 调用: _unBD(dom元素, 事件名, 处理函数)
+/**
+ * 解除一个dom元素的绑定事件 
+ * 
+ * @param {Element} dom 要解除绑定事件的dom元素 
+ * @param {String} eventName 事件名
+ * @param {Function} functionName 处理函数(必须是一个函数变量名)
+ * 
+ * @example _unBD(dom, eventName, functionName)
+ */
 export const _unBD = (dom, eventName, functionName) => {
   if(dom.attachEvent) {
     dom.detachEvent('on' + eventName, functionName)
@@ -118,6 +159,11 @@ export const _unBD = (dom, eventName, functionName) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
+/**
+ * 
+ * @param {*} keyframeName 
+ * @returns 
+ */
 // 修改名为keyframeName的keyframes样式, 返回一个方法fn
 /* 
 调用: const fn = _editKeyframes(keyfranes名称)
