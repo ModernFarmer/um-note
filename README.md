@@ -3,9 +3,9 @@
 ### 代码高亮插件
 [prism](https://prismjs.com/extending.html)
 entry: index.html
-<br>
+<br><br>
 全局对象: Prism
-<br>
+<br><br>
 Prism.languages  语言语法对象
 <br>
 Prism.highlightElement(el)  高亮一个dom元素(pre元素或者code元素)

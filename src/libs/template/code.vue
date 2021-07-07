@@ -7,6 +7,7 @@
 <script>
 import { defineComponent, ref, computed, } from 'vue'
 import { codeMap } from '../../assets/js/map'
+import c2py from '@/utils/c2py'
 
 export default defineComponent({
   props: {
@@ -46,7 +47,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    
+    console.log(c2py.abbreviation(' 我的 Kiti 在05号柜子  111'))
   }
 })
 </script>
