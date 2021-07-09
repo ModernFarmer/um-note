@@ -1,4 +1,4 @@
-import UmCode from './template/code'
+import UmCode from './template/code/index.vue'
 
 export default {
   install: function (Vue) {

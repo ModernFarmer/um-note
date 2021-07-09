@@ -15,10 +15,11 @@ _listToTree           将扁平化数据转换成树状数据
 
 @/utils/c2py/index.js
 
-import c2py from '@/utils/c2py'
+import createC2py from '@/utils/createC2py'
+const c2py = new createC2py()
 
-c2py.abbreviation     中文转拼音-简写
-c2py.fullname         中文转拼音-全称
-c2py.camelcase        中文转拼音-驼峰全称
-c2py.lowercase        中文转拼音-小写全称
-c2py.uppercase        中文转拼音-大写全称
+c2py.abbreviation()   中文转拼音-简写
+c2py.fullname()       中文转拼音-全称
+c2py.camelcase()      中文转拼音-驼峰全称
+c2py.lowercase()      中文转拼音-小写全称
+c2py.uppercase()      中文转拼音-大写全称

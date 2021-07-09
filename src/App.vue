@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <um-code style="margin-left: 30px;" language="javascript" :code="code"></um-code>
+    <um-code :width="width" language="javascript" :codes="code" edit></um-code>
     <router-view/>
   </div>
 </template>
@@ -10,14 +10,22 @@ import { defineComponent, ref, } from 'vue'
 
 export default defineComponent({
   setup() {
+    const width = ref('300px')
     const code = ref(`
-function abc (val) {
-  console.log(val)
-  return val ++ 
-}
+  console.log(123)
     `)
+
+    /* setTimeout(() => {
+      code.value = {
+        language: 'javascript',
+        code: `function bbc () { console.log('bbc') }`
+      }
+      width.value = '400px'
+    }, 2000) */
+
     return {
-      code
+      code,
+      width,
     }
   },
   mounted () {

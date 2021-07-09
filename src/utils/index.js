@@ -76,11 +76,11 @@ export const _copy = (dom, text) => {
   document.execCommand('copy')
 }
 /**
- * vue中使用解决方案:
+ * vue中使用解决方案: 
  * 
-template:
+ * template: 
   <div @click="toCopy" @copy="copyContent"></div>
-methods:
+ * methods: 
   toCopy() {
     document.execCommand('copy')
   }
@@ -94,7 +94,7 @@ methods:
       console.warn('浏览器不支持, 请手动复制')
     }
   }
-  * 
+ * 
  */
 
 // ------------------------------------------------------------------------------------------------------------------------------
@@ -160,36 +160,44 @@ export const _unBD = (dom, eventName, functionName) => {
 // ------------------------------------------------------------------------------------------------------------------------------
 
 /**
+ * 修改名为keyframesName的keyframes样式, 返回一个方法fn 
  * 
- * @param {*} keyframeName 
- * @returns 
+ * @param {String} keyframesName keyframes名称 
+ * 
+ * @returns {Function} 返回一个修改样式的方法fn 
+ * 
+ * @example 
+ * const edit = _editKeyframes(KEYFRAMESNAME) 
+ * edit('from {...} to {...}')
+ * 
+ * 注* 如果在dom的className没有改变的情况下直接修改keyframes样式将无法实现动效 
+ *     所以修改流程为: 去除dom的className -> 修改keyframes -> 重新给dom设置className
  */
-// 修改名为keyframeName的keyframes样式, 返回一个方法fn
-/* 
-调用: const fn = _editKeyframes(keyfranes名称)
-      fn('{from {...} to {...}}')
-*/
-/*
-注意: 如果在dom的className没有改变的情况下直接修改keyframes样式将无法实现动效
-      所以修改流程为: 去除dom的className -> 修改keyframes -> 重新给dom设置className
-*/
-export const _editKeyframes = (keyframeName) => {
-  const sheetObj = $findKeyframesRule(keyframeName)
+export const _editKeyframes = (keyframesName) => {
+  const sheetObj = $findKeyframesRule(keyframesName)
   return function (cssStr) {
     if (sheetObj.has) {
       const index = [...sheetObj.value.cssRules].findIndex(val => {
-        return val.name === keyframeName
+        return val.name === keyframesName
       })
       sheetObj.value.deleteRule(index)
-      sheetObj.value.insertRule(`@keyframes ${keyframeName} ${cssStr}`)
+      sheetObj.value.insertRule(`@keyframes ${keyframesName} ${cssStr}`)
     } else {
-      sheetObj.value.insertRule(`@keyframes ${keyframeName} ${cssStr}`)
+      sheetObj.value.insertRule(`@keyframes ${keyframesName} ${cssStr}`)
       sheetObj.has = true
     }
   }
 }
 
-// 查找keyframes所在的styleSheet
+/**
+ * 查找keyframes所在的styleSheet 
+ * 
+ * @param {String} keyframesName 
+ * 
+ * @returns {Object} keyframes所在的styleSheet 
+ * 
+ * @private 这是提供给_editKeyframes方法使用的私有方法 
+ */
 const $findKeyframesRule = (keyframesName) => {
   //此处过滤非同源的styleSheet，因为非同源的无法访问cssRules，会报错
   let ss = Array.from(document.styleSheets).filter(styleSheet => {
@@ -213,7 +221,16 @@ const $findKeyframesRule = (keyframesName) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 尾回调优化的实现 --- 目前chrome浏览器不支持尾回调优化, 可以手动实现, 也可以直接通过bable编译, 防止报栈溢出错误
+/**
+ * @summary 尾回调优化的实现 
+ * 目前chrome浏览器不支持尾回调优化, 可以手动实现, 也可以直接通过bable编译, 防止报栈溢出错误 
+ * 
+ * @param {Function} fn 需要优化的尾回调函数 
+ * 
+ * @returns {Function} 回调函数 
+ * 
+ * @example 在下方 ↓↓↓
+ */
 export const _chunkTailRecursion = (fn) => {
   let value = undefined
   let active = false
@@ -230,39 +247,49 @@ export const _chunkTailRecursion = (fn) => {
     }
   };
 }
-/*
-调用:
-
-原尾回调函数:
-function sum (x, y) {
-  if (y > 0) {
-    return sum(x + 1, y - 1) // 尾递归
+/**
+ * @example 
+ * 原尾回调函数: 
+  function sum (x, y) {
+    if (y > 0) {
+      return sum(x + 1, y - 1) // 尾递归
+    }
+    else {
+      return x
+    }
   }
-  else {
-    return x
-  }
-}
-用法: const sumOptimize = _chunkTailRecursion(function (x, y) { // 参数为原尾回调函数, 但是需要把原回调改成新生成的函数
-  if (y > 0) {
-    return sumOptimize(x + 1, y - 1) // 这里要将原来的sum函数改成新生成的sumOptimize函数
-  }
-  else {
-    return x
-  }
-})
-调用: sumOptimize(1, 100000)
-*/
+ * 用法: 
+  const sumOptimize = _chunkTailRecursion(function (x, y) { // 参数为原尾回调函数, 但是需要把原回调改成新生成的函数
+    if (y > 0) {
+      return sumOptimize(x + 1, y - 1) // 这里要将原来的sum函数改成新生成的sumOptimize函数
+    }
+    else {
+      return x
+    }
+  })
+ * 调用: 
+  sumOptimize(1, 100000)
+ * 
+ */
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-// 将扁平化数据转换成树状数据
-/*
-调用:
-  const result = []
-  _listToTree(原数组, result, 首层父id, 数据id的字段名, 数据的父id字段名)
-  console.log(result)
-  *注: _listToTree会改变原数组, 如果不想改变原数组, 则须这样调用: _listToTree([...原数组], result, 首层父id)
-*/
+/**
+ * 将扁平化数据转换成树状数据 
+ * 
+ * @param {Array} list 原数组 
+ * @param {Array} result 结果数组 
+ * @param {String|Number} originId 首层数据的父id 
+ * @param {String} [idName = 'id'] 数据id的字段名 
+ * @param {String} [parentIdName = 'parentId'] 数据父id的字段名 
+ * 
+ * @example
+ * const result = [] 
+ * _listToTree(list, result, originId, idName, parentIdName) 
+ * console.log(result) 
+ * 
+ * 注: _listToTree会改变原数组, 如果不想改变原数组, 则须这样调用: _listToTree([...原数组], result, 首层父id)
+ */
 export const _listToTree = (list, result, originId, idName = 'id', parentIdName = 'parentId') => {
   const len = list.length
   if (len) {
@@ -281,3 +308,5 @@ export const _listToTree = (list, result, originId, idName = 'id', parentIdName 
     }
   }
 }
+
+// ------------------------------------------------------------------------------------------------------------------------------

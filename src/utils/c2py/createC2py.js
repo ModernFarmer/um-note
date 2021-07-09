@@ -1,31 +1,48 @@
 /**
- * 中文转拼音
+ * 中文转拼音 
+ * @class 
+ * @name c2py 
  * 
- * 用法:
- * import createC2py from './createC2py.js'
- * const c2py = new createC2py()
+ * @example 
+ * import createC2py from './createC2py.js' 
+ * const c2py = new createC2py() 
  * 
- * 注*** c2py对象的所有方法都会去首位空格, 中间的空格可根据需要选择去或者不去
+ * 注*** c2py对象下的所有方法都会去首位空格, 中间的空格可根据需要选择去或者不去 
  * 
- * 获取 originString 的拼音简称 (默认去空格)
- * c2py.abbreviation(originString<string>, [是否去空格<boolean>])
- * c2py.abbreviation(' 我的 Kiti 在05号柜子  ') // 'wdkitiz05hgz'
+ * @method abbreviation 获取拼音简称 (默认去空格) 
+ * @param {String} originString 原始字符串 
+ * @param {Boolean} [removeSpace = true] 是否去空格 
+ * @memberof c2py 
+ * @example 
+ * c2py.abbreviation(' 我的 Kiti 在05号柜子  ') // 'wdkitiz05hgz' 
  * 
- * 获取 originString 的拼音全称 (默认不去空格)
- * c2py.fullname(originString<string>, [是否去空格<boolean>])
- * c2py.fullname(' 我的 Kiti 在05号柜子  ') // 'wode Kiti zai05haoguizi'
+ * @method abbreviation 获取拼音全称 (默认不去空格) 
+ * @param {String} originString 原始字符串 
+ * @param {Boolean} [removeSpace = true] 是否去空格 
+ * @memberof c2py 
+ * @example 
+ * c2py.fullname(' 我的 Kiti 在05号柜子  ') // 'wode Kiti zai05haoguizi' 
  * 
- * 获取 originString 的驼峰拼音全称 (默认不去空格)
- * c2py.camelcase(originString<string>, [是否去空格<boolean>])
- * c2py.camelcase(' 我的 Kiti 在05号柜子  ') // 'WoDe Kiti Zai05HaoGuiZi
+ * @method abbreviation 获取驼峰拼音全称 (默认不去空格) 
+ * @param {String} originString 原始字符串 
+ * @param {Boolean} [removeSpace = true] 是否去空格 
+ * @memberof c2py 
+ * @example 
+ * c2py.camelcase(' 我的 Kiti 在05号柜子  ') // 'WoDe Kiti Zai05HaoGuiZi 
  * 
- * 获取 originString 的小写拼音全称 (默认不去空格)
- * c2py.lowercase(originString<string>, [是否去空格<boolean>])
- * c2py.lowercase(' 我的 Kiti 在05号柜子  ') // 'wode kiti zai05haoguizi'
+ * @method abbreviation 获取小写拼音全称 (默认不去空格) 
+ * @param {String} originString 原始字符串 
+ * @param {Boolean} [removeSpace = true] 是否去空格 
+ * @memberof c2py 
+ * @example 
+ * c2py.lowercase(' 我的 Kiti 在05号柜子  ') // 'wode kiti zai05haoguizi' 
  * 
- * 获取 originString 的大写拼音全称 (默认不去空格)
- * c2py.uppercase(originString<string>, [是否去空格<boolean>])
- * c2py.uppercase(' 我的 Kiti 在05号柜子  ') // 'WODE KITI ZAI05HAOGUIZI'
+ * @method abbreviation 获取大写拼音全称 (默认不去空格) 
+ * @param {String} originString 原始字符串 
+ * @param {Boolean} [removeSpace = true] 是否去空格 
+ * @memberof c2py 
+ * @example 
+ * c2py.uppercase(' 我的 Kiti 在05号柜子  ') // 'WODE KITI ZAI05HAOGUIZI' 
  */
 
 export default () => {
