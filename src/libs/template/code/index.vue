@@ -8,13 +8,13 @@
       v-for="(item, index) in codeList"
       :key="`${key}_${index}`"
       v-html="item.code"
-      @input="handleInput($event, item)"
+      @change="handleInput($event, item)"
     ></code></pre>
 </template>
 
 <script>
-import { defineComponent, ref, watch, computed, } from 'vue'
-import { getLanguage, getKey } from './staticData'
+import { defineComponent, ref, watch, nextTick, } from 'vue'
+import { getLanguage, getKey, getFrontTextcontent, selection, } from './staticData'
 
 export default defineComponent({
   props: {
@@ -82,6 +82,9 @@ export default defineComponent({
     const handleInput = ({ target:dom }, item) => {
       // 这里的item对象就是codeList.value[当前索引], 利用应用型对象浅拷贝的特性, 直接操作item
       item.code = Prism.highlight(dom.textContent, Prism.languages[item.language], item.language)
+      nextTick(() => {
+        console.log(123)
+      })
     }
 
     return {

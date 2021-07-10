@@ -65,7 +65,7 @@ export const getKey = _keyMap()
  * @param {Element} element 需要设置光标的dom元素 
  * @param {Number} position 需要设置的光标位置 
  */
-function _selection () {
+const _selection = () => {
   const selection = window.getSelection()
   return {
     getCursorPosition () {
@@ -87,3 +87,43 @@ function _selection () {
 }
 
 export const selection = _selection()
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * 获取可编辑根元素中从光标处到头部的textContent, 从而可以获取到该textContent的长度, 用于定位包含多种标签的光标位置
+ * 
+ * @returns {Function} 
+ * 
+ * @example 
+ * const getFrontTextcontent = _getFrontTextcontent()
+ * getFrontTextcontent(childNodes, targetElement, callback) 
+ * @param {NodeList} childNodes 根元素的childNodes 
+ * @param {Element} rangeContainer 光标所在的element元素(必然是text节点, 即element.nodeType === 3) 
+ * @param {Function} callback 回调函数, 该函数的第一个参数就是获取到的textContent 
+ */
+const _getFrontTextcontent = () => {
+  let result = ''
+  let ok = false
+  const checkNodes = (nodes, rangeContainer, fn, first) => {
+    if (first) {
+      result = ''
+      ok = false
+    }
+    for (let i = 0; i < nodes.length; i += 1) {
+      if (ok) return
+      if (nodes[i].nodeType !== 3) {
+        checkNodes(nodes[i].childNodes, rangeContainer, fn)
+      } else if (nodes[i] === rangeContainer) {
+        ok = true
+        fn && fn(result)
+        return
+      } else {
+        result += nodes[i].textContent
+      }
+    }
+  }
+  return checkNodes
+}
+
+export const getFrontTextcontent = _getFrontTextcontent()

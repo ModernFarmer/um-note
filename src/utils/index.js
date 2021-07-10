@@ -222,14 +222,14 @@ const $findKeyframesRule = (keyframesName) => {
 // ------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * @summary 尾回调优化的实现 
- * 目前chrome浏览器不支持尾回调优化, 可以手动实现, 也可以直接通过bable编译, 防止报栈溢出错误 
+ * @summary 尾递归优化的实现 
+ * 目前chrome浏览器不支持尾递归优化, 可以手动实现, 也可以直接通过bable编译, 防止报栈溢出错误 
  * 
- * @param {Function} fn 需要优化的尾回调函数 
+ * @param {Function} fn 需要优化的尾递归函数 
  * 
  * @returns {Function} 回调函数 
  * 
- * @example 在下方 ↓↓↓
+ * @example 例子在下方 ↓↓↓
  */
 export const _chunkTailRecursion = (fn) => {
   let value = undefined
@@ -249,7 +249,7 @@ export const _chunkTailRecursion = (fn) => {
 }
 /**
  * @example 
- * 原尾回调函数: 
+ * 原尾递归函数: 
   function sum (x, y) {
     if (y > 0) {
       return sum(x + 1, y - 1) // 尾递归
@@ -259,7 +259,7 @@ export const _chunkTailRecursion = (fn) => {
     }
   }
  * 用法: 
-  const sumOptimize = _chunkTailRecursion(function (x, y) { // 参数为原尾回调函数, 但是需要把原回调改成新生成的函数
+  const sumOptimize = _chunkTailRecursion(function (x, y) { // 参数为原尾递归函数, 但是需要把原回调改成新生成的函数
     if (y > 0) {
       return sumOptimize(x + 1, y - 1) // 这里要将原来的sum函数改成新生成的sumOptimize函数
     }
@@ -308,5 +308,78 @@ export const _listToTree = (list, result, originId, idName = 'id', parentIdName 
     }
   }
 }
+
+// ------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * 防抖
+ * 
+ * @param {Function} fn 需要进行防抖的函数 
+ * @param {Number} [ms = 500] 防抖时间间隔(毫秒) 
+ * 
+ * @returns {Function} 柯里化处理后的防抖函数 
+ * 
+ * @example 例子在下方 ↓↓↓
+ * 
+ */
+export const _antiShake = (fn, ms = 500) => {
+  let timer = null
+  return (...arg) => {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn(...arg)
+    }, ms)
+  }
+}
+/**
+ * @example 
+ * 需要防抖处理的函数: 
+  const needFn = (a, b) => {
+    console.log(a, b)
+  }
+ * 用法: 
+  const antiShake_needFn = _antiShake(needFn, 1000)
+ * 调用: 
+  antiShake_needFn('aaa', 'bbb') // 打印出: 'aaa', 'bbb'
+ * 
+ */
+
+// ------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * 节流
+ * 
+ * @param {Function} fn 需要进行节流的函数 
+ * @param {Number} [ms = 500] 节流时间间隔(毫秒) 
+ * 
+ * @returns {Function} 柯里化处理后的节流函数 
+ * 
+ * @example 例子在下方 ↓↓↓
+ * 
+ */
+export const _throttle = (fn, ms = 500) => {
+  let status = true
+  return (...arg) => {
+    if (status) {
+      status = false
+      fn(...arg)
+      setTimeout(() => {
+        status = true
+      }, ms)
+    }
+  }
+}
+/**
+ * @example 
+ * 需要节流处理的函数: 
+  const needFn = (a, b) => {
+    console.log(a, b)
+  }
+ * 用法: 
+  const antiShake_needFn = _antiShake(needFn, 1000)
+ * 调用: 
+  antiShake_needFn('aaa', 'bbb') // 打印出: 'aaa', 'bbb'
+ * 
+ */
 
 // ------------------------------------------------------------------------------------------------------------------------------
