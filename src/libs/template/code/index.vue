@@ -83,21 +83,21 @@ export default defineComponent({
     const handleInput = ({ target:dom }, item) => {
       if (!canHandle || !selection.haveRange()) return
       const container = selection.getContainer()
+      const cursorOffset = selection.getCursorPosition() // 光标偏移量
       let textLength = 0 // 主容器下光标所在element元素之前的所有textContent的长度
-      let cursorOffset = 0 // 光标偏移量
-      // 这里的item对象就是codeList.value[当前索引], 利用应用型对象浅拷贝的特性, 直接操作item
-      item.code = Prism.highlight(dom.textContent, Prism.languages[item.language], item.language)
-      /* nextTick(() => {
-        getFrontTextcontent(dom.childNodes, container, result => {
-          textLength = result.length
-          cursorOffset = selection.getCursorPosition()
-          console.log(cursorOffset)
+
+      getFrontTextcontent(dom.childNodes, container, result => {
+        textLength = result.length
+        // 这里的item对象就是codeList.value[当前索引], 利用应用型对象浅拷贝的特性, 直接操作item
+        item.code = Prism.highlight(dom.textContent, Prism.languages[item.language], item.language)
+
+        nextTick(() => {
           getRealDom(dom.childNodes, textLength, el => {
             console.log(el)
             selection.setCursorPosition(el, cursorOffset)
           })
         })
-      }) */
+      })
     }
 
     return {

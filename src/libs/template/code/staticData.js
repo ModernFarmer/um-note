@@ -86,8 +86,8 @@ const _selection = () => {
       if (!cursorPsition && cursorPsition !== 0) return
       const range = document.createRange()
       range.selectNodeContents(element)
-      range.setStart(element.childNodes[0], cursorPsition)
-      range.setEnd(element.childNodes[0], cursorPsition)
+      range.setStart(element, cursorPsition)
+      range.setEnd(element, cursorPsition)
       selection.removeAllRanges()
       selection.addRange(range)
     },
@@ -173,14 +173,9 @@ const _getRealDom = () => {
         if (length > 0) {
           const ctxLength = dom.textContent.length
           length -= ctxLength
-          if (length <= 0) {
-            ok = true
-            fn && fn(dom.parentNode)
-            return
-          }
         } else {
           ok = true
-          fn && fn(dom.parentNode)
+          fn && fn(dom)
           return
         }
       } else {
