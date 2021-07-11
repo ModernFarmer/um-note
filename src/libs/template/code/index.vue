@@ -8,13 +8,13 @@
       v-for="(item, index) in codeList"
       :key="`${key}_${index}`"
       v-html="item.code"
-      @change="handleInput($event, item)"
+      @input="handleInput($event, item)"
     ></code></pre>
 </template>
 
 <script>
 import { defineComponent, ref, watch, nextTick, } from 'vue'
-import { getLanguage, getKey, getFrontTextcontent, selection, } from './staticData'
+import { getLanguage, getKey, getFrontTextcontent, getRealDom, selection, } from './staticData'
 
 export default defineComponent({
   props: {
@@ -44,6 +44,7 @@ export default defineComponent({
   setup(props, context) {
     const key = ref(getKey())
     const codeList = ref([])
+    let canHandle = true
 
     // 这里不用computed是因为props.codes里面的内容在(操作本组件的编辑代码功能)时需要改变, computed不支持改变计算后的属性值, 所以这里使用的是watch
     // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
@@ -80,11 +81,23 @@ export default defineComponent({
     )
 
     const handleInput = ({ target:dom }, item) => {
+      if (!canHandle || !selection.haveRange()) return
+      const container = selection.getContainer()
+      let textLength = 0 // 主容器下光标所在element元素之前的所有textContent的长度
+      let cursorOffset = 0 // 光标偏移量
       // 这里的item对象就是codeList.value[当前索引], 利用应用型对象浅拷贝的特性, 直接操作item
       item.code = Prism.highlight(dom.textContent, Prism.languages[item.language], item.language)
-      nextTick(() => {
-        console.log(123)
-      })
+      /* nextTick(() => {
+        getFrontTextcontent(dom.childNodes, container, result => {
+          textLength = result.length
+          cursorOffset = selection.getCursorPosition()
+          console.log(cursorOffset)
+          getRealDom(dom.childNodes, textLength, el => {
+            console.log(el)
+            selection.setCursorPosition(el, cursorOffset)
+          })
+        })
+      }) */
     }
 
     return {
