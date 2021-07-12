@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <um-code :width="width" language="javascript" :codes="code" edit></um-code>
+    <um-code class="code-outsize" :width="width" language="javascript" :codes="code" edit></um-code>
     <router-view/>
   </div>
 </template>
@@ -10,9 +10,9 @@ import { defineComponent, ref, } from 'vue'
 
 export default defineComponent({
   setup() {
-    const width = ref('300px')
+    const width = ref('500px')
     const code = ref(`
-  console.log(123)
+console.log(123)
     `)
 
     /* setTimeout(() => {
@@ -36,4 +36,5 @@ export default defineComponent({
 
 <style>
 #app { width: 100%; height: 100%; overflow: hidden; position: relative; }
+.code-outsize { margin-left: 30%; margin-top: 100px; }
 </style>

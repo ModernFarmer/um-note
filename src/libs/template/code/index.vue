@@ -1,20 +1,21 @@
 <template>
   <pre
-    class="pre-class language-"
+    class="um-pre-class language-"
     :style="{ width, height }"
   ><code
-      class="code-class"
+      class="um-code-class"
       :contenteditable="edit"
       v-for="(item, index) in codeList"
       :key="`${key}_${index}`"
       v-html="item.code"
-      @input="handleInput($event, item)"
+      @input="handleInput($event, item, '__input')"
+      @keydown="handleInput($event, item, '__tabDown')"
     ></code></pre>
 </template>
 
 <script>
 import { defineComponent, ref, watch, nextTick, } from 'vue'
-import { getLanguage, getKey, getFrontTextcontent, getRealDom, selection, } from './staticData'
+import { getLanguage, getKey, getFrontOffset, getRealDomAndOffset, selection, } from './staticData'
 
 export default defineComponent({
   props: {
@@ -80,21 +81,22 @@ export default defineComponent({
       { immediate: true }
     )
 
-    const handleInput = ({ target:dom }, item) => {
+    const handleInput = (e, item, handleType) => {
+      if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
+        return
+      } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
+        e.preventDefault()
+      }
       if (!canHandle || !selection.haveRange()) return
       const container = selection.getContainer()
-      const cursorOffset = selection.getCursorPosition() // 光标偏移量
-      let textLength = 0 // 主容器下光标所在element元素之前的所有textContent的长度
 
-      getFrontTextcontent(dom.childNodes, container, result => {
-        textLength = result.length
-        // 这里的item对象就是codeList.value[当前索引], 利用应用型对象浅拷贝的特性, 直接操作item
-        item.code = Prism.highlight(dom.textContent, Prism.languages[item.language], item.language)
-
+      getFrontOffset(e.target, container, handleType, (totalOffset, textContent) => {
+        // 防抖做到这里 ------------------
+        // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
+        item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
-          getRealDom(dom.childNodes, textLength, el => {
-            console.log(el)
-            selection.setCursorPosition(el, cursorOffset)
+          getRealDomAndOffset(e.target, totalOffset, (el, i) => {
+            selection.setCursorOffset(el, i)
           })
         })
       })
@@ -114,8 +116,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.pre-class { position: relative; }
-.pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
-.pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
-.code-class { width: 100%; height: 100%; display: inline-block; outline: none; }
+.um-pre-class { padding: 1rem; border-radius: .3rem; overflow: auto; position: relative; }
+.um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
+.um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
+.um-code-class { width: 100%; height: 100%; display: inline-block; outline: none; }
 </style>
