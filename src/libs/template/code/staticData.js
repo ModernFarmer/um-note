@@ -122,7 +122,8 @@ const _getFrontOffset = () => {
   let rootTextContent = ''
   let result = ''
   let ok = false
-  const checkNodes = (root, rangeContainer, handleType, inset, fn, sign) => {
+  const checkNodes = (root, rangeContainer, inset, fn, sign) => {
+    // 当目标容器===根容器时, 说明根容器下没有任何节点, 那么直接返回需要插入的内容inset
     if (rangeContainer === root) {
       fn && fn(inset.length, inset)
       return
@@ -135,10 +136,10 @@ const _getFrontOffset = () => {
     for (let i = 0; i < root.childNodes.length; i += 1) {
       if (ok) return
       if (root.childNodes[i].nodeType !== 3) {
-        checkNodes(root.childNodes[i], rangeContainer, handleType, inset, fn, '_is_not_first_')
+        checkNodes(root.childNodes[i], rangeContainer, inset, fn, '_is_not_first_')
       } else if (root.childNodes[i] === rangeContainer) {
         ok = true
-        const offset = selection.getCursorOffset()
+        const offset = selection.getCursorOffset() // 粘贴时这里可能不准
         result += root.childNodes[i].textContent.substring(0, offset)
         rootTextContent = `${result}${inset}${rootTextContent.substring(result.length)}`
         result = `${result}${inset}`

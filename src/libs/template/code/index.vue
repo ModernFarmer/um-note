@@ -121,7 +121,7 @@ export default defineComponent({
       // 如果container === root, 会导致getFrontOffset()方法获取不到相应判断条件而直接返回默认错误返回, 导致整个根元素下所有内容被清空
       if (container === root && root.childNodes.length) return
 
-      getFrontOffset(root, container, handleType, inset, (totalOffset, textContent) => {
+      getFrontOffset(root, container, inset, (totalOffset, textContent) => {
         // 防抖做到这里 ------------------
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
