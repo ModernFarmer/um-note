@@ -64,8 +64,8 @@ export const _changeTitle = (title) => {
  */
 export const _copy = (dom, text) => {
   _BD(dom, 'copy', function() {
+    event.preventDefault() // 这里必须取消默认事件, 否则无法复制
     if(event.clipboardData) {
-      event.preventDefault() // 这里必须取消默认事件, 否则无法复制
       event.clipboardData.setData("text/plain", text)
     }else if(window.clipboardData) { // IE
       window.clipboardData.setData("Text", text)

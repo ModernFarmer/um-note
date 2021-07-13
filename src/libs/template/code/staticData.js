@@ -56,11 +56,13 @@ export const getKey = _keyMap()
 /**
  * 光标定位
  * 
- * @returns {Object} 柯里化后的方法对象 -> { getCursorOffset: fn, setCursorOffset: fn } 
+ * @returns {Object} 柯里化后的方法对象 -> { getRange, haveRange, deleteContents, getContainer getCursorOffset: fn, setCursorOffset: fn } 
  * 
  * @example 
  * const selection = _selection() 
+ * const range = selection.getRange() // 获取当前窗口的Range对象
  * const has = selection.haveRange() // 当前页面是是否存在Range对象(即是否存在光标)
+ * selection.deleteContents() // 删除当前Range选中内容
  * const endContainer = selection.getContainer() // 当前光标所在的容器(必定是文本节点, 即nodeType === 3) 
  * const position = selection.getCursorOffset() // 当前光标偏移量 
  * selection.setCursorOffset(element, cursorOffset) // 在element内设置光标位置 
@@ -70,17 +72,20 @@ export const getKey = _keyMap()
 const _selection = () => {
   const selection = window.getSelection()
   return {
+    getRange () {
+      return selection.getRangeAt(0)
+    },
     haveRange () {
       return selection.rangeCount > 0
+    },
+    deleteContents () {
+      selection.getRangeAt(0).deleteContents()
     },
     getContainer () {
       return selection.getRangeAt(0).endContainer
     },
     getCursorOffset () {
-      if (selection.rangeCount > 0) {
-        return selection.getRangeAt(0).endOffset
-      }
-      return null
+      return selection.getRangeAt(0).endOffset
     },
     setCursorOffset (element, cursorOffset) {
       if (!cursorOffset && cursorOffset !== 0) return
@@ -117,7 +122,11 @@ const _getFrontOffset = () => {
   let rootTextContent = ''
   let result = ''
   let ok = false
-  const checkNodes = (root, rangeContainer, handleType, fn, sign) => {
+  const checkNodes = (root, rangeContainer, handleType, inset, fn, sign) => {
+    if (rangeContainer === root) {
+      fn && fn(inset.length, inset)
+      return
+    }
     if (sign !== '_is_not_first_') {
       rootTextContent = root.textContent
       result = ''
@@ -126,15 +135,13 @@ const _getFrontOffset = () => {
     for (let i = 0; i < root.childNodes.length; i += 1) {
       if (ok) return
       if (root.childNodes[i].nodeType !== 3) {
-        checkNodes(root.childNodes[i], rangeContainer, handleType, fn, '_is_not_first_')
+        checkNodes(root.childNodes[i], rangeContainer, handleType, inset, fn, '_is_not_first_')
       } else if (root.childNodes[i] === rangeContainer) {
         ok = true
         const offset = selection.getCursorOffset()
         result += root.childNodes[i].textContent.substring(0, offset)
-        if (handleType === '__tabDown') {
-          rootTextContent = `${result}  ${rootTextContent.substring(result.length)}`
-          result = `${result}  `
-        }
+        rootTextContent = `${result}${inset}${rootTextContent.substring(result.length)}`
+        result = `${result}${inset}`
         fn && fn(result.length, rootTextContent)
         return
       } else {

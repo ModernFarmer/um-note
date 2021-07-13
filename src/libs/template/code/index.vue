@@ -3,6 +3,7 @@
     class="um-pre-class language-"
     :style="{ width, height }"
   ><code
+      :id="key"
       class="um-code-class"
       :contenteditable="edit"
       v-for="(item, index) in codeList"
@@ -10,6 +11,7 @@
       v-html="item.code"
       @input="handleInput($event, item, '__input')"
       @keydown="handleInput($event, item, '__tabDown')"
+      @paste="handleInput($event, item, '__paste')"
     ></code></pre>
 </template>
 
@@ -45,7 +47,8 @@ export default defineComponent({
   setup(props, context) {
     const key = ref(getKey())
     const codeList = ref([])
-    let canHandle = true
+    let root = null // 文本操作的根元素
+    let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
 
     // 这里不用computed是因为props.codes里面的内容在(操作本组件的编辑代码功能)时需要改变, computed不支持改变计算后的属性值, 所以这里使用的是watch
     // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
@@ -82,20 +85,48 @@ export default defineComponent({
     )
 
     const handleInput = (e, item, handleType) => {
+      if (!selection.haveRange()) return // 如果窗口中没有Range对象, 拦截
+      let container = null
+      let inset = ''
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
         return
       } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
         e.preventDefault()
+        inset = '  '
+      } else if (handleType === '__paste') { // 监听粘贴事件
+        // 由于默认粘贴会将粘贴板上所有的样式都会粘贴到目标容器, 可能会导致样式错乱, 所以这里要做粘贴事件的监听重写
+        e.preventDefault()
+        if(e.clipboardData || window.clipboardData) {
+          isPaste = true
+          container = selection.getContainer()
+          // container = selection.getRange().startContainer
+          selection.deleteContents()
+          inset = (e.clipboardData || window.clipboardData).getData("text/plain").toString()
+          console.log(inset.length)
+        } else {
+          alert('浏览器不支持, 请手动复制')
+          return
+        }
+      } else if (isPaste) { // input事件(粘贴时会触发input事件, 这里要拦截)
+        isPaste = false
+        return
       }
-      if (!canHandle || !selection.haveRange()) return
-      const container = selection.getContainer()
 
-      getFrontOffset(e.target, container, handleType, (totalOffset, textContent) => {
+      if (!container) container = selection.getContainer()
+      if (!root) {
+        root = document.querySelector(`#${key.value}`)
+      }
+
+      // 尼玛, 当末尾空行被删减至最后一个含有tab原生空格的时候, 页面默认会添加一个<br>标签, 导致Range.startContainer和Range.endContainer为根元素
+      // 如果container === root, 会导致getFrontOffset()方法获取不到相应判断条件而直接返回默认错误返回, 导致整个根元素下所有内容被清空
+      if (container === root && root.childNodes.length) return
+
+      getFrontOffset(root, container, handleType, inset, (totalOffset, textContent) => {
         // 防抖做到这里 ------------------
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
-          getRealDomAndOffset(e.target, totalOffset, (el, i) => {
+          getRealDomAndOffset(root, totalOffset, (el, i) => {
             selection.setCursorOffset(el, i)
           })
         })
