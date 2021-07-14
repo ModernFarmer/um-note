@@ -303,7 +303,7 @@ export const _listToTree = (list, result, originId, idName = 'id', parentIdName 
     const lt = result.length
     if (lt) {
       for (let j = lt - 1; j >= 0; j -= 1) {
-        listToTree(list, result[j].children, result[j][idName], idName, parentIdName) // 数据id字段id须根据实际数据来决定
+        _listToTree(list, result[j].children, result[j][idName], idName, parentIdName) // 数据id字段id须根据实际数据来决定
       }
     }
   }

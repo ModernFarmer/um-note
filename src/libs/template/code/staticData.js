@@ -56,14 +56,15 @@ export const getKey = _keyMap()
 /**
  * 光标定位
  * 
- * @returns {Object} 柯里化后的方法对象 -> { getRange, haveRange, deleteContents, getContainer getCursorOffset: fn, setCursorOffset: fn } 
+ * @returns {Object} 柯里化后的方法对象 -> { getRange, haveRange, deleteContents, getEndContainer getCursorOffset: fn, setCursorOffset: fn } 
  * 
  * @example 
  * const selection = _selection() 
  * const range = selection.getRange() // 获取当前窗口的Range对象
  * const has = selection.haveRange() // 当前页面是是否存在Range对象(即是否存在光标)
  * selection.deleteContents() // 删除当前Range选中内容
- * const endContainer = selection.getContainer() // 当前光标所在的容器(必定是文本节点, 即nodeType === 3) 
+ * const StartContainer = selection.getStartContainer() // 当前首光标所在的容器(必定是文本节点, 即nodeType === 3) 
+ * const endContainer = selection.getEndContainer() // 当前尾光标所在的容器(必定是文本节点, 即nodeType === 3) 
  * const position = selection.getCursorOffset() // 当前光标偏移量 
  * selection.setCursorOffset(element, cursorOffset) // 在element内设置光标位置 
  * @param {Element} element 需要设置光标的dom元素 
@@ -81,7 +82,10 @@ const _selection = () => {
     deleteContents () {
       selection.getRangeAt(0).deleteContents()
     },
-    getContainer () {
+    getStartContainer () {
+      return selection.getRangeAt(0).startContainer
+    },
+    getEndContainer () {
       return selection.getRangeAt(0).endContainer
     },
     getCursorOffset () {
@@ -139,10 +143,12 @@ const _getFrontOffset = () => {
         checkNodes(root.childNodes[i], rangeContainer, inset, fn, '_is_not_first_')
       } else if (root.childNodes[i] === rangeContainer) {
         ok = true
-        const offset = selection.getCursorOffset() // 粘贴时这里可能不准
+        const offset = selection.getCursorOffset()
         result += root.childNodes[i].textContent.substring(0, offset)
         rootTextContent = `${result}${inset}${rootTextContent.substring(result.length)}`
         result = `${result}${inset}`
+        // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent取出来时
+        result = result.replace(/\r\n/g, '\n')
         fn && fn(result.length, rootTextContent)
         return
       } else {

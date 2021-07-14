@@ -98,11 +98,9 @@ export default defineComponent({
         e.preventDefault()
         if(e.clipboardData || window.clipboardData) {
           isPaste = true
-          container = selection.getContainer()
-          // container = selection.getRange().startContainer
+          container = selection.getStartContainer()
           selection.deleteContents()
           inset = (e.clipboardData || window.clipboardData).getData("text/plain").toString()
-          console.log(inset.length)
         } else {
           alert('浏览器不支持, 请手动复制')
           return
@@ -112,14 +110,13 @@ export default defineComponent({
         return
       }
 
-      if (!container) container = selection.getContainer()
+      if (!container) container = selection.getEndContainer()
       if (!root) {
         root = document.querySelector(`#${key.value}`)
       }
 
       // 尼玛, 当末尾空行被删减至最后一个含有tab原生空格的时候, 页面默认会添加一个<br>标签, 导致Range.startContainer和Range.endContainer为根元素
       // 如果container === root, 会导致getFrontOffset()方法获取不到相应判断条件而直接返回默认错误返回, 导致整个根元素下所有内容被清空
-      if (container === root && root.childNodes.length) return
 
       getFrontOffset(root, container, inset, (totalOffset, textContent) => {
         // 防抖做到这里 ------------------
