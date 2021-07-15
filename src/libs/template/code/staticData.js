@@ -108,7 +108,7 @@ export const selection = _selection()
 // ---------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * 获取可编辑根元素中从光标处到根元素头部的光标总偏移量, 用于定位包含多种标签的光标位置
+ * 获取可编辑根元素中从光标处到根元素头部的光标总偏移量, 用于定位包含多种标签时的光标位置
  * 注*** 如果要查<code><span>111</span><span>222</span></code>中<span>222</span>中222末尾的光标位置, 不能是以<code></code>标签为主容器来查, 也不能在<span></span>标签中查找, 必须在文本节点222中查找, 所以这里定义了_getFrontOffset方法
  * 
  * @returns {Function} 柯里化后的主要方法 
@@ -147,7 +147,7 @@ const _getFrontOffset = () => {
         result += root.childNodes[i].textContent.substring(0, offset)
         rootTextContent = `${result}${inset}${rootTextContent.substring(result.length)}`
         result = `${result}${inset}`
-        // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent取出来时
+        // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
         result = result.replace(/\r\n/g, '\n')
         fn && fn(result.length, rootTextContent)
         return

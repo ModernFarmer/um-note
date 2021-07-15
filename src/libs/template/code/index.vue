@@ -18,6 +18,7 @@
 <script>
 import { defineComponent, ref, watch, nextTick, } from 'vue'
 import { getLanguage, getKey, getFrontOffset, getRealDomAndOffset, selection, } from './staticData'
+import { _antiShake } from '@/utils'
 
 export default defineComponent({
   props: {
@@ -118,8 +119,20 @@ export default defineComponent({
       // 尼玛, 当末尾空行被删减至最后一个含有tab原生空格的时候, 页面默认会添加一个<br>标签, 导致Range.startContainer和Range.endContainer为根元素
       // 如果container === root, 会导致getFrontOffset()方法获取不到相应判断条件而直接返回默认错误返回, 导致整个根元素下所有内容被清空
 
+      const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset  // 这里还有问题, 待解决
+
+      // antiShake_getFrontOffset(root, container, inset, (totalOffset, textContent) => {
+      //   console.log(root, container, inset)
+      //   // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
+      //   item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
+      //   nextTick(() => {
+      //     getRealDomAndOffset(root, totalOffset, (el, i) => {
+      //       selection.setCursorOffset(el, i)
+      //     })
+      //   })
+      // })
+
       getFrontOffset(root, container, inset, (totalOffset, textContent) => {
-        // 防抖做到这里 ------------------
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
