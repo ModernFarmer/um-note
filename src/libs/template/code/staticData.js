@@ -108,7 +108,7 @@ export const selection = _selection()
 // ---------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * 获取可编辑根元素中从光标处到根元素头部的光标总偏移量, 用于定位包含多种标签时的光标位置
+ * 获取可编辑根元素中从光标处到根元素头部的光标总偏移量和最终的标签内容(该内容用于prism处理代码着色), 用于定位包含多种标签时的光标位置
  * 注*** 如果要查<code><span>111</span><span>222</span></code>中<span>222</span>中222末尾的光标位置, 不能是以<code></code>标签为主容器来查, 也不能在<span></span>标签中查找, 必须在文本节点222中查找, 所以这里定义了_getFrontOffset方法
  * 
  * @returns {Function} 柯里化后的主要方法 
@@ -118,7 +118,7 @@ export const selection = _selection()
  * getFrontOffset(root, targetElement, callback, sign) 
  * @param {Element} root 根元素 
  * @param {Element} rangeContainer 光标所在的element元素(必然是text节点, 即element.nodeType === 3) 
- * @param {Function} callback 回调函数, 该函数的第一个参数就是获取到的textContent 
+ * @param {Function} callback 回调函数, 该函数的第一个参数就是获取到的光标总偏移量, 第二个参数就是获取到的标签内容(textContent) 
  * @param {String} sign 表明是否第一次调用getFrontOffset, 用来判断是否要初始化_getFrontOffset函数内部的result变量和ok变量 
  * 注*** 参数sign是_getFrontOffset内部调用需要用到的参数, 在getFrontOffset的使用过程中[不需要]也[不能]去手动设置 
  */
@@ -127,15 +127,23 @@ const _getFrontOffset = () => {
   let result = ''
   let ok = false
   const checkNodes = (root, rangeContainer, inset, fn, sign) => {
-    // 当目标容器===根容器时, 说明根容器下没有任何节点, 那么直接返回需要插入的内容inset
-    if (rangeContainer === root) {
-      fn && fn(inset.length, inset)
-      return
-    }
     if (sign !== '_is_not_first_') {
-      rootTextContent = root.textContent
+      // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
+      rootTextContent = root.textContent.replace(/\r\n/g, '\n')
       result = ''
       ok = false
+    }
+    if (rangeContainer === root) {
+      if (rootTextContent.length) {
+        // 尼玛, 当末尾空行被删减至最后一个含有tab原生空格的时候, 页面默认会添加一个<br>标签, 导致Range.startContainer和Range.endContainer为根元素
+        // 当目标容器===根容器且根容器内有内容时, 原光标正停留在末尾空行, 那么直接返回根容器的(textContent的长度 + 1) 和 (rootTextContent + '\n')
+        // 由于<br>标签没有长度, 所以返回的长度须加1, 同理, 由于<br>在被解析后失效, 所以须在rootTextContent后加一个换行符'\n'
+        fn && fn(rootTextContent.length + 1, rootTextContent + '\n')
+      } else {
+        // 当目标容器===根容器且根容器内没有内容时, 说明根容器下没有任何节点, 那么直接返回需要插入的内容inset的长度
+        fn && fn(inset.length, inset)
+      }
+      return
     }
     for (let i = 0; i < root.childNodes.length; i += 1) {
       if (ok) return

@@ -12,6 +12,8 @@
       @input="handleInput($event, item, '__input')"
       @keydown="handleInput($event, item, '__tabDown')"
       @paste="handleInput($event, item, '__paste')"
+      @compositionstart="limitInput($event, item, '__input')"
+      @compositionend="limitInput($event, item, '__input')"
     ></code></pre>
 </template>
 
@@ -19,6 +21,7 @@
 import { defineComponent, ref, watch, nextTick, } from 'vue'
 import { getLanguage, getKey, getFrontOffset, getRealDomAndOffset, selection, } from './staticData'
 import { _antiShake } from '@/utils'
+const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset
 
 export default defineComponent({
   props: {
@@ -50,6 +53,7 @@ export default defineComponent({
     const codeList = ref([])
     let root = null // 文本操作的根元素
     let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
+    let canInput = true // 输入中文时, 在输入过程中且没有确定中文字符时, input也会触发, 这里限制一下绑定在input上面的监听事件
 
     // 这里不用computed是因为props.codes里面的内容在(操作本组件的编辑代码功能)时需要改变, computed不支持改变计算后的属性值, 所以这里使用的是watch
     // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
@@ -85,8 +89,17 @@ export default defineComponent({
       { immediate: true }
     )
 
+    const limitInput = (e, item, handleType) => {
+      console.log(e)
+      canInput = !e.isTrusted
+      // 中文输入确定的那一刻不会触发input事件, 所以在compositionend事件触发且event.data有内容时(在中文输入过程中删除所有内容时也会触发compositionend事件)须触发一次handleInput事件
+      if (canInput && e.data) {
+        handleInput(e, item, handleType)
+      }
+    }
+
     const handleInput = (e, item, handleType) => {
-      if (!selection.haveRange()) return // 如果窗口中没有Range对象, 拦截
+      if (!selection.haveRange() || !canInput) return // 如果窗口中没有Range对象 或 中文输入过程中, 拦截
       let container = null
       let inset = ''
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
@@ -116,23 +129,7 @@ export default defineComponent({
         root = document.querySelector(`#${key.value}`)
       }
 
-      // 尼玛, 当末尾空行被删减至最后一个含有tab原生空格的时候, 页面默认会添加一个<br>标签, 导致Range.startContainer和Range.endContainer为根元素
-      // 如果container === root, 会导致getFrontOffset()方法获取不到相应判断条件而直接返回默认错误返回, 导致整个根元素下所有内容被清空
-
-      const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset  // 这里还有问题, 待解决
-
-      // antiShake_getFrontOffset(root, container, inset, (totalOffset, textContent) => {
-      //   console.log(root, container, inset)
-      //   // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
-      //   item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
-      //   nextTick(() => {
-      //     getRealDomAndOffset(root, totalOffset, (el, i) => {
-      //       selection.setCursorOffset(el, i)
-      //     })
-      //   })
-      // })
-
-      getFrontOffset(root, container, inset, (totalOffset, textContent) => {
+      antiShake_getFrontOffset(root, container, inset, (totalOffset, textContent) => {
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
@@ -148,6 +145,7 @@ export default defineComponent({
       codeList,
 
       handleInput,
+      limitInput,
     }
   },
   mounted () {
