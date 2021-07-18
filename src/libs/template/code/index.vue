@@ -21,7 +21,8 @@
 import { defineComponent, ref, watch, nextTick, } from 'vue'
 import { getLanguage, getKey, getFrontOffset, getRealDomAndOffset, selection, } from './staticData'
 import { _antiShake } from '@/utils'
-const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset
+const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset, 默认500毫秒
+const antiShake_getFrontOffset_short = _antiShake(getFrontOffset, 100) // 防抖处理getFrontOffset, 100毫秒
 
 export default defineComponent({
   props: {
@@ -90,7 +91,6 @@ export default defineComponent({
     )
 
     const limitInput = (e, item, handleType) => {
-      console.log(e)
       canInput = !e.isTrusted
       // 中文输入确定的那一刻不会触发input事件, 所以在compositionend事件触发且event.data有内容时(在中文输入过程中删除所有内容时也会触发compositionend事件)须触发一次handleInput事件
       if (canInput && e.data) {
@@ -102,10 +102,12 @@ export default defineComponent({
       if (!selection.haveRange() || !canInput) return // 如果窗口中没有Range对象 或 中文输入过程中, 拦截
       let container = null
       let inset = ''
+      let coreHandler = antiShake_getFrontOffset // 核心处理函数
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
         return
       } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
         e.preventDefault()
+        coreHandler = antiShake_getFrontOffset_short // 当tab键按下时, 不需要500毫秒防抖, 只需100毫秒防抖
         inset = '  '
       } else if (handleType === '__paste') { // 监听粘贴事件
         // 由于默认粘贴会将粘贴板上所有的样式都会粘贴到目标容器, 可能会导致样式错乱, 所以这里要做粘贴事件的监听重写
@@ -116,7 +118,7 @@ export default defineComponent({
           selection.deleteContents()
           inset = (e.clipboardData || window.clipboardData).getData("text/plain").toString()
         } else {
-          alert('浏览器不支持, 请手动复制')
+          alert('暂不支持粘贴, 请手动输入.')
           return
         }
       } else if (isPaste) { // input事件(粘贴时会触发input事件, 这里要拦截)
@@ -129,7 +131,8 @@ export default defineComponent({
         root = document.querySelector(`#${key.value}`)
       }
 
-      antiShake_getFrontOffset(root, container, inset, (totalOffset, textContent) => {
+      coreHandler(root, container, inset, (totalOffset, textContent) => {
+        console.log(13)
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
@@ -158,5 +161,5 @@ export default defineComponent({
 .um-pre-class { padding: 1rem; border-radius: .3rem; overflow: auto; position: relative; }
 .um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
-.um-code-class { width: 100%; height: 100%; display: inline-block; outline: none; }
+.um-code-class { min-width: 100%; min-height: 60px; display: block; outline: none; }
 </style>

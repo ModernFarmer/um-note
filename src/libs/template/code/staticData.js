@@ -115,56 +115,77 @@ export const selection = _selection()
  * 
  * @example 
  * const getFrontOffset = _getFrontOffset() 
- * getFrontOffset(root, targetElement, callback, sign) 
+ * getFrontOffset(root, rangeContainer, inset, callback, sign) 
  * @param {Element} root 根元素 
  * @param {Element} rangeContainer 光标所在的element元素(必然是text节点, 即element.nodeType === 3) 
+ * @param {String} inset 光标前需要插入的字符串(比如按下tab键时, 取消了默认事件, 需要在光标前插入2个空格; 粘贴时, 需要在光标前插入粘贴的内容)
  * @param {Function} callback 回调函数, 该函数的第一个参数就是获取到的光标总偏移量, 第二个参数就是获取到的标签内容(textContent) 
  * @param {String} sign 表明是否第一次调用getFrontOffset, 用来判断是否要初始化_getFrontOffset函数内部的result变量和ok变量 
  * 注*** 参数sign是_getFrontOffset内部调用需要用到的参数, 在getFrontOffset的使用过程中[不需要]也[不能]去手动设置 
  */
 const _getFrontOffset = () => {
   let rootTextContent = ''
+  let replenish = 0
   let result = ''
   let ok = false
-  const checkNodes = (root, rangeContainer, inset, fn, sign) => {
+  const checkNodes = (root, rangeContainer, inset, callback, sign) => {
     if (sign !== '_is_not_first_') {
       // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
       rootTextContent = root.textContent.replace(/\r\n/g, '\n')
+      replenish = 0
       result = ''
       ok = false
     }
     if (rangeContainer === root) {
-      if (rootTextContent.length) {
+      ok = true
+      if (sign === '_is_not_first_') { // 当不是首次执行且目标容器===根容器时, 说明是在按下enter键时页面产生了div元素且光标正停留在末尾
+        // 当只有一个'\n'在rootTextContent末尾时, 不会触发换行(即'\n'后面没有内容时, 最后一个'\n'失效, 不会触发换行), 所以至少保证rootTextContent末尾有2个'\n'
+        // 这里的rootTextContent为根容器的原始textContent
+        if (!/\n$/.test(rootTextContent)) result += '\n'
+        callback && callback(result.length, result)
+      } else if (rootTextContent.length) {
         // 尼玛, 当末尾空行被删减至最后一个含有tab原生空格的时候, 页面默认会添加一个<br>标签, 导致Range.startContainer和Range.endContainer为根元素
-        // 当目标容器===根容器且根容器内有内容时, 原光标正停留在末尾空行, 那么直接返回根容器的(textContent的长度 + 1) 和 (rootTextContent + '\n')
-        // 由于<br>标签没有长度, 所以返回的长度须加1, 同理, 由于<br>在被解析后失效, 所以须在rootTextContent后加一个换行符'\n'
-        fn && fn(rootTextContent.length + 1, rootTextContent + '\n')
+        // 当首次执行且目标容器===根容器且根容器内有内容时, 表明原光标正停留在末尾空行, 那么直接返回根容器的(textContent的长度 + 1) 和 (rootTextContent + '\n')
+        // 由于<br>在被解析后失效, 所以须在rootTextContent后加一个换行符'\n'
+        // 但是当只有一个'\n'在rootTextContent末尾时, 不会触发换行(即'\n'后面没有内容时, 最后一个'\n'失效, 不会触发换行), 所以至少保证rootTextContent末尾有2个'\n'
+        // 这里的rootTextContent为根容器的原始textContent
+        if (/\n$/.test(rootTextContent)) {
+          rootTextContent += '\n'
+        } else {
+          rootTextContent += '\n\n'
+        }
+        callback && callback(rootTextContent.length, rootTextContent)
       } else {
         // 当目标容器===根容器且根容器内没有内容时, 说明根容器下没有任何节点, 那么直接返回需要插入的内容inset的长度
-        fn && fn(inset.length, inset)
+        callback && callback(inset.length, inset)
       }
       return
     }
     for (let i = 0; i < root.childNodes.length; i += 1) {
       if (ok) return
       if (root.childNodes[i].nodeType !== 3) {
-        checkNodes(root.childNodes[i], rangeContainer, inset, fn, '_is_not_first_')
+        // div默认换行, 被解析成textContent时不会新加换行符'\n', 所以须手动加上
+        if (root.childNodes[i].tagName === 'DIV') {
+          result += '\n'
+          replenish += 1 // 每增加一个换行符, result的长度会增加1, 所以在下面的执行中拼接rootTextContent时, 须减去这里增加的长度
+        }
+        checkNodes(root.childNodes[i], rangeContainer, inset, callback, '_is_not_first_')
       } else if (root.childNodes[i] === rangeContainer) {
         ok = true
         const offset = selection.getCursorOffset()
         result += root.childNodes[i].textContent.substring(0, offset)
-        rootTextContent = `${result}${inset}${rootTextContent.substring(result.length)}`
+        rootTextContent = `${result}${inset}${rootTextContent.substring(result.length - replenish)}` // 这里须减掉上面判断中增加的长度replenish
         result = `${result}${inset}`
         // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
         result = result.replace(/\r\n/g, '\n')
-        fn && fn(result.length, rootTextContent)
+        callback && callback(result.length, rootTextContent)
         return
       } else {
         result += root.childNodes[i].textContent
       }
     }
     if (sign !== '_is_not_first_' && !ok) {
-      fn && fn(0, '')
+      callback && callback(0, '')
     }
   }
   return checkNodes
@@ -191,7 +212,7 @@ export const getFrontOffset = _getFrontOffset()
 const _getRealDomAndOffset = () => {
   let offset = 0
   let ok = false
-  let handleGet = (root, cursorOffset, fn, sign) => {
+  let handleGet = (root, cursorOffset, callback, sign) => {
     if (sign !== '_is_not_first_') {
       offset = cursorOffset
       ok = false
@@ -205,15 +226,15 @@ const _getRealDomAndOffset = () => {
         offset -= ctxLength
         if (offset <= 0) { // 当offset的值小于等于0的时候, 当前文本节点dom就是光标所在的目标元素, temporary就是目标元素真正的光标偏移量
           ok = true
-          fn && fn(dom, temporary)
+          callback && callback(dom, temporary)
           return
         }
       } else {
-        handleGet(dom, offset, fn, '_is_not_first_')
+        handleGet(dom, offset, callback, '_is_not_first_')
       }
     }
     if (sign !== '_is_not_first_' && !ok) {
-      fn && fn(null)
+      callback && callback(null)
     }
   }
   return handleGet

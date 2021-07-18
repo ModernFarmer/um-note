@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <div>
-      <um-code class="code-outsize" :width="width" height="400px" language="javascript" :codes="code" edit></um-code>
-    </div>
-    <!-- <um-code class="code-outsize" :width="width" height="400px" language="javascript" :codes="code" edit></um-code> -->
+    <um-code class="code-outsize" :width="width" height="400px" language="javascript" :codes="code" edit></um-code>
     <router-view/>
   </div>
 </template>
@@ -20,11 +17,13 @@ console.log(123456789)
   `)
 
     /* setTimeout(() => {
-      code.value = {
+      code.value = [{
         language: 'javascript',
         code: `function bbc () { console.log('bbc') }`
-      }
-      width.value = '400px'
+      }, {
+        language: 'html',
+        code: `<div>hello word</div>`
+      }]
     }, 2000) */
 
     return {
