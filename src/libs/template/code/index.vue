@@ -22,7 +22,6 @@ import { defineComponent, ref, watch, nextTick, } from 'vue'
 import { getLanguage, getKey, getFrontOffset, getRealDomAndOffset, selection, } from './staticData'
 import { _antiShake } from '@/utils'
 const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset, 默认500毫秒
-const antiShake_getFrontOffset_short = _antiShake(getFrontOffset, 100) // 防抖处理getFrontOffset, 100毫秒
 
 export default defineComponent({
   props: {
@@ -106,17 +105,22 @@ export default defineComponent({
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
         return
       } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
+        // 由于默认按下tab键会使容器失去焦点, 所以这里要tab按下事件的监听重写
         e.preventDefault()
-        coreHandler = antiShake_getFrontOffset_short // 当tab键按下时, 不需要500毫秒防抖, 只需100毫秒防抖
+        antiShake_getFrontOffset.stop()
+        coreHandler = getFrontOffset // 当tab键按下时, 不需要防抖
         inset = '  '
       } else if (handleType === '__paste') { // 监听粘贴事件
         // 由于默认粘贴会将粘贴板上所有的样式都会粘贴到目标容器, 可能会导致样式错乱, 所以这里要做粘贴事件的监听重写
         e.preventDefault()
-        if(e.clipboardData || window.clipboardData) {
+        antiShake_getFrontOffset.stop()
+        coreHandler = getFrontOffset // 当粘贴时, 不需要防抖
+        const clipboard = e.clipboardData || window.clipboardData
+        if(clipboard) {
           isPaste = true
           container = selection.getStartContainer()
           selection.deleteContents()
-          inset = (e.clipboardData || window.clipboardData).getData("text/plain").toString()
+          inset = clipboard.getData("text/plain").toString()
         } else {
           alert('暂不支持粘贴, 请手动输入.')
           return
@@ -132,7 +136,6 @@ export default defineComponent({
       }
 
       coreHandler(root, container, inset, (totalOffset, textContent) => {
-        console.log(13)
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
@@ -161,5 +164,6 @@ export default defineComponent({
 .um-pre-class { padding: 1rem; border-radius: .3rem; overflow: auto; position: relative; }
 .um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
-.um-code-class { min-width: 100%; min-height: 60px; display: block; outline: none; }
+/* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
+.um-code-class { min-width: 100%; min-height: 60px; display: inline-block; outline: none; }
 </style>

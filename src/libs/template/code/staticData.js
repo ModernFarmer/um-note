@@ -125,14 +125,12 @@ export const selection = _selection()
  */
 const _getFrontOffset = () => {
   let rootTextContent = ''
-  let replenish = 0
   let result = ''
   let ok = false
   const checkNodes = (root, rangeContainer, inset, callback, sign) => {
     if (sign !== '_is_not_first_') {
       // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
       rootTextContent = root.textContent.replace(/\r\n/g, '\n')
-      replenish = 0
       result = ''
       ok = false
     }
@@ -164,17 +162,12 @@ const _getFrontOffset = () => {
     for (let i = 0; i < root.childNodes.length; i += 1) {
       if (ok) return
       if (root.childNodes[i].nodeType !== 3) {
-        // div默认换行, 被解析成textContent时不会新加换行符'\n', 所以须手动加上
-        if (root.childNodes[i].tagName === 'DIV') {
-          result += '\n'
-          replenish += 1 // 每增加一个换行符, result的长度会增加1, 所以在下面的执行中拼接rootTextContent时, 须减去这里增加的长度
-        }
         checkNodes(root.childNodes[i], rangeContainer, inset, callback, '_is_not_first_')
       } else if (root.childNodes[i] === rangeContainer) {
         ok = true
         const offset = selection.getCursorOffset()
         result += root.childNodes[i].textContent.substring(0, offset)
-        rootTextContent = `${result}${inset}${rootTextContent.substring(result.length - replenish)}` // 这里须减掉上面判断中增加的长度replenish
+        rootTextContent = `${result}${inset}${rootTextContent.substring(result.length)}`
         result = `${result}${inset}`
         // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
         result = result.replace(/\r\n/g, '\n')
