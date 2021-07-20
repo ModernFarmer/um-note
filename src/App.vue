@@ -11,10 +11,16 @@ import { defineComponent, ref, } from 'vue'
 export default defineComponent({
   setup() {
     const width = ref('500px')
-    const code = ref(
-`   
-console.log(123456789)
-  `)
+    const code = ref([{
+      language: 'html',
+      code: `<div>hello word</div>`
+    }, {
+      language: 'javascript',
+      code: `function bbc () { console.log('bbc') }`
+    }, {
+      language: 'html',
+      code: `<div>hello word</div>`
+    }])
 
     /* setTimeout(() => {
       code.value = [{

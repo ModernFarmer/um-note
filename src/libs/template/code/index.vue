@@ -2,19 +2,17 @@
   <pre
     class="um-pre-class language-"
     :style="{ width, height }"
-  ><code
+  ><template v-for="(item, index) in codeList" :key="`${key}_${index}`"><code
       :id="key"
       class="um-code-class"
       :contenteditable="edit"
-      v-for="(item, index) in codeList"
-      :key="`${key}_${index}`"
       v-html="item.code"
       @input="handleInput($event, item, '__input')"
       @keydown="handleInput($event, item, '__tabDown')"
       @paste="handleInput($event, item, '__paste')"
       @compositionstart="limitInput($event, item, '__input')"
       @compositionend="limitInput($event, item, '__input')"
-    ></code></pre>
+    ></code><br></template></pre>
 </template>
 
 <script>
@@ -165,5 +163,5 @@ export default defineComponent({
 .um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
 /* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
-.um-code-class { min-width: 100%; min-height: 60px; display: inline-block; outline: none; }
+.um-code-class { min-width: 100%; display: inline-block; outline: none; }
 </style>
