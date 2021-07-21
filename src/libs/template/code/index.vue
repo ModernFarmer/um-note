@@ -2,11 +2,11 @@
   <pre
     class="um-pre-class language-"
     :style="{ width, height }"
-  ><template v-for="(item, index) in codeList" :key="`${key}_${index}`"><code
-      :id="key"
+  ><template v-for="(item, index) in codeList" :key="`${item.key}_${index}`"><code
+      :id="item.key"
       class="um-code-class"
       :contenteditable="edit"
-      v-html="item.code"
+      v-html="item.processedCode"
       @input="handleInput($event, item, '__input')"
       @keydown="handleInput($event, item, '__tabDown')"
       @paste="handleInput($event, item, '__paste')"
@@ -47,13 +47,12 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const key = ref(getKey())
     const codeList = ref([])
     let root = null // 文本操作的根元素
     let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
     let canInput = true // 输入中文时, 在输入过程中且没有确定中文字符时, input也会触发, 这里限制一下绑定在input上面的监听事件
 
-    // 这里不用computed是因为props.codes里面的内容在(操作本组件的编辑代码功能)时需要改变, computed不支持改变计算后的属性值, 所以这里使用的是watch
+    // 这里使用watch而不使用computed, 是因为需要操作数据codeList, 如使用computed的话不应该改变computed返回的codeList
     // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
     watch(
       () => props.codes,
@@ -62,23 +61,28 @@ export default defineComponent({
         if (Array.isArray(codes)) { // 如果props.codes是一个数组
           codeList.value = codes.map(item => {
             const language = getLanguage(item.language) || getLanguage(props.language)
-            item.code = Prism.highlight(item.code, Prism.languages[language], language)
-            return item
+            return {
+              key: getKey(),
+              language,
+              processedCode: Prism.highlight(item.code, Prism.languages[language], language),
+            }
           })
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
           const language = getLanguage(codes.language) || getLanguage(props.language)
           codeList.value = [
             {
+              key: getKey(),
               language,
-              code: Prism.highlight(codes.code, Prism.languages[language], language),
+              processedCode: Prism.highlight(codes.code, Prism.languages[language], language),
             }
           ]
         } else { // 如果props.codes是一个字符串
           const language = getLanguage(props.language)
           codeList.value = [
             {
+              key: getKey(),
               language,
-              code: Prism.highlight(codes, Prism.languages[language], language),
+              processedCode: Prism.highlight(codes, Prism.languages[language], language),
             }
           ]
         }
@@ -129,13 +133,13 @@ export default defineComponent({
       }
 
       if (!container) container = selection.getEndContainer()
-      if (!root) {
-        root = document.querySelector(`#${key.value}`)
+      if (!root) { // 这里需要优化 ----- 当codeList的长度大于1, 输入过程中在.5秒内切换容器, 会出现问题
+        root = document.querySelector(`#${item.key}`)
       }
 
       coreHandler(root, container, inset, (totalOffset, textContent) => {
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
-        item.code = Prism.highlight(textContent, Prism.languages[item.language], item.language)
+        item.processedCode = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
           getRealDomAndOffset(root, totalOffset, (el, i) => {
             selection.setCursorOffset(el, i)
@@ -145,7 +149,6 @@ export default defineComponent({
     }
 
     return {
-      key,
       codeList,
 
       handleInput,

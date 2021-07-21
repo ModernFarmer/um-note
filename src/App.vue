@@ -13,7 +13,7 @@ export default defineComponent({
     const width = ref('500px')
     const code = ref([{
       language: 'html',
-      code: `<div>hello word</div>`
+      code: `<div class="my-class" style="position: relative; left: 30px; top: 10%">hello word</div>`
     }, {
       language: 'javascript',
       code: `function bbc () { console.log('bbc') }`
