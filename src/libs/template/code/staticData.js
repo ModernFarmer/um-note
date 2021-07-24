@@ -4,12 +4,12 @@
  * @returns {Function} 柯里化后的检测函数 -> getLanguage
  * 
  * @example 
- * const getLanguage = _codeMap()
+ * const getLanguage = _languageMap()
  * const result = getLanguage('abc')
  * @param {String} 需要检测的字符串
  * console.log(result) // 'javascript'
  */
-const _codeMap = () => {
+const _languageMap = () => {
   const map = {
     'html': true,
     'javascript': true,
@@ -20,7 +20,7 @@ const _codeMap = () => {
   }
 }
 
-export const getLanguage = _codeMap()
+export const getLanguage = _languageMap()
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -123,7 +123,7 @@ export const selection = _selection()
  * @param {String} sign 表明是否第一次调用getFrontOffset, 用来判断是否要初始化_getFrontOffset函数内部的result变量和ok变量 
  * 注*** 参数sign是_getFrontOffset内部调用需要用到的参数, 在getFrontOffset的使用过程中[不需要]也[不能]去手动设置 
  */
-const _getFrontOffset = () => {
+export const _getFrontOffset = () => {
   let rootTextContent = ''
   let result = ''
   let ok = false
@@ -184,7 +184,7 @@ const _getFrontOffset = () => {
   return checkNodes
 }
 
-export const getFrontOffset = _getFrontOffset()
+// export const getFrontOffset = _getFrontOffset()
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -202,7 +202,7 @@ export const getFrontOffset = _getFrontOffset()
  * @param {String} sign 表明是否第一次调用getFrontTextcontent, 用来判断是否要初始化_getRealDomAndOffset函数内部的result变量和ok变量 
  * 注*** 参数sign是_getRealDomAndOffset内部调用需要用到的参数, 在getFrontTextcontent的使用过程中[不需要]也[不能]去手动设置 
  */
-const _getRealDomAndOffset = () => {
+export const _getRealDomAndOffset = () => {
   let offset = 0
   let ok = false
   let handleGet = (root, cursorOffset, callback, sign) => {
@@ -233,4 +233,31 @@ const _getRealDomAndOffset = () => {
   return handleGet
 }
 
-export const getRealDomAndOffset = _getRealDomAndOffset()
+// export const getRealDomAndOffset = _getRealDomAndOffset()
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * 设置核心数据对象(用于页面中设置coreObj) 
+ * 
+ * @param {Object} target 需要设置数据的目标对象 
+ * @param {String} key 需要设置的键名 
+ * 
+ * @example 
+ * const json = []
+ * const key = 'myKey'
+ * setCore(json, key)
+ * console.log(json)
+ */
+export const setCore = (target, key) => {
+  target[key] = {
+    root: null,
+    container: null,
+    inset: '',
+    getFrontOffset: _getFrontOffset(),
+    getRealDomAndOffset: _getRealDomAndOffset(),
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+

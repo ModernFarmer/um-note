@@ -17,9 +17,7 @@
 
 <script>
 import { defineComponent, ref, watch, nextTick, } from 'vue'
-import { getLanguage, getKey, getFrontOffset, getRealDomAndOffset, selection, } from './staticData'
-import { _antiShake } from '@/utils'
-const antiShake_getFrontOffset = _antiShake(getFrontOffset) // 防抖处理getFrontOffset, 默认500毫秒
+import { getLanguage, getKey, selection, setCore, } from './staticData'
 
 export default defineComponent({
   props: {
@@ -48,7 +46,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const codeList = ref([])
-    let root = null // 文本操作的根元素
+    let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
     let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
     let canInput = true // 输入中文时, 在输入过程中且没有确定中文字符时, input也会触发, 这里限制一下绑定在input上面的监听事件
 
@@ -58,34 +56,42 @@ export default defineComponent({
       () => props.codes,
 
       codes => {
+        const coreObjJson = {}
         if (Array.isArray(codes)) { // 如果props.codes是一个数组
           codeList.value = codes.map(item => {
             const language = getLanguage(item.language) || getLanguage(props.language)
+            const key = getKey()
+            setCore(coreObjJson, key)
             return {
-              key: getKey(),
+              key,
               language,
               processedCode: Prism.highlight(item.code, Prism.languages[language], language),
             }
           })
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
           const language = getLanguage(codes.language) || getLanguage(props.language)
+          const key = getKey()
+          setCore(coreObjJson, key)
           codeList.value = [
             {
-              key: getKey(),
+              key,
               language,
               processedCode: Prism.highlight(codes.code, Prism.languages[language], language),
             }
           ]
         } else { // 如果props.codes是一个字符串
           const language = getLanguage(props.language)
+          const key = getKey()
+          setCore(coreObjJson, key)
           codeList.value = [
             {
-              key: getKey(),
+              key,
               language,
               processedCode: Prism.highlight(codes, Prism.languages[language], language),
             }
           ]
         }
+        coreObj = coreObjJson
       },
 
       { immediate: true }
@@ -101,28 +107,24 @@ export default defineComponent({
 
     const handleInput = (e, item, handleType) => {
       if (!selection.haveRange() || !canInput) return // 如果窗口中没有Range对象 或 中文输入过程中, 拦截
-      let container = null
-      let inset = ''
-      let coreHandler = antiShake_getFrontOffset // 核心处理函数
+      const targetObj = coreObj[item.key]
+      targetObj.container = selection.getEndContainer()
+      targetObj.inset = ''
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
         return
       } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
         // 由于默认按下tab键会使容器失去焦点, 所以这里要tab按下事件的监听重写
         e.preventDefault()
-        antiShake_getFrontOffset.stop()
-        coreHandler = getFrontOffset // 当tab键按下时, 不需要防抖
-        inset = '  '
+        targetObj.inset = '  '
       } else if (handleType === '__paste') { // 监听粘贴事件
         // 由于默认粘贴会将粘贴板上所有的样式都会粘贴到目标容器, 可能会导致样式错乱, 所以这里要做粘贴事件的监听重写
         e.preventDefault()
-        antiShake_getFrontOffset.stop()
-        coreHandler = getFrontOffset // 当粘贴时, 不需要防抖
         const clipboard = e.clipboardData || window.clipboardData
         if(clipboard) {
           isPaste = true
-          container = selection.getStartContainer()
+          targetObj.container = selection.getStartContainer()
           selection.deleteContents()
-          inset = clipboard.getData("text/plain").toString()
+          targetObj.inset = clipboard.getData("text/plain").toString()
         } else {
           alert('暂不支持粘贴, 请手动输入.')
           return
@@ -132,16 +134,15 @@ export default defineComponent({
         return
       }
 
-      if (!container) container = selection.getEndContainer()
-      if (!root) { // 这里需要优化 ----- 当codeList的长度大于1, 输入过程中在.5秒内切换容器, 会出现问题
-        root = document.querySelector(`#${item.key}`)
+      if (!targetObj.root) {
+        targetObj.root = document.querySelector(`#${item.key}`)
       }
 
-      coreHandler(root, container, inset, (totalOffset, textContent) => {
+      targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, (totalOffset, textContent) => {
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.processedCode = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
-          getRealDomAndOffset(root, totalOffset, (el, i) => {
+          targetObj.getRealDomAndOffset(targetObj.root, totalOffset, (el, i) => {
             selection.setCursorOffset(el, i)
           })
         })
@@ -150,7 +151,6 @@ export default defineComponent({
 
     return {
       codeList,
-
       handleInput,
       limitInput,
     }
