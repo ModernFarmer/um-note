@@ -1,18 +1,29 @@
 <template>
-  <pre
-    class="um-pre-class language-"
-    :style="{ width, height }"
-  ><template v-for="(item, index) in codeList" :key="`${item.key}_${index}`"><code
-      :id="item.key"
-      class="um-code-class"
-      :contenteditable="edit"
-      v-html="item.processedCode"
-      @input="handleInput($event, item, '__input')"
-      @keydown="handleInput($event, item, '__tabDown')"
-      @paste="handleInput($event, item, '__paste')"
-      @compositionstart="limitInput($event, item, '__input')"
-      @compositionend="limitInput($event, item, '__input')"
-    ></code><br></template></pre>
+  <div>
+    <pre
+      ref="preRef"
+      class="um-pre-class language-"
+      :style="{ width, height }"
+      @scroll="handleScroll"
+    ><div
+      class="um-code-box"
+      style="position: relative;"
+      v-for="(item, index) in codeList" :key="`${item.key}_${index}`"
+    ><div
+      class="um-sign-public"
+      :style="lanStyle"
+    >{{ item.language }}</div><code
+        :id="item.key"
+        class="um-code-class"
+        :contenteditable="edit"
+        v-html="item.processedCode"
+        @input="handleInput($event, item, '__input')"
+        @keydown="handleInput($event, item, '__tabDown')"
+        @paste="handleInput($event, item, '__paste')"
+        @compositionstart="limitInput($event, item, '__input')"
+        @compositionend="limitInput($event, item, '__input')"
+      ></code></div></pre>
+  </div>
 </template>
 
 <script>
@@ -44,7 +55,8 @@ export default defineComponent({
       default: 'auto',
     },
   },
-  setup(props, context) {
+  setup(props) {
+    const preRef = ref()
     const codeList = ref([])
     let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
     let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
@@ -54,7 +66,6 @@ export default defineComponent({
     // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
     watch(
       () => props.codes,
-
       codes => {
         const coreObjJson = {}
         if (Array.isArray(codes)) { // 如果props.codes是一个数组
@@ -93,7 +104,6 @@ export default defineComponent({
         }
         coreObj = coreObjJson
       },
-
       { immediate: true }
     )
 
@@ -149,10 +159,22 @@ export default defineComponent({
       })
     }
 
+    const lanStyle = ref({ left: 0, top: 0 })
+    let last_lang = 0
+    const handleScroll = (e) => {
+      if (last_lang !== preRef.value.scrollLeft) {
+        lanStyle.value.left = `${preRef.value.scrollLeft}px`
+        last_lang = preRef.value.scrollLeft
+      }
+    }
+
     return {
+      preRef,
+      lanStyle,
       codeList,
       handleInput,
       limitInput,
+      handleScroll,
     }
   },
   mounted () {
@@ -165,6 +187,9 @@ export default defineComponent({
 .um-pre-class { padding: 1rem; border-radius: .3rem; overflow: auto; position: relative; }
 .um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
+
+.um-code-box { position: relative; }
+.um-sign-public { position: absolute; }
 /* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
-.um-code-class { min-width: 100%; display: inline-block; outline: none; }
+.um-code-class { min-width: 100%; display: inline-block; outline: none; margin: 30px 0; }
 </style>
