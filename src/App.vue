@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <um-code class="code-outsize" :width="width" height="400px" language="javascript" :codes="code" edit></um-code>
+    <um-code class="code-outsize" :width="width" height="400px" language="javascript" :codes="code" @configure="toEdit"></um-code>
     <router-view/>
   </div>
 </template>
@@ -32,9 +32,14 @@ export default defineComponent({
       }]
     }, 2000) */
 
+    const toEdit = config => {
+      config.edit = !config.edit
+    }
+
     return {
       code,
       width,
+      toEdit
     }
   },
   mounted () {

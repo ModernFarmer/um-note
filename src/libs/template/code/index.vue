@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="um-note-container" :style="{ width: boxWidth, height: boxHeight }">
+    <div class="um-note-headbox">
+      <div class="um-note-config" :style="{background: edit ? '#0fec3f' : 'red'}" @click="toEdit"></div>
+    </div>
     <pre
       ref="preRef"
       class="um-pre-class language-"
@@ -12,7 +15,13 @@
     ><div
       class="um-sign-public"
       :style="lanStyle"
-    >{{ item.language }}</div><code
+    >{{ item.language }}</div><div
+      class="um-line-dashed"
+      :style="dashedStyle"
+    ></div><div
+      class="um-sign-add"
+      :style="addStyle"
+    >+</div><code
         :id="item.key"
         class="um-code-class"
         :contenteditable="edit"
@@ -27,7 +36,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, nextTick, } from 'vue'
+import { defineComponent, ref, computed, watch, nextTick, } from 'vue'
 import { getLanguage, getKey, selection, setCore, } from './staticData'
 
 export default defineComponent({
@@ -42,10 +51,6 @@ export default defineComponent({
         return []
       },
     },
-    edit: {
-      type: Boolean,
-      default: false,
-    },
     width: {
       type: String,
       default: '100%',
@@ -55,12 +60,9 @@ export default defineComponent({
       default: 'auto',
     },
   },
-  setup(props) {
-    const preRef = ref()
+  setup(props, { emit }) {
     const codeList = ref([])
     let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
-    let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
-    let canInput = true // 输入中文时, 在输入过程中且没有确定中文字符时, input也会触发, 这里限制一下绑定在input上面的监听事件
 
     // 这里使用watch而不使用computed, 是因为需要操作数据codeList, 如使用computed的话不应该改变computed返回的codeList
     // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
@@ -76,7 +78,8 @@ export default defineComponent({
             return {
               key,
               language,
-              processedCode: Prism.highlight(item.code, Prism.languages[language], language),
+              // processedCode: Prism.highlight(item.code, Prism.languages[language], language),
+              processedCode: Prism.highlight(item.code, Prism.languages.xml, language),
             }
           })
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
@@ -107,16 +110,11 @@ export default defineComponent({
       { immediate: true }
     )
 
-    const limitInput = (e, item, handleType) => {
-      canInput = !e.isTrusted
-      // 中文输入确定的那一刻不会触发input事件, 所以在compositionend事件触发且event.data有内容时(在中文输入过程中删除所有内容时也会触发compositionend事件)须触发一次handleInput事件
-      if (canInput && e.data) {
-        handleInput(e, item, handleType)
-      }
-    }
+    let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
+    let canInput = true // 输入中文时, 在输入过程中且没有确定中文字符时, input也会触发, 这里限制一下绑定在input上面的监听事件
 
     const handleInput = (e, item, handleType) => {
-      if (!selection.haveRange() || !canInput) return // 如果窗口中没有Range对象 或 中文输入过程中, 拦截
+      if (!selection.haveRange() || !canInput || !edit.value) return // 如果窗口中没有Range对象 或 中文输入过程中 或 组件无法编辑状态, 拦截
       const targetObj = coreObj[item.key]
       targetObj.container = selection.getEndContainer()
       targetObj.inset = ''
@@ -159,37 +157,89 @@ export default defineComponent({
       })
     }
 
+    const limitInput = (e, item, handleType) => {
+      canInput = !e.isTrusted
+      // 中文输入确定的那一刻不会触发input事件, 所以在compositionend事件触发且event.data有内容时(在中文输入过程中删除所有内容时也会触发compositionend事件)须触发一次handleInput事件
+      if (canInput && e.data) {
+        handleInput(e, item, handleType)
+      }
+    }
+
+    const preRef = ref()
     const lanStyle = ref({ left: 0, top: 0 })
+    const addStyle = ref({ left: `calc(100% - 23px)`, bottom: 0 })
+    const dashedStyle = ref({ left: 0, bottom: '8px' })
     let last_lang = 0
     const handleScroll = (e) => {
       if (last_lang !== preRef.value.scrollLeft) {
-        lanStyle.value.left = `${preRef.value.scrollLeft}px`
+        lanStyle.value.left = dashedStyle.value.left = `${preRef.value.scrollLeft}px`
+        addStyle.value.left = `calc(100% + ${preRef.value.scrollLeft - 23}px)`
         last_lang = preRef.value.scrollLeft
       }
     }
 
+    const edit = ref(false)
+    const config = {
+      get edit () {
+        return edit.value
+      },
+      set edit (bl) {
+        edit.value = bl
+      },
+    }
+    const toEdit = () => {
+      if (edit.value) {
+        emit('configure', config)
+      } else {
+        emit('configure', config)
+      }
+    }
+
+    const boxWidth = computed(() => {
+      if (props.width === 'auto') return 'auto'
+      return `calc(${props.width} + 1rem)`
+    })
+    const boxHeight = computed(() => {
+      if (props.height === 'auto') return 'auto'
+      return `calc(${props.height} + 1rem + 16px)`
+    })
+
     return {
+      edit,
+      boxWidth,
+      boxHeight,
       preRef,
       lanStyle,
+      addStyle,
+      dashedStyle,
       codeList,
       handleInput,
       limitInput,
       handleScroll,
+      toEdit,
     }
   },
   mounted () {
-    
+    console.log(Prism.languages)
   }
 })
 </script>
 
 <style scoped>
-.um-pre-class { padding: 1rem; border-radius: .3rem; overflow: auto; position: relative; }
+.um-note-container { overflow: hidden; border-radius: 5px; background: #272822; position: relative; }
+.um-note-config { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; position: absolute; right: 1px; top: 1px; }
+.um-note-headbox { width: 100%; height: 16px; position: relative; z-index: 100; }
+
+.um-pre-class { padding-left: 1rem; padding-bottom: 1rem; overflow: auto; position: relative; top: -1rem; }
 .um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
+.um-pre-class::-webkit-scrollbar-corner { background: #272822; }
 
 .um-code-box { position: relative; }
-.um-sign-public { position: absolute; }
+.um-sign-public { font-size: 10px; color: rgb(114, 114, 114); position: absolute; }
+.um-line-dashed { width: calc(100% - 30px); border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
+.um-sign-add { width: 18px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute;
+  user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
 /* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
-.um-code-class { min-width: 100%; display: inline-block; outline: none; margin: 30px 0; }
+.um-code-class { min-width: 100%; display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }
 </style>
