@@ -21,6 +21,7 @@
     ></div><div
       class="um-sign-add"
       :style="addStyle"
+      v-show="edit"
     >+</div><code
         :id="item.key"
         class="um-code-class"
@@ -76,8 +77,8 @@ export default defineComponent({
             return {
               key,
               language,
-              // processedCode: Prism.highlight(item.code, Prism.languages[language], language),
-              processedCode: Prism.highlight(item.code, Prism.languages.xml, language),
+              processedCode: Prism.highlight(item.code, Prism.languages[language], language),
+              // processedCode: Prism.highlight(item.code, Prism.languages.xml, language),
             }
           })
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
@@ -115,7 +116,9 @@ export default defineComponent({
       if (!selection.haveRange() || !canInput || !edit.value) return // 如果窗口中没有Range对象 或 中文输入过程中 或 组件无法编辑状态, 拦截
       const targetObj = coreObj[item.key]
       targetObj.container = selection.getEndContainer()
+      if (!targetObj.root) targetObj.root = document.querySelector(`#${item.key}`)
       targetObj.inset = ''
+      let pasteEmpty = false
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
         return
       } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
@@ -131,6 +134,7 @@ export default defineComponent({
           targetObj.container = selection.getStartContainer()
           selection.deleteContents()
           targetObj.inset = clipboard.getData("text/plain").toString()
+          if (item.processedCode === targetObj.inset) console.log(123)
         } else {
           alert('暂不支持粘贴, 请手动输入.')
           return
@@ -140,11 +144,8 @@ export default defineComponent({
         return
       }
 
-      if (!targetObj.root) {
-        targetObj.root = document.querySelector(`#${item.key}`)
-      }
-
       targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, (totalOffset, textContent) => {
+        console.warn(textContent)
         // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
         item.processedCode = Prism.highlight(textContent, Prism.languages[item.language], item.language)
         nextTick(() => {
