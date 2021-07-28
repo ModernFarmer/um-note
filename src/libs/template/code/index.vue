@@ -64,8 +64,6 @@ export default defineComponent({
     const codeList = ref([])
     let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
 
-    // 这里使用watch而不使用computed, 是因为需要操作数据codeList, 如使用computed的话不应该改变computed返回的codeList
-    // 注* 必须加{ immediate: true }参数, 使其在组件创建时立即以 props.codes 的当前值触发监听函数
     watch(
       () => props.codes,
       codes => {
