@@ -19,16 +19,21 @@
       class="um-line-dashed"
       :style="dashedStyle"
     ></div><div
-      class="um-sign-add"
+      class="um-sign-add um-not-chooseable"
       :style="addStyle"
       v-show="edit"
-      @click="toAdd(index)"
+      @click.stop="toAdd(index)"
     >+</div><div
+      class="um-sign-minus um-not-chooseable"
+      :style="minusStyle"
+      v-show="edit"
+      @click.stop="toRemove(index)"
+    >-</div><div
       class="um-select-container"
       :style="selectStyle"
       v-show="add && index === addIndex"
     ><div
-      class="um-select-item"
+      class="um-select-item um-not-chooseable"
       v-for="val in langrageList"
       :key="val"
       @click="toHandleAdd(val, index)"
@@ -47,8 +52,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed, watch, nextTick, } from 'vue'
-import { getLanguage, getKey, selection, setCore, } from './staticData'
+import { defineComponent, ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
+import { getLanguage, getKey, selection, setCore, _BD, _unBD } from './staticData'
+
+let domClick = null
 
 export default defineComponent({
   props: {
@@ -181,42 +188,40 @@ export default defineComponent({
 
     const preRef = ref()
     const lanStyle = ref({ left: 0, top: 0 })
-    const addStyle = ref({ left: `calc(100% - 23px)`, bottom: 0 })
-    const dashedStyle = ref({ left: 0, bottom: '8px' })
-    const selectStyle = ref({ bottom: '-5px', right: '30px' })
+    const addStyle = ref({ left: `calc(100% - 22px)`, bottom: 0 })
+    const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
+    const dashedStyle = ref({ width: 'calc(100% - 1rem)', left: 0, bottom: '8px' })
+    const selectStyle = ref({ bottom: '-5px', right: '27px' })
     let last_lang = 0
     const handleScroll = (e) => {
       const offset = preRef.value.scrollLeft
       if (last_lang !== offset) {
         lanStyle.value.left = dashedStyle.value.left = `${offset}px`
-        addStyle.value.left = `calc(100% + ${offset - 23}px)`
-        selectStyle.value.right = `calc(30px - ${offset}px)`
+        addStyle.value.left = `calc(100% + ${offset - 22}px)`
+        minusStyle.value.left = `calc(100% + ${offset - 38}px)`
+        selectStyle.value.right = `calc(27px - ${offset}px)`
         last_lang = offset
       }
     }
 
     const add = ref(false)
     const edit = ref(false)
-    const remove = ref(false)
     const addIndex = ref(null)
+    let removeIndex = null
 
-    const config_remove = {
-      get remove () {
-        return remove.value
-      },
-      set remove (bl) {
-        remove.value = bl
-      },
-    }
     const toAdd = (index) => {
-      if (window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure) {
-        if (addIndex.value === index || addIndex.value === null) {
+      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.addConfigure) {
+        if (addIndex.value === index) {
           add.value = window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(add.value)
         } else {
           add.value = window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(false)
         }
       } else {
-        add.value = true
+        if (addIndex.value === index) {
+          add.value = !add.value
+        } else {
+          add.value = true
+        }
       }
       addIndex.value = index
     }
@@ -231,16 +236,28 @@ export default defineComponent({
       add.value = false
     }
     const toEdit = () => {
-      if (window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure) {
+      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.editConfigure) {
         edit.value = window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure(edit.value)
       } else {
         edit.value = !edit.value
       }
+      if (edit.value) {
+        dashedStyle.value.width = 'calc(100% - 47px)'
+      } else {
+        dashedStyle.value.width = 'calc(100% - 1rem)'
+      }
       // todo some about fetch ...
     }
     const toRemove = (index) => {
+      add.value = false
+      removeIndex = index
       // todo ...
     }
+
+    domClick = () => {
+      add.value = false
+    }
+    _BD(document, 'click', domClick)
 
     const boxWidth = computed(() => {
       if (props.width === 'auto') return 'auto'
@@ -249,6 +266,10 @@ export default defineComponent({
     const boxHeight = computed(() => {
       if (props.height === 'auto') return 'auto'
       return `calc(${props.height} + 1rem + 16px)`
+    })
+
+    onBeforeUnmount(() => {
+      _unBD(document, 'click', domClick)
     })
 
     return {
@@ -260,6 +281,7 @@ export default defineComponent({
       preRef,
       lanStyle,
       addStyle,
+      minusStyle,
       dashedStyle,
       selectStyle,
       codeList,
@@ -275,7 +297,7 @@ export default defineComponent({
   },
   mounted () {
     console.log(getLanguage.map)
-  }
+  },
 })
 </script>
 
@@ -289,12 +311,13 @@ export default defineComponent({
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
 .um-pre-class::-webkit-scrollbar-corner { background: #272822; }
 
+.um-not-chooseable { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
 .um-code-box { position: relative; }
 .um-sign-public { font-size: 10px; color: rgb(114, 114, 114); position: absolute; }
-.um-line-dashed { width: calc(100% - 30px); border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
-.um-sign-add { width: 18px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute;
-  user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
-.um-select-container { max-width: calc(100% - 34px); padding: 2px; border: 1px solid #0A84D7; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
+.um-line-dashed { border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
+.um-sign-add { width: 16px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
+.um-sign-minus { width: 12px; height: 18px; transform: scale(1.3, 1); line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
+.um-select-container { max-width: calc(100% - 40px); padding: 2px; border: 1px solid #0A84D7; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
 .um-select-item { line-height: 20px; padding: 0 5px; margin: 2px; cursor: pointer; border-radius: 3px; background: rgba(255, 255, 255, .1); float: left; }
 /* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
 .um-code-class { min-width: 100%; display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }

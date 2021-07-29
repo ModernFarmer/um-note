@@ -27,6 +27,47 @@ export const getLanguage = _languageMap()
 // ---------------------------------------------------------------------------------------------------------------------------------
 
 /**
+ * 给一个dom元素绑定事件 
+ * 
+ * @param {Element} dom 要绑定事件的dom元素
+ * @param {String} eventName 事件名
+ * @param {Function} fn 处理函数
+ * @param {(Object|Boolean)} [option = false] 配置项
+ * 
+ * @example _BD(dom, eventName, fn, option) 
+ */
+ export const _BD = (dom, eventName, fn, option = false) => {
+  if(dom.addEventListener){
+    dom.addEventListener(eventName, fn, option)
+  }else if (dom.attachEvent){
+    dom.attachEvent('on' + eventName, fn)
+  }else {
+    dom['on' + eventName] = fn
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * 解除一个dom元素的绑定事件 
+ * 
+ * @param {Element} dom 要解除绑定事件的dom元素 
+ * @param {String} eventName 事件名
+ * @param {Function} functionName 处理函数(必须是一个函数变量名)
+ * 
+ * @example _unBD(dom, eventName, functionName)
+ */
+ export const _unBD = (dom, eventName, functionName) => {
+  if(dom.attachEvent) {
+    dom.detachEvent('on' + eventName, functionName)
+  }else {
+    dom.removeEventListener(eventName, functionName, false)
+  };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/**
  * 获取随机key
  * 
  * @returns {Function} 柯里化后的获取函数 -> getKey
