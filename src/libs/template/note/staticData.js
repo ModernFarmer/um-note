@@ -15,9 +15,11 @@ const _languageMap = () => {
     'javascript': true,
     'css': true,
   }
-  return str => {
+  const handler = str => {
     return map[str] ? str : 'javascript'
   }
+  handler.map = Object.keys(map)
+  return handler
 }
 
 export const getLanguage = _languageMap()

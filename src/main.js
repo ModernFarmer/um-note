@@ -3,6 +3,18 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import baseTemplate from '@/libs'
+import { UmNote, UmNoteConfig } from '@/libs'
 
-createApp(App).use(store).use(router).use(baseTemplate).mount('#app')
+UmNoteConfig({
+  addConfigure (status) {
+    return !status
+  },
+  editConfigure (status) {
+    return !status
+  },
+  removeConfigure (status) {
+    
+  },
+})
+
+createApp(App).use(store).use(router).use(UmNote).mount('#app')

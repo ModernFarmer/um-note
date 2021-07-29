@@ -22,7 +22,17 @@
       class="um-sign-add"
       :style="addStyle"
       v-show="edit"
-    >+</div><code
+      @click="toAdd(index)"
+    >+</div><div
+      class="um-select-container"
+      :style="selectStyle"
+      v-show="add && index === addIndex"
+    ><div
+      class="um-select-item"
+      v-for="val in langrageList"
+      :key="val"
+      @click="toHandleAdd(val, index)"
+    >{{ val }}</div></div><code
         :id="item.key"
         class="um-code-class"
         :contenteditable="edit"
@@ -62,9 +72,10 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const langrageList = ref(getLanguage.map)
+
     const codeList = ref([])
     let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
-
     watch(
       () => props.codes,
       codes => {
@@ -118,7 +129,6 @@ export default defineComponent({
       targetObj.container = selection.getEndContainer()
       if (!targetObj.root) targetObj.root = document.querySelector(`#${item.key}`)
       targetObj.inset = ''
-      let pasteEmpty = false
       if (handleType === '__tabDown' && e.keyCode !== 9) { // 这里是监听按键按下事件, 如果handleType === '__tabDown'且按下的不是tab键, 则阻断执行
         return
       } else if (handleType === '__tabDown') { // 如果按下的是tab键, 则取消默认
@@ -134,7 +144,6 @@ export default defineComponent({
           targetObj.container = selection.getStartContainer()
           selection.deleteContents()
           targetObj.inset = clipboard.getData("text/plain").toString()
-          if (item.processedCode === targetObj.inset) console.log(123)
         } else {
           alert('暂不支持粘贴, 请手动输入.')
           return
@@ -145,9 +154,15 @@ export default defineComponent({
       }
 
       targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, (totalOffset, textContent) => {
-        console.warn(textContent)
-        // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
-        item.processedCode = Prism.highlight(textContent, Prism.languages[item.language], item.language)
+        const realContent = Prism.highlight(textContent, Prism.languages[item.language], item.language)
+        // 当realContent === item.processedCode时, 不会触发页面更新, 须手动更新
+        // 适用于当全选内容并粘贴的情况
+        if (realContent === item.processedCode) {
+          targetObj.root.innerHTML = realContent
+        } else {
+          // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
+          item.processedCode = realContent
+        }
         nextTick(() => {
           targetObj.getRealDomAndOffset(targetObj.root, totalOffset, (el, i) => {
             selection.setCursorOffset(el, i)
@@ -168,30 +183,63 @@ export default defineComponent({
     const lanStyle = ref({ left: 0, top: 0 })
     const addStyle = ref({ left: `calc(100% - 23px)`, bottom: 0 })
     const dashedStyle = ref({ left: 0, bottom: '8px' })
+    const selectStyle = ref({ bottom: '-5px', right: '30px' })
     let last_lang = 0
     const handleScroll = (e) => {
-      if (last_lang !== preRef.value.scrollLeft) {
-        lanStyle.value.left = dashedStyle.value.left = `${preRef.value.scrollLeft}px`
-        addStyle.value.left = `calc(100% + ${preRef.value.scrollLeft - 23}px)`
-        last_lang = preRef.value.scrollLeft
+      const offset = preRef.value.scrollLeft
+      if (last_lang !== offset) {
+        lanStyle.value.left = dashedStyle.value.left = `${offset}px`
+        addStyle.value.left = `calc(100% + ${offset - 23}px)`
+        selectStyle.value.right = `calc(30px - ${offset}px)`
+        last_lang = offset
       }
     }
 
+    const add = ref(false)
     const edit = ref(false)
-    const config = {
-      get edit () {
-        return edit.value
+    const remove = ref(false)
+    const addIndex = ref(null)
+
+    const config_remove = {
+      get remove () {
+        return remove.value
       },
-      set edit (bl) {
-        edit.value = bl
+      set remove (bl) {
+        remove.value = bl
       },
     }
-    const toEdit = () => {
-      if (edit.value) {
-        emit('configure', config)
+    const toAdd = (index) => {
+      if (window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure) {
+        if (addIndex.value === index || addIndex.value === null) {
+          add.value = window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(add.value)
+        } else {
+          add.value = window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(false)
+        }
       } else {
-        emit('configure', config)
+        add.value = true
       }
+      addIndex.value = index
+    }
+    const toHandleAdd = (val, index) => {
+      const key = getKey()
+      codeList.value.splice(index + 1, 0, {
+        key,
+        language: val,
+        processedCode: '',
+      })
+      setCore(coreObj, key)
+      add.value = false
+    }
+    const toEdit = () => {
+      if (window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure) {
+        edit.value = window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure(edit.value)
+      } else {
+        edit.value = !edit.value
+      }
+      // todo some about fetch ...
+    }
+    const toRemove = (index) => {
+      // todo ...
     }
 
     const boxWidth = computed(() => {
@@ -204,22 +252,29 @@ export default defineComponent({
     })
 
     return {
+      add,
       edit,
+      addIndex,
       boxWidth,
       boxHeight,
       preRef,
       lanStyle,
       addStyle,
       dashedStyle,
+      selectStyle,
       codeList,
+      langrageList,
       handleInput,
       limitInput,
       handleScroll,
+      toAdd,
+      toHandleAdd,
       toEdit,
+      toRemove,
     }
   },
   mounted () {
-    console.log(Prism.languages)
+    console.log(getLanguage.map)
   }
 })
 </script>
@@ -239,6 +294,8 @@ export default defineComponent({
 .um-line-dashed { width: calc(100% - 30px); border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
 .um-sign-add { width: 18px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute;
   user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+.um-select-container { max-width: calc(100% - 34px); padding: 2px; border: 1px solid #0A84D7; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
+.um-select-item { line-height: 20px; padding: 0 5px; margin: 2px; cursor: pointer; border-radius: 3px; background: rgba(255, 255, 255, .1); float: left; }
 /* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
 .um-code-class { min-width: 100%; display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }
 </style>

@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <um-code class="code-outsize" :width="width" height="400px" language="javascript" :codes="code" @configure="toEdit"></um-code>
+    <um-note
+      :width="width"
+      height="400px"
+      language="javascript"
+      :codes="code"
+    />
     <router-view/>
   </div>
 </template>
@@ -19,7 +24,9 @@ export default defineComponent({
       code: `function bbc () { console.log('bbc') }`
     }, {
       language: 'html',
-      code: `<div>hello word</div>`
+      code: `<div>hello word</div>
+      <span>This is a span tag</span>
+      `
     }])
 
     /* setTimeout(() => {
@@ -32,14 +39,9 @@ export default defineComponent({
       }]
     }, 2000) */
 
-    const toEdit = config => {
-      config.edit = !config.edit
-    }
-
     return {
       code,
       width,
-      toEdit
     }
   },
   mounted () {
