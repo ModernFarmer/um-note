@@ -6,14 +6,14 @@ import store from './store'
 import { UmNote, UmNoteConfig } from '@/libs'
 
 UmNoteConfig({
-  addConfigure (status) {
-    return !status
+  addConfigure (config) {
+    config.show = !config.show
   },
-  editConfigure (status) {
-    return !status
+  editConfigure (config) {
+    config.show = !config.show
   },
-  removeConfigure (status) {
-    
+  removeConfigure (config) {
+    config.show = !config.show
   },
 })
 

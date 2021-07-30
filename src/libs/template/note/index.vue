@@ -1,7 +1,23 @@
 <template>
   <div class="um-note-container" :style="{ width: boxWidth, height: boxHeight }">
-    <div class="um-note-headbox">
-      <div class="um-note-config" :style="{background: edit ? '#0fec3f' : 'red'}" @click="toEdit"></div>
+    <div class="um-note-headbox"
+      :style="{ background: showing ? 'transparent' : 'rgb(114, 114, 114)' }"
+    >
+      <div class="um-unfold-box" :style="{ color: showing ? '#B2BCBB' : 'orange' }" @click="toFoldOrUnfold">
+        <div class="um-unfold-text"
+          :style="{ left: showing ? '20px' : '0' }"
+        >{{ showing ? '收起' : '展开代码' }}</div>
+        <div class="um-unflod-arrow"
+          :style="{ left: showing ? '0' : '40px' }"
+        >{{ showing ? '‹‹‹' : '›››' }}</div>
+      </div>
+      <div
+        class="um-note-config"
+        v-if="editable || editable === ''"
+        v-show="showing"
+        :style="{background: edit ? '#0fec3f' : 'red'}"
+        @click="toEdit"
+      ></div>
     </div>
     <pre
       ref="preRef"
@@ -26,7 +42,7 @@
     >+</div><div
       class="um-sign-minus um-not-chooseable"
       :style="minusStyle"
-      v-show="edit"
+      v-show="edit && codeList.length > 1"
       @click.stop="toRemove(index)"
     >-</div><div
       class="um-select-container"
@@ -37,6 +53,17 @@
       v-for="val in langrageList"
       :key="val"
       @click="toHandleAdd(val, index)"
+    >{{ val }}</div></div><div
+      class="um-confirm-container"
+      :style="confirmStyle"
+      v-show="remove && index === removeIndex"
+    ><div
+      class="um-confirm-message"
+    >确定删除?</div><div
+      class="um-confirm-item um-not-chooseable"
+      v-for="val in ['取消', '确定']"
+      :key="val"
+      @click="toHandleRemove(val, item.key, index)"
     >{{ val }}</div></div><code
         :id="item.key"
         class="um-code-class"
@@ -76,6 +103,14 @@ export default defineComponent({
     height: {
       type: String,
       default: 'auto',
+    },
+    editable: {
+      type: Boolean,
+      default: false,
+    },
+    unfold: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
@@ -192,6 +227,7 @@ export default defineComponent({
     const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
     const dashedStyle = ref({ width: 'calc(100% - 1rem)', left: 0, bottom: '8px' })
     const selectStyle = ref({ bottom: '-5px', right: '27px' })
+    const confirmStyle = ref({ bottom: '-5px', right: '47px' })
     let last_lang = 0
     const handleScroll = (e) => {
       const offset = preRef.value.scrollLeft
@@ -206,16 +242,39 @@ export default defineComponent({
 
     const add = ref(false)
     const edit = ref(false)
+    const remove = ref(false)
     const addIndex = ref(null)
-    let removeIndex = null
+    const removeIndex = ref(null)
 
+    const addConfig = {
+      get show () {
+        return add.value
+      },
+      set show (bl) {
+        add.value = bl
+      },
+    }
+    const editConfig = {
+      get show () {
+        return edit.value
+      },
+      set show (bl) {
+        edit.value = bl
+      },
+    }
+    const removeConfig = {
+      get show () {
+        return remove.value
+      },
+      set show (bl) {
+        remove.value = bl
+      },
+    }
     const toAdd = (index) => {
+      remove.value = false
       if (window?.$_CONFIG_UM_NOTE_PERMISSION?.addConfigure) {
-        if (addIndex.value === index) {
-          add.value = window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(add.value)
-        } else {
-          add.value = window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(false)
-        }
+        if (addIndex.value !== index) add.value = false
+        window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(addConfig)
       } else {
         if (addIndex.value === index) {
           add.value = !add.value
@@ -233,49 +292,76 @@ export default defineComponent({
         processedCode: '',
       })
       setCore(coreObj, key)
-      add.value = false
     }
     const toEdit = () => {
       if (window?.$_CONFIG_UM_NOTE_PERMISSION?.editConfigure) {
-        edit.value = window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure(edit.value)
+        window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure(editConfig)
       } else {
         edit.value = !edit.value
-      }
-      if (edit.value) {
-        dashedStyle.value.width = 'calc(100% - 47px)'
-      } else {
-        dashedStyle.value.width = 'calc(100% - 1rem)'
       }
       // todo some about fetch ...
     }
     const toRemove = (index) => {
       add.value = false
-      removeIndex = index
-      // todo ...
+      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.removeConfigure) {
+        if (removeIndex.value !== index) remove.value = false
+        window.$_CONFIG_UM_NOTE_PERMISSION.removeConfigure(removeConfig)
+      } else {
+        if (removeIndex.value === index) {
+          remove.value = !remove.value
+        } else {
+          remove.value = true
+        }
+      }
+      removeIndex.value = index
+    }
+    const toHandleRemove = (val, key, index) => {
+      if (val === '确定') {
+        codeList.value.splice(index, 1)
+        Reflect.deleteProperty(coreObj, key)
+      }
+    }
+    watch(
+      () => edit.value,
+      bl => {
+        if (bl) {
+          dashedStyle.value.width = 'calc(100% - 47px)'
+        } else {
+          dashedStyle.value.width = 'calc(100% - 1rem)'
+        }
+      }
+    )
+
+    const showing = ref(props.unfold || props.unfold === '' ? true : false)
+    const boxWidth = ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px')
+    const boxHeight = ref(showing.value ? 'auto' : '16px')
+    const toFoldOrUnfold = () => {
+      showing.value = !showing.value
+      if (showing.value) {
+        boxWidth.value = `calc(${preRef.value.offsetWidth}px + 1rem)`
+        boxHeight.value = `${preRef.value.offsetHeight + 16}px`
+      } else {
+        boxWidth.value = '260px'
+        boxHeight.value = '16px'
+      }
     }
 
     domClick = () => {
       add.value = false
+      remove.value = false
     }
     _BD(document, 'click', domClick)
-
-    const boxWidth = computed(() => {
-      if (props.width === 'auto') return 'auto'
-      return `calc(${props.width} + 1rem)`
-    })
-    const boxHeight = computed(() => {
-      if (props.height === 'auto') return 'auto'
-      return `calc(${props.height} + 1rem + 16px)`
-    })
-
     onBeforeUnmount(() => {
       _unBD(document, 'click', domClick)
     })
 
     return {
+      showing,
       add,
       edit,
+      remove,
       addIndex,
+      removeIndex,
       boxWidth,
       boxHeight,
       preRef,
@@ -284,6 +370,7 @@ export default defineComponent({
       minusStyle,
       dashedStyle,
       selectStyle,
+      confirmStyle,
       codeList,
       langrageList,
       handleInput,
@@ -291,8 +378,10 @@ export default defineComponent({
       handleScroll,
       toAdd,
       toHandleAdd,
+      toHandleRemove,
       toEdit,
       toRemove,
+      toFoldOrUnfold,
     }
   },
   mounted () {
@@ -302,11 +391,14 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.um-note-container { overflow: hidden; border-radius: 5px; background: #272822; position: relative; }
+.um-note-container { min-width: 260px; overflow: hidden; border-radius: 5px; background: #272822; transition: .3s; position: relative; }
+.um-note-headbox { width: 100%; height: 16px; transition: .3s; position: relative; z-index: 100; }
+.um-unfold-box { font-size: 10px; color: white; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }
+.um-unfold-text { width: 80px; display: inline-block; transition: .3s; position: absolute; top: 5px; }
+.um-unflod-arrow { width: 42px; display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
 .um-note-config { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; position: absolute; right: 1px; top: 1px; }
-.um-note-headbox { width: 100%; height: 16px; position: relative; z-index: 100; }
 
-.um-pre-class { padding-left: 1rem; padding-bottom: 1rem; overflow: auto; position: relative; top: -1rem; }
+.um-pre-class { min-width: calc(260px - 1rem); padding-left: 1rem; padding-bottom: 1rem; margin: 0; overflow: auto; position: relative; }
 .um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
 .um-pre-class::-webkit-scrollbar-corner { background: #272822; }
@@ -317,8 +409,15 @@ export default defineComponent({
 .um-line-dashed { border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
 .um-sign-add { width: 16px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
 .um-sign-minus { width: 12px; height: 18px; transform: scale(1.3, 1); line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
+.um-sign-add:hover { color: #0fec3f; }
+.um-sign-minus:hover { color: red; }
 .um-select-container { max-width: calc(100% - 40px); padding: 2px; border: 1px solid #0A84D7; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
 .um-select-item { line-height: 20px; padding: 0 5px; margin: 2px; cursor: pointer; border-radius: 3px; background: rgba(255, 255, 255, .1); float: left; }
+.um-select-item:hover { color: #0fec3f; }
+.um-confirm-container { padding: 2px; border: 1px solid #f92672; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
+.um-confirm-message { font-size: 10px; padding: 2px 2px 4px 2px; color: #f92672; }
+.um-confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; background: rgba(255, 255, 255, .1); float: left; }
+.um-confirm-item:hover { color: #66d9ef; }
 /* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
 .um-code-class { min-width: 100%; display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }
 </style>

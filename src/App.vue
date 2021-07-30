@@ -4,6 +4,8 @@
       :width="width"
       height="400px"
       language="javascript"
+      editable
+      :unfold="false"
       :codes="code"
     />
     <router-view/>
