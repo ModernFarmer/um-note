@@ -7,14 +7,20 @@ import { UmNote, UmNoteConfig } from '@/libs'
 
 UmNoteConfig({
   addConfigure (config) {
-    config.show = !config.show
+    config.done = !config.done
   },
   editConfigure (config) {
-    config.show = !config.show
+    config.done = !config.done
   },
   removeConfigure (config) {
-    config.show = !config.show
+    config.done = !config.done
   },
+  contentNames: {
+    cancel: '取消',
+    confirm: '确定',
+    explain: '确定删除?',
+  },
+  languages: ['html', 'javascript', 'css'],
 })
 
 createApp(App).use(store).use(router).use(UmNote).mount('#app')

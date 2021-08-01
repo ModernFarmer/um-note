@@ -3,20 +3,29 @@
     <div class="um-note-headbox"
       :style="{ background: showing ? 'transparent' : 'rgb(114, 114, 114)' }"
     >
-      <div class="um-unfold-box" :style="{ color: showing ? '#B2BCBB' : 'orange' }" @click="toFoldOrUnfold">
+      <div class="um-unfold-box"
+        :style="{ width: showing ? 'calc(100% - 55px)' : 'calc(100% - 30px)', color: showing ? '#B2BCBB' : '#66d9ef' }"
+        @click="toFoldOrUnfold"
+      >
         <div class="um-unfold-text"
           :style="{ left: showing ? '20px' : '0' }"
-        >{{ showing ? '收起' : '展开代码' }}</div>
+        >{{ showing ? 'fold' : 'unfold note' }}</div>
         <div class="um-unflod-arrow"
-          :style="{ left: showing ? '0' : '40px' }"
+          :style="{ left: showing ? '0' : '57px' }"
         >{{ showing ? '‹‹‹' : '›››' }}</div>
       </div>
       <div
-        class="um-note-config"
+        class="um-note-config-edit"
         v-if="editable || editable === ''"
         v-show="showing"
         :style="{background: edit ? '#0fec3f' : 'red'}"
         @click="toEdit"
+      ></div>
+      <div
+        class="um-note-config-submit"
+        v-if="editable || editable === ''"
+        v-show="contentChange"
+        @click="toSubmit"
       ></div>
     </div>
     <pre
@@ -50,7 +59,7 @@
       v-show="add && index === addIndex"
     ><div
       class="um-select-item um-not-chooseable"
-      v-for="val in langrageList"
+      v-for="val in languageList"
       :key="val"
       @click="toHandleAdd(val, index)"
     >{{ val }}</div></div><div
@@ -59,12 +68,12 @@
       v-show="remove && index === removeIndex"
     ><div
       class="um-confirm-message"
-    >确定删除?</div><div
+    >{{ deleteObj.explain }}</div><div
       class="um-confirm-item um-not-chooseable"
-      v-for="val in ['取消', '确定']"
+      v-for="val in deleteObj.list"
       :key="val"
-      @click="toHandleRemove(val, item.key, index)"
-    >{{ val }}</div></div><code
+      @click="toHandleRemove(val.key, item.key, index)"
+    >{{ val.value }}</div></div><code
         :id="item.key"
         class="um-code-class"
         :contenteditable="edit"
@@ -114,7 +123,15 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const langrageList = ref(getLanguage.map)
+    const languageList = ref(getLanguage.list)
+    const contentChange = ref(false)
+    const deleteObj = ref({
+      explain: window?.$_CONFIG_UM_NOTE_PERMISSION?.contentNames?.explain || '确定删除?',
+      list: [
+        { key: 0, value: window?.$_CONFIG_UM_NOTE_PERMISSION?.contentNames?.cancel || '取消' },
+        { key: 1, value: window?.$_CONFIG_UM_NOTE_PERMISSION?.contentNames?.confirm || '确定' },
+      ]
+    })
 
     const codeList = ref([])
     let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
@@ -130,8 +147,8 @@ export default defineComponent({
             return {
               key,
               language,
+              code: item.code,
               processedCode: Prism.highlight(item.code, Prism.languages[language], language),
-              // processedCode: Prism.highlight(item.code, Prism.languages.xml, language),
             }
           })
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
@@ -142,6 +159,7 @@ export default defineComponent({
             {
               key,
               language,
+              code: codes.code,
               processedCode: Prism.highlight(codes.code, Prism.languages[language], language),
             }
           ]
@@ -153,11 +171,13 @@ export default defineComponent({
             {
               key,
               language,
+              code: codes,
               processedCode: Prism.highlight(codes, Prism.languages[language], language),
             }
           ]
         }
         coreObj = coreObjJson
+        contentChange.value = false
       },
       { immediate: true }
     )
@@ -187,7 +207,7 @@ export default defineComponent({
           selection.deleteContents()
           targetObj.inset = clipboard.getData("text/plain").toString()
         } else {
-          alert('暂不支持粘贴, 请手动输入.')
+          alert('不支持粘贴, 请手动输入.')
           return
         }
       } else if (isPaste) { // input事件(粘贴时会触发input事件, 这里要拦截)
@@ -204,7 +224,12 @@ export default defineComponent({
         } else {
           // 这里的item对象就是codeList.value[当前索引], 利用引用型对象浅拷贝的特性, 直接操作item
           item.processedCode = realContent
+          contentChange.value = true
+          nextTick(() => {
+            boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+          })
         }
+        item.code = textContent
         nextTick(() => {
           targetObj.getRealDomAndOffset(targetObj.root, totalOffset, (el, i) => {
             selection.setCursorOffset(el, i)
@@ -247,26 +272,26 @@ export default defineComponent({
     const removeIndex = ref(null)
 
     const addConfig = {
-      get show () {
+      get done () {
         return add.value
       },
-      set show (bl) {
+      set done (bl) {
         add.value = bl
       },
     }
     const editConfig = {
-      get show () {
+      get done () {
         return edit.value
       },
-      set show (bl) {
+      set done (bl) {
         edit.value = bl
       },
     }
     const removeConfig = {
-      get show () {
+      get done () {
         return remove.value
       },
-      set show (bl) {
+      set done (bl) {
         remove.value = bl
       },
     }
@@ -292,6 +317,10 @@ export default defineComponent({
         processedCode: '',
       })
       setCore(coreObj, key)
+      contentChange.value = true
+      nextTick(() => {
+        boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+      })
     }
     const toEdit = () => {
       if (window?.$_CONFIG_UM_NOTE_PERMISSION?.editConfigure) {
@@ -299,7 +328,14 @@ export default defineComponent({
       } else {
         edit.value = !edit.value
       }
-      // todo some about fetch ...
+    }
+    const toSubmit = () => {
+      const data = codeList.value.map(item => {
+        const json = { ...item }
+        Reflect.deleteProperty(json, 'key')
+        return json
+      })
+      emit('submit', data)
     }
     const toRemove = (index) => {
       add.value = false
@@ -316,9 +352,13 @@ export default defineComponent({
       removeIndex.value = index
     }
     const toHandleRemove = (val, key, index) => {
-      if (val === '确定') {
+      if (val === 1) {
         codeList.value.splice(index, 1)
         Reflect.deleteProperty(coreObj, key)
+        contentChange.value = true
+        nextTick(() => {
+          boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+        })
       }
     }
     watch(
@@ -338,9 +378,10 @@ export default defineComponent({
     const toFoldOrUnfold = () => {
       showing.value = !showing.value
       if (showing.value) {
-        boxWidth.value = `calc(${preRef.value.offsetWidth}px + 1rem)`
-        boxHeight.value = `${preRef.value.offsetHeight + 16}px`
+        boxWidth.value = `${preRef.value.offsetWidth}px`
+        boxHeight.value = `${preRef.value.offsetHeight + 19}px`
       } else {
+        edit.value = false
         boxWidth.value = '260px'
         boxHeight.value = '16px'
       }
@@ -356,6 +397,7 @@ export default defineComponent({
     })
 
     return {
+      deleteObj,
       showing,
       add,
       edit,
@@ -372,7 +414,8 @@ export default defineComponent({
       selectStyle,
       confirmStyle,
       codeList,
-      langrageList,
+      contentChange,
+      languageList,
       handleInput,
       limitInput,
       handleScroll,
@@ -381,25 +424,27 @@ export default defineComponent({
       toHandleRemove,
       toEdit,
       toRemove,
+      toSubmit,
       toFoldOrUnfold,
     }
   },
   mounted () {
-    console.log(getLanguage.map)
+    
   },
 })
 </script>
 
 <style scoped>
 .um-note-container { min-width: 260px; overflow: hidden; border-radius: 5px; background: #272822; transition: .3s; position: relative; }
-.um-note-headbox { width: 100%; height: 16px; transition: .3s; position: relative; z-index: 100; }
-.um-unfold-box { font-size: 10px; color: white; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }
-.um-unfold-text { width: 80px; display: inline-block; transition: .3s; position: absolute; top: 5px; }
-.um-unflod-arrow { width: 42px; display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
-.um-note-config { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; position: absolute; right: 1px; top: 1px; }
+.um-note-headbox { width: 100%; height: 16px; transition: .3s; overflow: hidden; position: relative; z-index: 100; }
+.um-unfold-box { height: 30px; font-size: 10px; color: white; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }
+.um-unfold-text { display: inline-block; transition: .3s; position: absolute; top: 4px; }
+.um-unflod-arrow { color: #66d9ef; display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
+.um-note-config-edit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; float: right; margin-right: 3px; margin-top: 3px; }
+.um-note-config-submit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: orange; float: right; margin-right: 3px; margin-top: 3px; }
 
-.um-pre-class { min-width: calc(260px - 1rem); padding-left: 1rem; padding-bottom: 1rem; margin: 0; overflow: auto; position: relative; }
-.um-pre-class::-webkit-scrollbar { width: 7px; height: 7px; background: #272822; cursor: pointer; }
+.um-pre-class { min-width: calc(260px - 1rem); padding-left: 1rem; padding-bottom: 1rem; margin: 3px 0 0 0;  overflow: auto; position: relative; }
+.um-pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: #272822; cursor: pointer; }
 .um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
 .um-pre-class::-webkit-scrollbar-corner { background: #272822; }
 

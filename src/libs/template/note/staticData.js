@@ -1,28 +1,29 @@
+// import './Prism/prism.css'
+// import './Prism/prism.js'
+import 'prismjs/themes/prism-okaidia.css'
+import 'prismjs'
+window.Prism = window.Prism || {}
+Prism.manual = true
+
+export const _languageMap = {
+  lanList: ['html', 'javascript', 'css'],
+  lanMap: { html: true, javascript: true, css: true }
+}
+
 /**
  * 检测language
  * 
- * @returns {Function} 柯里化后的检测函数 -> getLanguage
+ * @returns {String} 语言字符串
  * 
  * @example 
- * const getLanguage = _languageMap()
  * const result = getLanguage('abc')
  * @param {String} 需要检测的字符串
  * console.log(result) // 'javascript'
  */
-const _languageMap = () => {
-  const map = {
-    'html': true,
-    'javascript': true,
-    'css': true,
-  }
-  const handler = str => {
-    return map[str] ? str : 'javascript'
-  }
-  handler.map = Object.keys(map)
-  return handler
+export const getLanguage = str => {
+  return _languageMap.lanMap[str] ? str : 'javascript'
 }
-
-export const getLanguage = _languageMap()
+getLanguage.list = _languageMap.lanList
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 

@@ -1,22 +1,24 @@
 <template>
   <div id="app">
     <um-note
+      ref="abc"
       :width="width"
-      height="400px"
       language="javascript"
       editable
-      :unfold="false"
+      :unfold="true"
       :codes="code"
+      @submit="submit"
     />
     <router-view/>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
   setup() {
+    const abc = ref()
     const width = ref('500px')
     const code = ref([{
       language: 'html',
@@ -41,13 +43,20 @@ export default defineComponent({
       }]
     }, 2000) */
 
+    const submit = (data) => {
+      console.log(data)
+    }
+
+    onMounted(() => {
+      // console.log(abc.value.submit)
+    })
+
     return {
+      abc,
       code,
       width,
+      submit,
     }
-  },
-  mounted () {
-    
   },
 })
 </script>
