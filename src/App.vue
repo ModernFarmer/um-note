@@ -21,16 +21,8 @@ export default defineComponent({
     const abc = ref()
     const width = ref('500px')
     const code = ref([{
-      language: 'html',
-      code: `<div class="my-class" style="position: relative; left: 30px; top: 10%">hello word</div>`
-    }, {
       language: 'javascript',
       code: `function bbc () { console.log('bbc') }`
-    }, {
-      language: 'html',
-      code: `<div>hello word</div>
-      <span>This is a span tag</span>
-      `
     }])
 
     /* setTimeout(() => {

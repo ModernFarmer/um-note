@@ -1,6 +1,7 @@
 import UmNoteTemplate from './template/note/index.vue'
 import { _languageMap, getLanguage } from './template/note/staticData'
-import loadLanguages from 'prismjs/components/index'
+// import loadLanguages from 'prismjs/components/index'
+import loadLanguages from './template/note/modified-prism.js'
 
 window.$_CONFIG_UM_NOTE_PERMISSION = null
 
@@ -17,7 +18,7 @@ export const UmNoteConfig = (json) => {
   if (json.removeConfigure) window.$_CONFIG_UM_NOTE_PERMISSION.removeConfigure = json.removeConfigure
   if (json.contentNames) window.$_CONFIG_UM_NOTE_PERMISSION.contentNames = json.contentNames
   if (Array.isArray(json.languages)) {
-    loadLanguages(['css'])
+    loadLanguages(['SML'])
     console.log(Prism.languages)
     _languageMap.lanList = json.languages
     const obj = {}
