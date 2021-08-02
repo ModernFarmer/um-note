@@ -5,6 +5,7 @@
       :width="width"
       language="javascript"
       editable
+      height="100px"
       :unfold="true"
       :codes="code"
       @submit="submit"

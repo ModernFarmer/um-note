@@ -3,7 +3,6 @@
 
 const components = require('prismjs/components.js');
 const getLoader = require('prismjs/dependencies.js');
-console.log(components)
 
 /**
  * The set of all languages which have been loaded using the below function.

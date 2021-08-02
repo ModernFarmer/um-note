@@ -20,7 +20,7 @@ UmNoteConfig({
     confirm: '确定',
     explain: '确定删除?',
   },
-  languages: ['html', 'javascript', 'css'],
+  languages: ['html', 'javascript', 'css', 'c++'],
 })
 
 createApp(App).use(store).use(router).use(UmNote).mount('#app')

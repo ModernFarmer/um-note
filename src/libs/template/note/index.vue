@@ -1,28 +1,28 @@
 <template>
-  <div class="um-note-container" :style="{ width: boxWidth, height: boxHeight }">
-    <div class="um-note-headbox"
+  <div class="_um-_note-container" :style="{ width: boxWidth, height: boxHeight }">
+    <div class="_um-_note-headbox"
       :style="{ background: showing ? 'transparent' : 'rgb(114, 114, 114)' }"
     >
-      <div class="um-unfold-box"
+      <div class="_um-_unfold-box"
         :style="{ width: showing ? 'calc(100% - 55px)' : 'calc(100% - 30px)', color: showing ? '#B2BCBB' : '#66d9ef' }"
         @click="toFoldOrUnfold"
       >
-        <div class="um-unfold-text"
+        <div class="_um-_unfold-text"
           :style="{ left: showing ? '20px' : '0' }"
         >{{ showing ? 'fold' : 'unfold note' }}</div>
-        <div class="um-unflod-arrow"
+        <div class="_um-_unflod-arrow"
           :style="{ left: showing ? '0' : '57px' }"
         >{{ showing ? '‹‹‹' : '›››' }}</div>
       </div>
       <div
-        class="um-note-config-edit"
+        class="_um-_note-config-edit"
         v-if="editable || editable === ''"
         v-show="showing"
         :style="{background: edit ? '#0fec3f' : 'red'}"
         @click="toEdit"
       ></div>
       <div
-        class="um-note-config-submit"
+        class="_um-_note-config-submit"
         v-if="editable || editable === ''"
         v-show="contentChange"
         @click="toSubmit"
@@ -30,52 +30,52 @@
     </div>
     <pre
       ref="preRef"
-      class="um-pre-class language-"
+      class="_um-_pre-class language-"
       :style="{ width, height }"
       @scroll="handleScroll"
     ><div
-      class="um-code-box"
+      class="_um-_code-box"
       style="position: relative;"
       v-for="(item, index) in codeList" :key="`${item.key}_${index}`"
     ><div
-      class="um-sign-public"
+      class="_um-_sign-public"
       :style="lanStyle"
-    >{{ item.language }}</div><div
-      class="um-line-dashed"
+    >{{ item.showingLanguage }}</div><div
+      class="_um-_line-dashed"
       :style="dashedStyle"
     ></div><div
-      class="um-sign-add um-not-chooseable"
+      class="_um-_sign-add _um-_not-chooseable"
       :style="addStyle"
       v-show="edit"
       @click.stop="toAdd(index)"
     >+</div><div
-      class="um-sign-minus um-not-chooseable"
+      class="_um-_sign-minus _um-_not-chooseable"
       :style="minusStyle"
       v-show="edit && codeList.length > 1"
       @click.stop="toRemove(index)"
     >-</div><div
-      class="um-select-container"
+      class="_um-_select-container"
       :style="selectStyle"
       v-show="add && index === addIndex"
     ><div
-      class="um-select-item um-not-chooseable"
+      class="_um-_select-item _um-_not-chooseable"
       v-for="val in languageList"
       :key="val"
       @click="toHandleAdd(val, index)"
-    >{{ val }}</div></div><div
-      class="um-confirm-container"
+    >{{ val.value }}</div></div><div
+      class="_um-_confirm-container"
       :style="confirmStyle"
       v-show="remove && index === removeIndex"
     ><div
-      class="um-confirm-message"
+      class="_um-_confirm-message"
     >{{ deleteObj.explain }}</div><div
-      class="um-confirm-item um-not-chooseable"
+      class="_um-_confirm-item _um-_not-chooseable"
       v-for="val in deleteObj.list"
       :key="val"
       @click="toHandleRemove(val.key, item.key, index)"
     >{{ val.value }}</div></div><code
         :id="item.key"
-        class="um-code-class"
+        class="_um-_code-class"
         :contenteditable="edit"
         v-html="item.processedCode"
         @input="handleInput($event, item, '__input')"
@@ -89,7 +89,7 @@
 
 <script>
 import { defineComponent, ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getLanguage, getKey, selection, setCore, _BD, _unBD } from './staticData'
+import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD } from './staticData'
 
 let domClick = null
 
@@ -142,35 +142,41 @@ export default defineComponent({
         if (Array.isArray(codes)) { // 如果props.codes是一个数组
           codeList.value = codes.map(item => {
             const language = getLanguage(item.language) || getLanguage(props.language)
+            const showingLanguage = getShowingLanguage(item.language) || getShowingLanguage(props.language)
             const key = getKey()
             setCore(coreObjJson, key)
             return {
               key,
               language,
+              showingLanguage,
               code: item.code,
               processedCode: Prism.highlight(item.code, Prism.languages[language], language),
             }
           })
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
           const language = getLanguage(codes.language) || getLanguage(props.language)
+          const showingLanguage = getShowingLanguage(codes.language) || getShowingLanguage(props.language)
           const key = getKey()
           setCore(coreObjJson, key)
           codeList.value = [
             {
               key,
               language,
+              showingLanguage,
               code: codes.code,
               processedCode: Prism.highlight(codes.code, Prism.languages[language], language),
             }
           ]
         } else { // 如果props.codes是一个字符串
           const language = getLanguage(props.language)
+          const showingLanguage = getShowingLanguage(props.language)
           const key = getKey()
           setCore(coreObjJson, key)
           codeList.value = [
             {
               key,
               language,
+              showingLanguage,
               code: codes,
               processedCode: Prism.highlight(codes, Prism.languages[language], language),
             }
@@ -226,7 +232,7 @@ export default defineComponent({
           item.processedCode = realContent
           contentChange.value = true
           nextTick(() => {
-            boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+            if (props.height !== 'auto') boxHeight.value = `${preRef.value.offsetHeight + 19}px`
           })
         }
         item.code = textContent
@@ -308,18 +314,22 @@ export default defineComponent({
         }
       }
       addIndex.value = index
+      // nextTick(() => {
+      //   if (props.height !== 'auto') boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+      // })
     }
     const toHandleAdd = (val, index) => {
       const key = getKey()
       codeList.value.splice(index + 1, 0, {
         key,
-        language: val,
+        language: val.fnKey,
+        showingLanguage: val.value,
         processedCode: '',
       })
       setCore(coreObj, key)
       contentChange.value = true
       nextTick(() => {
-        boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+        if (props.height !== 'auto') boxHeight.value = `${preRef.value.offsetHeight + 19}px`
       })
     }
     const toEdit = () => {
@@ -433,36 +443,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style scoped>
-.um-note-container { min-width: 260px; overflow: hidden; border-radius: 5px; background: #272822; transition: .3s; position: relative; }
-.um-note-headbox { width: 100%; height: 16px; transition: .3s; overflow: hidden; position: relative; z-index: 100; }
-.um-unfold-box { height: 30px; font-size: 10px; color: white; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }
-.um-unfold-text { display: inline-block; transition: .3s; position: absolute; top: 4px; }
-.um-unflod-arrow { color: #66d9ef; display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
-.um-note-config-edit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; float: right; margin-right: 3px; margin-top: 3px; }
-.um-note-config-submit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: orange; float: right; margin-right: 3px; margin-top: 3px; }
-
-.um-pre-class { min-width: calc(260px - 1rem); padding-left: 1rem; padding-bottom: 1rem; margin: 3px 0 0 0;  overflow: auto; position: relative; }
-.um-pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: #272822; cursor: pointer; }
-.um-pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
-.um-pre-class::-webkit-scrollbar-corner { background: #272822; }
-
-.um-not-chooseable { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
-.um-code-box { position: relative; }
-.um-sign-public { font-size: 10px; color: rgb(114, 114, 114); position: absolute; }
-.um-line-dashed { border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
-.um-sign-add { width: 16px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
-.um-sign-minus { width: 12px; height: 18px; transform: scale(1.3, 1); line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
-.um-sign-add:hover { color: #0fec3f; }
-.um-sign-minus:hover { color: red; }
-.um-select-container { max-width: calc(100% - 40px); padding: 2px; border: 1px solid #0A84D7; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
-.um-select-item { line-height: 20px; padding: 0 5px; margin: 2px; cursor: pointer; border-radius: 3px; background: rgba(255, 255, 255, .1); float: left; }
-.um-select-item:hover { color: #0fec3f; }
-.um-confirm-container { padding: 2px; border: 1px solid #f92672; background: #474747; outline: 2px solid #474747; position: absolute; z-index: 10; }
-.um-confirm-message { font-size: 10px; padding: 2px 2px 4px 2px; color: #f92672; }
-.um-confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; background: rgba(255, 255, 255, .1); float: left; }
-.um-confirm-item:hover { color: #66d9ef; }
-/* .um-code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
-.um-code-class { min-width: 100%; display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }
-</style>

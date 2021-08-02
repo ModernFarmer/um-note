@@ -1,13 +1,22 @@
-// import './Prism/prism.css'
-// import './Prism/prism.js'
 import 'prismjs/themes/prism-okaidia.css'
+import './style.css'
 import 'prismjs'
 window.Prism = window.Prism || {}
 Prism.manual = true
 
+// ---------------------------------------------------------------------------------------------------------------------------------
+
 export const _languageMap = {
-  lanList: ['html', 'javascript', 'css'],
-  lanMap: { html: true, javascript: true, css: true }
+  lanList: [{ value: 'Html', fnKey: 'markup' }, { value: 'JavaScript', fnKey: 'javascript' }, { value: 'CSS', fnKey: 'css' }],
+  lanMap: {
+    html: { fnTitle: 'markup', showTitle: 'Html', },
+    Html: { fnTitle: 'markup', showTitle: 'Html', },
+    HTML: { fnTitle: 'markup', showTitle: 'Html', },
+    javascript: { fnTitle: 'javascript', showTitle: 'JavaScript', },
+    JavaScript: { fnTitle: 'javascript', showTitle: 'JavaScript', },
+    css: { fnTitle: 'css', showTitle: 'CSS', },
+    CSS: { fnTitle: 'css', showTitle: 'CSS', },
+  },
 }
 
 /**
@@ -17,13 +26,29 @@ export const _languageMap = {
  * 
  * @example 
  * const result = getLanguage('abc')
- * @param {String} 需要检测的字符串
+ * @param {String} str 需要检测的字符串
  * console.log(result) // 'javascript'
  */
 export const getLanguage = str => {
-  return _languageMap.lanMap[str] ? str : 'javascript'
+  return _languageMap.lanMap[str.toLowerCase()]?.fnTitle || 'javascript'
 }
 getLanguage.list = _languageMap.lanList
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * 获取展示用的language名称
+ * 
+ * @returns {String} 语言字符串
+ * 
+ * @example 
+ * const result = getShowingLanguage('abc')
+ * @param {String} str 需要获取名称的语言字符串
+ * console.log(result) // 'JavaScript'
+ */
+export const getShowingLanguage = str => {
+  return _languageMap.lanMap[str.toLowerCase()]?.showTitle || 'JavaScript'
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 
