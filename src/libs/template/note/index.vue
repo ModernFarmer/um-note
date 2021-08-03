@@ -1,7 +1,7 @@
 <template>
-  <div class="_um-_note-container" :style="{ width: boxWidth, height: boxHeight }">
+  <div class="_um-_note-container" :style="containerStyle">
     <div class="_um-_note-headbox"
-      :style="{ background: showing ? 'transparent' : 'rgb(114, 114, 114)' }"
+      :style="headBoxStyle"
     >
       <div class="_um-_unfold-box"
         v-if="foldable || foldable === ''"
@@ -100,7 +100,7 @@
 
 <script>
 import { defineComponent, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG } from './staticData'
+import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG, themeMap } from './staticData'
 
 let domClick = null
 
@@ -464,23 +464,37 @@ export default defineComponent({
     )
 
     const setContainerHeight = () => {
-      boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+      containerStyle.value.height = `${preRef.value.offsetHeight + 19}px`
     }
 
     const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
-    const boxWidth = ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px')
-    const boxHeight = ref(showing.value ? 'auto' : '16px')
+    const containerStyle = ref({
+      width: ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px'),
+      height: ref(showing.value ? 'auto' : '16px'),
+      background: themeMap[UM_NOTE_CONFIG.theme].container_background,
+    })
+
     const toFoldOrUnfold = () => {
       showing.value = !showing.value
       if (showing.value) {
-        boxWidth.value = `${preRef.value.offsetWidth}px`
+        containerStyle.value.width = `${preRef.value.offsetWidth}px`
         setContainerHeight()
       } else {
         edit.value = false
-        boxWidth.value = '260px'
-        boxHeight.value = '16px'
+        containerStyle.value.width = '260px'
+        containerStyle.value.height = '16px'
       }
     }
+
+    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themeMap[UM_NOTE_CONFIG.theme].head_background_hidden })
+    watch(
+      () => {
+        return showing.value
+      },
+      val => {
+        headBoxStyle.value = { background: val ? 'transparent' : themeMap[UM_NOTE_CONFIG.theme].head_background_hidden }
+      }
+    )
 
     domClick = () => {
       add.value = false
@@ -502,8 +516,7 @@ export default defineComponent({
       submit,
       addIndex,
       removeIndex,
-      boxWidth,
-      boxHeight,
+      containerStyle,
       preRef,
       lanStyle,
       addStyle,
@@ -511,6 +524,9 @@ export default defineComponent({
       dashedStyle,
       selectStyle,
       confirmStyle,
+
+      headBoxStyle,
+
       codeList,
       contentChange,
       languageList,
