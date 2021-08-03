@@ -15,12 +15,16 @@ UmNoteConfig({
   removeConfigure (config) {
     config.done = !config.done
   },
+  submitConfigure (config) {
+    config.done = !config.done
+  },
   contentNames: {
     cancel: '取消',
     confirm: '确定',
     explain: '确定删除?',
   },
   languages: ['html', 'javascript', 'css', 'c++'],
+  theme: 'okaidia',
 })
 
 createApp(App).use(store).use(router).use(UmNote).mount('#app')

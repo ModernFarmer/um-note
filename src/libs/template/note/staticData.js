@@ -1,8 +1,13 @@
-import 'prismjs/themes/prism-okaidia.css'
 import './style.css'
 import 'prismjs'
 window.Prism = window.Prism || {}
 Prism.manual = true
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+export const UM_NOTE_CONFIG = {
+  theme: 'default',
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +35,7 @@ export const _languageMap = {
  * console.log(result) // 'javascript'
  */
 export const getLanguage = str => {
+  if (!str) return 'javascript'
   return _languageMap.lanMap[str.toLowerCase()]?.fnTitle || 'javascript'
 }
 getLanguage.list = _languageMap.lanList

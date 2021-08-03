@@ -1,10 +1,7 @@
 import UmNoteTemplate from './template/note/index.vue'
-import { _languageMap, getLanguage } from './template/note/staticData'
-// import loadLanguages from 'prismjs/components/index'
+import { _languageMap, getLanguage, UM_NOTE_CONFIG } from './template/note/staticData'
 import components from 'prismjs/components.js'
 import loadLanguages from './template/note/modified-prism.js'
-
-window.$_CONFIG_UM_NOTE_PERMISSION = null
 
 const fullMap = {}
 Object.entries(components.languages).forEach(item => {
@@ -31,11 +28,10 @@ export const UmNote = {
 }
 
 export const UmNoteConfig = (json) => {
-  window.$_CONFIG_UM_NOTE_PERMISSION = {}
-  if (json.addConfigure) window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure = json.addConfigure
-  if (json.editConfigure) window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure = json.editConfigure
-  if (json.removeConfigure) window.$_CONFIG_UM_NOTE_PERMISSION.removeConfigure = json.removeConfigure
-  if (json.contentNames) window.$_CONFIG_UM_NOTE_PERMISSION.contentNames = json.contentNames
+  if (json.addConfigure) UM_NOTE_CONFIG.addConfigure = json.addConfigure
+  if (json.editConfigure) UM_NOTE_CONFIG.editConfigure = json.editConfigure
+  if (json.removeConfigure) UM_NOTE_CONFIG.removeConfigure = json.removeConfigure
+  if (json.contentNames) UM_NOTE_CONFIG.contentNames = json.contentNames
   if (Array.isArray(json.languages)) {
     const lanMap = {}
     const lanList = []
@@ -49,8 +45,17 @@ export const UmNoteConfig = (json) => {
       }
     })
     loadLanguages(fnKeyList)
-    console.log(lanMap)
     _languageMap.lanList = getLanguage.list = lanList
     _languageMap.lanMap = lanMap
+  }
+  if (json.theme && typeof json.theme === 'string') {
+    const validThemesMap = ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
+    if (json.theme === 'default' || !validThemesMap.includes(json.theme)) {
+      require('prismjs/themes/prism.css')
+    } else {
+      require(`prismjs/themes/prism-${json.theme}.css`)
+    }
+  } else {
+    require('prismjs/themes/prism.css')
   }
 }

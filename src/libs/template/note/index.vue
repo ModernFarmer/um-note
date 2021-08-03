@@ -4,6 +4,7 @@
       :style="{ background: showing ? 'transparent' : 'rgb(114, 114, 114)' }"
     >
       <div class="_um-_unfold-box"
+        v-if="foldable || foldable === ''"
         :style="{ width: showing ? 'calc(100% - 55px)' : 'calc(100% - 30px)', color: showing ? '#B2BCBB' : '#66d9ef' }"
         @click="toFoldOrUnfold"
       >
@@ -25,8 +26,16 @@
         class="_um-_note-config-submit"
         v-if="editable || editable === ''"
         v-show="contentChange"
-        @click="toSubmit"
+        @click.stop="toSubmit"
       ></div>
+      <div
+        class="_um-_submit-confirm"
+        v-if="submit"
+        @click.stop
+      >
+        <div class="_um-_submit-item-cancel" @click="submit = false">×</div>
+        <div class="_um-_submit-item-ok" @click="toHandleSubmit">√</div>
+      </div>
     </div>
     <pre
       ref="preRef"
@@ -34,6 +43,7 @@
       :style="{ width, height }"
       @scroll="handleScroll"
     ><div
+      :id="`${item.key}_codeBox`"
       class="_um-_code-box"
       style="position: relative;"
       v-for="(item, index) in codeList" :key="`${item.key}_${index}`"
@@ -47,25 +57,26 @@
       class="_um-_sign-add _um-_not-chooseable"
       :style="addStyle"
       v-show="edit"
-      @click.stop="toAdd(index)"
+      @click.stop="toAdd(index, item.key)"
     >+</div><div
       class="_um-_sign-minus _um-_not-chooseable"
       :style="minusStyle"
       v-show="edit && codeList.length > 1"
       @click.stop="toRemove(index)"
     >-</div><div
+      :id="`${item.key}_selectBox`"
       class="_um-_select-container"
       :style="selectStyle"
-      v-show="add && index === addIndex"
+      v-if="add && index === addIndex"
     ><div
       class="_um-_select-item _um-_not-chooseable"
       v-for="val in languageList"
       :key="val"
-      @click="toHandleAdd(val, index)"
+      @click="toHandleAdd(val, index, item.key)"
     >{{ val.value }}</div></div><div
       class="_um-_confirm-container"
       :style="confirmStyle"
-      v-show="remove && index === removeIndex"
+      v-if="remove && index === removeIndex"
     ><div
       class="_um-_confirm-message"
     >{{ deleteObj.explain }}</div><div
@@ -88,8 +99,8 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD } from './staticData'
+import { defineComponent, ref, watch, nextTick, onBeforeUnmount } from 'vue'
+import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG } from './staticData'
 
 let domClick = null
 
@@ -121,6 +132,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    foldable: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, { emit }) {
     const languageList = ref(getLanguage.list)
@@ -140,22 +155,36 @@ export default defineComponent({
       codes => {
         const coreObjJson = {}
         if (Array.isArray(codes)) { // 如果props.codes是一个数组
-          codeList.value = codes.map(item => {
-            const language = getLanguage(item.language) || getLanguage(props.language)
-            const showingLanguage = getShowingLanguage(item.language) || getShowingLanguage(props.language)
+          if (codes.length) {
+            codeList.value = codes.map(item => {
+              const _language = getLanguage(item.language)
+              const language = _language === 'javascript' ? getLanguage(props.language) : _language
+              const showingLanguage = getShowingLanguage(language)
+              const key = getKey()
+              setCore(coreObjJson, key)
+              return {
+                key,
+                language,
+                showingLanguage,
+                code: item.code || '',
+                processedCode: Prism.highlight(item.code || '', Prism.languages[language], language),
+              }
+            })
+          } else {
             const key = getKey()
             setCore(coreObjJson, key)
-            return {
+            codeList.value = [{
               key,
-              language,
-              showingLanguage,
-              code: item.code,
-              processedCode: Prism.highlight(item.code, Prism.languages[language], language),
-            }
-          })
+              language: 'javascript',
+              showingLanguage: 'JavaScript',
+              code: '',
+              processedCode: '',
+            }]
+          }
         } else if (typeof codes === 'object') { // 如果props.codes是一个json
-          const language = getLanguage(codes.language) || getLanguage(props.language)
-          const showingLanguage = getShowingLanguage(codes.language) || getShowingLanguage(props.language)
+          const _language = getLanguage(codes.language)
+          const language = _language === 'javascript' ? getLanguage(props.language) : _language
+          const showingLanguage = getShowingLanguage(language)
           const key = getKey()
           setCore(coreObjJson, key)
           codeList.value = [
@@ -163,13 +192,13 @@ export default defineComponent({
               key,
               language,
               showingLanguage,
-              code: codes.code,
-              processedCode: Prism.highlight(codes.code, Prism.languages[language], language),
+              code: codes.code || '',
+              processedCode: Prism.highlight(codes.code || '', Prism.languages[language], language),
             }
           ]
         } else { // 如果props.codes是一个字符串
           const language = getLanguage(props.language)
-          const showingLanguage = getShowingLanguage(props.language)
+          const showingLanguage = getShowingLanguage(language)
           const key = getKey()
           setCore(coreObjJson, key)
           codeList.value = [
@@ -177,13 +206,21 @@ export default defineComponent({
               key,
               language,
               showingLanguage,
-              code: codes,
-              processedCode: Prism.highlight(codes, Prism.languages[language], language),
+              code: codes || '',
+              processedCode: Prism.highlight(codes || '', Prism.languages[language], language),
             }
           ]
         }
         coreObj = coreObjJson
         contentChange.value = false
+
+        if (props.height === 'auto') {
+          nextTick(() => {
+            add.value = false
+            remove.value = false
+            setContainerHeight()
+          })
+        }
       },
       { immediate: true }
     )
@@ -232,7 +269,7 @@ export default defineComponent({
           item.processedCode = realContent
           contentChange.value = true
           nextTick(() => {
-            if (props.height !== 'auto') boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+            if (props.height === 'auto') setContainerHeight()
           })
         }
         item.code = textContent
@@ -274,8 +311,22 @@ export default defineComponent({
     const add = ref(false)
     const edit = ref(false)
     const remove = ref(false)
+    const submit = ref(false)
     const addIndex = ref(null)
     const removeIndex = ref(null)
+    let codeTagEl = null
+    let codeTagHeightOrigin = null
+
+    const _u_resetStyle = () => {
+      if (codeTagEl) {
+        codeTagEl.style.height = `${codeTagHeightOrigin}px`
+        if (props.height === 'auto') {
+          setContainerHeight()
+        }
+        codeTagEl = null
+        codeTagHeightOrigin = null
+      }
+    }
 
     const addConfig = {
       get done () {
@@ -283,6 +334,7 @@ export default defineComponent({
       },
       set done (bl) {
         add.value = bl
+        if (!add.value) _u_resetStyle()
       },
     }
     const editConfig = {
@@ -301,22 +353,42 @@ export default defineComponent({
         remove.value = bl
       },
     }
-    const toAdd = (index) => {
+    const submitConfig = {
+      get done () {
+        return submit.value
+      },
+      set done (bl) {
+        submit.value = bl
+      },
+    }
+    const toAdd = (index, elementKey) => {
       remove.value = false
+      submit.value = false
       if (window?.$_CONFIG_UM_NOTE_PERMISSION?.addConfigure) {
-        if (addIndex.value !== index) add.value = false
-        window.$_CONFIG_UM_NOTE_PERMISSION.addConfigure(addConfig)
+        if (addIndex.value !== index) {
+          add.value = false
+          _u_resetStyle()
+        }
+        UM_NOTE_CONFIG.addConfigure(addConfig)
       } else {
         if (addIndex.value === index) {
           add.value = !add.value
+          if (!add.value) _u_resetStyle()
         } else {
           add.value = true
         }
       }
       addIndex.value = index
-      // nextTick(() => {
-      //   if (props.height !== 'auto') boxHeight.value = `${preRef.value.offsetHeight + 19}px`
-      // })
+      nextTick(() => {
+        const selectEl = document.querySelector(`#${elementKey}_selectBox`)
+        const _codeTagEl = document.querySelector(`#${elementKey}_codeBox`)
+        if (selectEl.offsetHeight > _codeTagEl.offsetHeight + _codeTagEl.offsetTop - 11) {
+          codeTagEl = _codeTagEl
+          codeTagHeightOrigin = codeTagEl.offsetHeight
+          codeTagEl.style.height = `${selectEl.offsetHeight - 3}px`
+        }
+        if (props.height === 'auto') setContainerHeight()
+      })
     }
     const toHandleAdd = (val, index) => {
       const key = getKey()
@@ -329,17 +401,24 @@ export default defineComponent({
       setCore(coreObj, key)
       contentChange.value = true
       nextTick(() => {
-        if (props.height !== 'auto') boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+        if (props.height === 'auto') setContainerHeight()
       })
     }
     const toEdit = () => {
       if (window?.$_CONFIG_UM_NOTE_PERMISSION?.editConfigure) {
-        window.$_CONFIG_UM_NOTE_PERMISSION.editConfigure(editConfig)
+        UM_NOTE_CONFIG.editConfigure(editConfig)
       } else {
         edit.value = !edit.value
       }
     }
     const toSubmit = () => {
+      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.submitConfigure) {
+        UM_NOTE_CONFIG.submitConfigure(editConfig)
+      } else {
+        submit.value = !submit.value
+      }
+    }
+    const toHandleSubmit = () => {
       const data = codeList.value.map(item => {
         const json = { ...item }
         Reflect.deleteProperty(json, 'key')
@@ -349,9 +428,11 @@ export default defineComponent({
     }
     const toRemove = (index) => {
       add.value = false
+      submit.value = false
+      _u_resetStyle()
       if (window?.$_CONFIG_UM_NOTE_PERMISSION?.removeConfigure) {
         if (removeIndex.value !== index) remove.value = false
-        window.$_CONFIG_UM_NOTE_PERMISSION.removeConfigure(removeConfig)
+        UM_NOTE_CONFIG.removeConfigure(removeConfig)
       } else {
         if (removeIndex.value === index) {
           remove.value = !remove.value
@@ -367,7 +448,7 @@ export default defineComponent({
         Reflect.deleteProperty(coreObj, key)
         contentChange.value = true
         nextTick(() => {
-          boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+          setContainerHeight()
         })
       }
     }
@@ -382,14 +463,18 @@ export default defineComponent({
       }
     )
 
-    const showing = ref(props.unfold || props.unfold === '' ? true : false)
+    const setContainerHeight = () => {
+      boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+    }
+
+    const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
     const boxWidth = ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px')
     const boxHeight = ref(showing.value ? 'auto' : '16px')
     const toFoldOrUnfold = () => {
       showing.value = !showing.value
       if (showing.value) {
         boxWidth.value = `${preRef.value.offsetWidth}px`
-        boxHeight.value = `${preRef.value.offsetHeight + 19}px`
+        setContainerHeight()
       } else {
         edit.value = false
         boxWidth.value = '260px'
@@ -399,7 +484,9 @@ export default defineComponent({
 
     domClick = () => {
       add.value = false
+      _u_resetStyle()
       remove.value = false
+      submit.value = false
     }
     _BD(document, 'click', domClick)
     onBeforeUnmount(() => {
@@ -412,6 +499,7 @@ export default defineComponent({
       add,
       edit,
       remove,
+      submit,
       addIndex,
       removeIndex,
       boxWidth,
@@ -432,6 +520,7 @@ export default defineComponent({
       toAdd,
       toHandleAdd,
       toHandleRemove,
+      toHandleSubmit,
       toEdit,
       toRemove,
       toSubmit,
