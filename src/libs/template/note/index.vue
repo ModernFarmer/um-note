@@ -141,10 +141,10 @@ export default defineComponent({
     const languageList = ref(getLanguage.list)
     const contentChange = ref(false)
     const deleteObj = ref({
-      explain: window?.$_CONFIG_UM_NOTE_PERMISSION?.contentNames?.explain || '确定删除?',
+      explain: UM_NOTE_CONFIG.contentNames?.explain || '确定删除?',
       list: [
-        { key: 0, value: window?.$_CONFIG_UM_NOTE_PERMISSION?.contentNames?.cancel || '取消' },
-        { key: 1, value: window?.$_CONFIG_UM_NOTE_PERMISSION?.contentNames?.confirm || '确定' },
+        { key: 0, value: UM_NOTE_CONFIG.contentNames?.cancel || '取消' },
+        { key: 1, value: UM_NOTE_CONFIG.contentNames?.confirm || '确定' },
       ]
     })
 
@@ -364,7 +364,7 @@ export default defineComponent({
     const toAdd = (index, elementKey) => {
       remove.value = false
       submit.value = false
-      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.addConfigure) {
+      if (UM_NOTE_CONFIG.addConfigure) {
         if (addIndex.value !== index) {
           add.value = false
           _u_resetStyle()
@@ -405,14 +405,14 @@ export default defineComponent({
       })
     }
     const toEdit = () => {
-      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.editConfigure) {
+      if (UM_NOTE_CONFIG.editConfigure) {
         UM_NOTE_CONFIG.editConfigure(editConfig)
       } else {
         edit.value = !edit.value
       }
     }
     const toSubmit = () => {
-      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.submitConfigure) {
+      if (UM_NOTE_CONFIG.submitConfigure) {
         UM_NOTE_CONFIG.submitConfigure(editConfig)
       } else {
         submit.value = !submit.value
@@ -430,7 +430,7 @@ export default defineComponent({
       add.value = false
       submit.value = false
       _u_resetStyle()
-      if (window?.$_CONFIG_UM_NOTE_PERMISSION?.removeConfigure) {
+      if (UM_NOTE_CONFIG.removeConfigure) {
         if (removeIndex.value !== index) remove.value = false
         UM_NOTE_CONFIG.removeConfigure(removeConfig)
       } else {

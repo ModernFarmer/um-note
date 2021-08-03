@@ -31,6 +31,7 @@ export const UmNoteConfig = (json) => {
   if (json.addConfigure) UM_NOTE_CONFIG.addConfigure = json.addConfigure
   if (json.editConfigure) UM_NOTE_CONFIG.editConfigure = json.editConfigure
   if (json.removeConfigure) UM_NOTE_CONFIG.removeConfigure = json.removeConfigure
+  if (json.submitConfigure) UM_NOTE_CONFIG.submitConfigure = json.submitConfigure
   if (json.contentNames) UM_NOTE_CONFIG.contentNames = json.contentNames
   if (Array.isArray(json.languages)) {
     const lanMap = {}
@@ -52,10 +53,13 @@ export const UmNoteConfig = (json) => {
     const validThemesMap = ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
     if (json.theme === 'default' || !validThemesMap.includes(json.theme)) {
       require('prismjs/themes/prism.css')
+      UM_NOTE_CONFIG.theme = 'default'
     } else {
       require(`prismjs/themes/prism-${json.theme}.css`)
+      UM_NOTE_CONFIG.theme = json.theme
     }
   } else {
     require('prismjs/themes/prism.css')
+    UM_NOTE_CONFIG.theme = 'default'
   }
 }
