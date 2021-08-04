@@ -9,7 +9,7 @@ pre[class*="language-"] {
 ._um-_note-headbox { width: 100%; height: 16px; transition: .3s; overflow: hidden; position: relative; z-index: 100; }
 ._um-_unfold-box { height: 30px; font-size: 10px; color: white; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }
 ._um-_unfold-text { display: inline-block; transition: .3s; position: absolute; top: 4px; }
-._um-_unflod-arrow { color: #66d9ef; display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
+._um-_unflod-arrow { display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
 ._um-_note-config-edit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; float: right; margin-right: 3px; margin-top: 3px; }
 ._um-_note-config-submit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: orange; float: right; margin-right: 3px; margin-top: 3px; }
 ._um-_submit-confirm { height: 12px; margin-top: 2px; margin-right: 5px; padding: 0 2px; border-radius: 2px; overflow: hidden; background: rgba(255, 255, 255, .2); float: right; position: relative; z-index: 10; }
@@ -18,25 +18,23 @@ pre[class*="language-"] {
 ._um-_submit-item-ok:hover { color: #0fec3f; background: rgba(255, 255, 255, .2); }
 
 ._um-_pre-class { min-width: calc(260px - 1rem); position: relative; }
-._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: #272822; cursor: pointer; }
-._um-_pre-class::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 2px; }
-._um-_pre-class::-webkit-scrollbar-corner { background: #272822; }
 
 ._um-_not-chooseable { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
 ._um-_code-box { position: relative; }
-._um-_sign-public { font-size: 10px; color: rgb(114, 114, 114); position: absolute; }
-._um-_line-dashed { border-bottom: 1px dashed rgb(50, 50, 50); position: absolute; }
+._um-_sign-public { font-size: 10px; position: absolute; }
+._um-_line-dashed { position: absolute; }
 ._um-_sign-add { width: 16px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
 ._um-_sign-minus { width: 12px; height: 18px; transform: scale(1.3, 1); line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; color: rgb(114, 114, 114); position: absolute; }
 ._um-_sign-add:hover { color: #0fec3f; }
 ._um-_sign-minus:hover { color: red; }
 
-._um-_select-container { max-width: calc(100% - 40px); padding: 2px; position: absolute; z-index: 10; }
+._um-_select-container { max-width: calc(100% - 40px); box-shadow: 3px 3px 7px rgba(0, 0, 0, .3); padding: 2px; position: absolute; z-index: 10; }
 ._um-_select-item { line-height: 20px; padding: 0 5px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }
-/* ._um-_select-item:hover { color: #0fec3f; } */
-._um-_confirm-container { padding: 2px; position: absolute; z-index: 10; }
+._um-_confirm-container { padding: 2px; box-shadow: 3px 3px 7px rgba(0, 0, 0, .3); position: absolute; z-index: 10; }
 ._um-_confirm-message { font-size: 10px; padding: 2px 2px 4px 2px; color: #f92672; }
 ._um-_confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }
-/* ._um-_confirm-item:hover { color: #66d9ef; } */
 /* ._um-_code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
 ._um-_code-class { min-width: calc(100% - 1rem); display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }
+
+
+.aaaaaaaaaa { background: #b9a58b; }
