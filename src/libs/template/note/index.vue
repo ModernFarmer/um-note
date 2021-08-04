@@ -5,14 +5,14 @@
     >
       <div class="_um-_unfold-box"
         v-if="foldable || foldable === ''"
-        :style="{ width: showing ? 'calc(100% - 55px)' : 'calc(100% - 30px)', color: showing ? '#B2BCBB' : '#66d9ef' }"
+        :style="{ width: showing ? 'calc(100% - 55px)' : 'calc(100% - 30px)' }"
         @click="toFoldOrUnfold"
       >
         <div class="_um-_unfold-text"
-          :style="{ left: showing ? '20px' : '0' }"
+          :style="{ left: showing ? '20px' : '0', color: unfoldColor }"
         >{{ showing ? 'fold' : 'unfold note' }}</div>
         <div class="_um-_unflod-arrow"
-          :style="{ left: showing ? '0' : '57px' }"
+          :style="{ left: showing ? '0' : '57px', color: arrowColor }"
         >{{ showing ? '‹‹‹' : '›››' }}</div>
       </div>
       <div
@@ -140,6 +140,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const themesData = themeConfigMap[UM_NOTE_CONFIG.theme]
     const languageList = ref(getLanguage.list)
     const contentChange = ref(false)
     const deleteObj = ref({
@@ -292,25 +293,27 @@ export default defineComponent({
     }
 
     const preRef = ref()
-    const lanStyle = ref({ left: 0, top: 0 })
+    const lanStyle = ref({ color: themesData.language_color, left: 0, top: 0 })
     const addStyle = ref({ left: `calc(100% - 22px)`, bottom: 0 })
     const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
-    const dashedStyle = ref({ width: 'calc(100% - 1rem)', left: 0, bottom: '8px' })
+    const dashedStyle = ref({ width: 'calc(100% - 1rem)', borderBottom: `1px dashed ${themesData.block_hr_background}`, left: 0, bottom: '8px' })
     const selectStyle = ref({
-      border: themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_border,
-      background: themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container,
-      outline: `2px solid ${themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container}`,
+      border: `1px solid ${themesData.languageSelect_border}`,
+      background: themesData.languageSelect_container,
+      outline: `2px solid ${themesData.languageSelect_container}`,
       bottom: '-5px',
       right: '27px',
     })
     const confirmStyle = ref({
-      border: themeConfigMap[UM_NOTE_CONFIG.theme].deleteSelect_border,
-      background: themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container,
-      outline: `2px solid ${themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container}`,
+      border: `1px solid ${themesData.deleteSelect_border}`,
+      background: themesData.languageSelect_container,
+      outline: `2px solid ${themesData.languageSelect_container}`,
       bottom: '-5px',
       right: '47px',
     })
-    const btnBackground = ref(themeConfigMap[UM_NOTE_CONFIG.theme].button_background)
+    const btnBackground = ref(themesData.button_background)
+    const unfoldColor = ref(themesData.unfold_text_color)
+    const arrowColor = ref(themesData.unfold_arrow_color)
     let last_lang = 0
     const handleScroll = (e) => {
       const offset = preRef.value.scrollLeft
@@ -430,7 +433,7 @@ export default defineComponent({
     }
     const toSubmit = () => {
       if (UM_NOTE_CONFIG.submitConfigure) {
-        UM_NOTE_CONFIG.submitConfigure(editConfig)
+        UM_NOTE_CONFIG.submitConfigure(submitConfig)
       } else {
         submit.value = !submit.value
       }
@@ -487,7 +490,7 @@ export default defineComponent({
     const containerStyle = ref({
       width: ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px'),
       height: ref(showing.value ? 'auto' : '16px'),
-      background: themeConfigMap[UM_NOTE_CONFIG.theme].container_background,
+      background: themesData.container_background,
     })
 
     const toFoldOrUnfold = () => {
@@ -502,13 +505,13 @@ export default defineComponent({
       }
     }
 
-    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themeConfigMap[UM_NOTE_CONFIG.theme].head_background_hidden })
+    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themesData.head_background_hidden })
     watch(
       () => {
         return showing.value
       },
       val => {
-        headBoxStyle.value = { background: val ? 'transparent' : themeConfigMap[UM_NOTE_CONFIG.theme].head_background_hidden }
+        headBoxStyle.value = { background: val ? 'transparent' : themesData.head_background_hidden }
       }
     )
 
@@ -540,10 +543,10 @@ export default defineComponent({
       dashedStyle,
       selectStyle,
       confirmStyle,
-
       headBoxStyle,
       btnBackground,
-
+      unfoldColor,
+      arrowColor,
       codeList,
       contentChange,
       languageList,

@@ -4,6 +4,7 @@
       class="code-outsize"
       ref="abc"
       :width="width"
+      :height="'300px'"
       language="javascript"
       editable
       :foldable="true"
@@ -24,7 +25,37 @@ export default defineComponent({
     const width = ref('500px')
     const code = ref([{
       language: 'javascript',
-      code: `function bbc () { console.log('bbc') }`
+      code: `
+export const _languageMap = {
+  lanList: [{ value: 'Html', fnKey: 'markup' }, { value: 'JavaScript', fnKey: 'javascript' }, { value: 'CSS', fnKey: 'css' }],
+  lanMap: {
+    html: { fnTitle: 'markup', showTitle: 'Html', },
+    Html: { fnTitle: 'markup', showTitle: 'Html', },
+    HTML: { fnTitle: 'markup', showTitle: 'Html', },
+    javascript: { fnTitle: 'javascript', showTitle: 'JavaScript', },
+    JavaScript: { fnTitle: 'javascript', showTitle: 'JavaScript', },
+    css: { fnTitle: 'css', showTitle: 'CSS', },
+    CSS: { fnTitle: 'css', showTitle: 'CSS', },
+  },
+}
+
+/**
+ * 检测language
+ * 
+ * @returns {String} 语言字符串
+ * 
+ * @example 
+ * const result = getLanguage('abc')
+ * @param {String} str 需要检测的字符串
+ * console.log(result) // 'javascript'
+ */
+export const getLanguage = str => {
+  if (!str) return 'javascript'
+  return _languageMap.lanMap[str.toLowerCase()]?.fnTitle || 'javascript'
+}
+getLanguage.list = _languageMap.lanList
+      
+      `
     }])
 
     /* setTimeout(() => {

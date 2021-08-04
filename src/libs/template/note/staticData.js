@@ -19,18 +19,28 @@ export const UM_NOTE_CONFIG = {
  */
 export const themeConfigMap = {
   default: {
-    container_background: '',
-    head_background_hidden: '',
-    languageSelect_container: '',
-    languageSelect_border: '',
-    deleteSelect_border: '',
-    button_background: '',
-    button_hover_add: '',
-    button_hover_delete: '',
+    container_background: '#f5f2f0',
+    head_background_hidden: 'rgb(0, 0, 0, .1)',
+    unfold_text_color: '#07a',
+    unfold_arrow_color: '#690',
+    soroll_thumb_background: 'rgba(0,0,0,.05)',
+    language_color: 'rgb(180, 180, 180)',
+    block_hr_background: 'rgb(230, 230, 230)',
+    languageSelect_container: '#f7ece7',
+    languageSelect_border: 'rgb(193, 209, 161)',
+    deleteSelect_border: '#b9a58b',
+    button_background: 'rgba(0, 0, 0, .05)',
+    button_hover_add: '#e90',
+    button_hover_delete: '#07a',
   },
   coy: {
     container_background: '',
     head_background_hidden: '',
+    unfold_text_color: '',
+    unfold_arrow_color: '',
+    soroll_thumb_background: '',
+    language_color: '',
+    block_hr_background: '',
     languageSelect_container: '',
     languageSelect_border: '',
     deleteSelect_border: '',
@@ -41,6 +51,11 @@ export const themeConfigMap = {
   dark: {
     container_background: '',
     head_background_hidden: '',
+    unfold_text_color: '',
+    unfold_arrow_color: '',
+    soroll_thumb_background: '',
+    language_color: '',
+    block_hr_background: '',
     languageSelect_container: '',
     languageSelect_border: '',
     deleteSelect_border: '',
@@ -51,6 +66,11 @@ export const themeConfigMap = {
   funky: {
     container_background: '',
     head_background_hidden: '',
+    unfold_text_color: '',
+    unfold_arrow_color: '',
+    soroll_thumb_background: '',
+    language_color: '',
+    block_hr_background: '',
     languageSelect_container: '',
     languageSelect_border: '',
     deleteSelect_border: '',
@@ -60,10 +80,15 @@ export const themeConfigMap = {
   },
   okaidia: {
     container_background: '#272822', // 最外层容器背景颜色
-    head_background_hidden: 'rgb(114, 114, 114)', // 头部bar背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255,255,255,.3)', // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)', // 分割线样式
     languageSelect_container: '#474747', // 添加弹框和删除弹框背景颜色
-    languageSelect_border: '1px solid #0A84D7', // 添加弹框的包边线条颜色
-    deleteSelect_border: '1px solid #f92672', // 删除弹框的包边线条颜色
+    languageSelect_border: '#0A84D7', // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672', // 删除弹框的包边线条颜色
     button_background: 'rgba(255, 255, 255, .1)', // 添加弹框和删除弹框里面的按钮的背景颜色
     button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
     button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
@@ -71,6 +96,11 @@ export const themeConfigMap = {
   solarizedlight: {
     container_background: '',
     head_background_hidden: '',
+    unfold_text_color: '',
+    unfold_arrow_color: '',
+    soroll_thumb_background: '',
+    language_color: '',
+    block_hr_background: '',
     languageSelect_container: '',
     languageSelect_border: '',
     deleteSelect_border: '',
@@ -81,6 +111,11 @@ export const themeConfigMap = {
   tomorrow: {
     container_background: '',
     head_background_hidden: '',
+    unfold_text_color: '',
+    unfold_arrow_color: '',
+    soroll_thumb_background: '',
+    language_color: '',
+    block_hr_background: '',
     languageSelect_container: '',
     languageSelect_border: '',
     deleteSelect_border: '',
@@ -91,6 +126,11 @@ export const themeConfigMap = {
   twilight: {
     container_background: '',
     head_background_hidden: '',
+    unfold_text_color: '',
+    unfold_arrow_color: '',
+    soroll_thumb_background: '',
+    language_color: '',
+    block_hr_background: '',
     languageSelect_container: '',
     languageSelect_border: '',
     deleteSelect_border: '',
