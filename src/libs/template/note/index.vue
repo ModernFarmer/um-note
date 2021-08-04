@@ -70,6 +70,7 @@
       v-if="add && index === addIndex"
     ><div
       class="_um-_select-item _um-_not-chooseable"
+      :style="{background: btnBackground}"
       v-for="val in languageList"
       :key="val"
       @click="toHandleAdd(val, index, item.key)"
@@ -81,6 +82,7 @@
       class="_um-_confirm-message"
     >{{ deleteObj.explain }}</div><div
       class="_um-_confirm-item _um-_not-chooseable"
+      :style="{background: btnBackground}"
       v-for="val in deleteObj.list"
       :key="val"
       @click="toHandleRemove(val.key, item.key, index)"
@@ -100,7 +102,7 @@
 
 <script>
 import { defineComponent, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG, themeMap } from './staticData'
+import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG, themeConfigMap } from './staticData'
 
 let domClick = null
 
@@ -294,8 +296,21 @@ export default defineComponent({
     const addStyle = ref({ left: `calc(100% - 22px)`, bottom: 0 })
     const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
     const dashedStyle = ref({ width: 'calc(100% - 1rem)', left: 0, bottom: '8px' })
-    const selectStyle = ref({ bottom: '-5px', right: '27px' })
-    const confirmStyle = ref({ bottom: '-5px', right: '47px' })
+    const selectStyle = ref({
+      border: themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_border,
+      background: themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container,
+      outline: `2px solid ${themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container}`,
+      bottom: '-5px',
+      right: '27px',
+    })
+    const confirmStyle = ref({
+      border: themeConfigMap[UM_NOTE_CONFIG.theme].deleteSelect_border,
+      background: themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container,
+      outline: `2px solid ${themeConfigMap[UM_NOTE_CONFIG.theme].languageSelect_container}`,
+      bottom: '-5px',
+      right: '47px',
+    })
+    const btnBackground = ref(themeConfigMap[UM_NOTE_CONFIG.theme].button_background)
     let last_lang = 0
     const handleScroll = (e) => {
       const offset = preRef.value.scrollLeft
@@ -379,16 +394,18 @@ export default defineComponent({
         }
       }
       addIndex.value = index
-      nextTick(() => {
-        const selectEl = document.querySelector(`#${elementKey}_selectBox`)
-        const _codeTagEl = document.querySelector(`#${elementKey}_codeBox`)
-        if (selectEl.offsetHeight > _codeTagEl.offsetHeight + _codeTagEl.offsetTop - 11) {
-          codeTagEl = _codeTagEl
-          codeTagHeightOrigin = codeTagEl.offsetHeight
-          codeTagEl.style.height = `${selectEl.offsetHeight - 3}px`
-        }
-        if (props.height === 'auto') setContainerHeight()
-      })
+      if (add.value) {
+        nextTick(() => {
+          const selectEl = document.querySelector(`#${elementKey}_selectBox`)
+          const _codeTagEl = document.querySelector(`#${elementKey}_codeBox`)
+          if (selectEl.offsetHeight > _codeTagEl.offsetHeight + _codeTagEl.offsetTop - 11) {
+            codeTagEl = _codeTagEl
+            codeTagHeightOrigin = codeTagEl.offsetHeight
+            codeTagEl.style.height = `${selectEl.offsetHeight - 3}px`
+          }
+          if (props.height === 'auto') setContainerHeight()
+        })
+      }
     }
     const toHandleAdd = (val, index) => {
       const key = getKey()
@@ -466,12 +483,11 @@ export default defineComponent({
     const setContainerHeight = () => {
       containerStyle.value.height = `${preRef.value.offsetHeight + 19}px`
     }
-
     const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
     const containerStyle = ref({
       width: ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px'),
       height: ref(showing.value ? 'auto' : '16px'),
-      background: themeMap[UM_NOTE_CONFIG.theme].container_background,
+      background: themeConfigMap[UM_NOTE_CONFIG.theme].container_background,
     })
 
     const toFoldOrUnfold = () => {
@@ -486,13 +502,13 @@ export default defineComponent({
       }
     }
 
-    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themeMap[UM_NOTE_CONFIG.theme].head_background_hidden })
+    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themeConfigMap[UM_NOTE_CONFIG.theme].head_background_hidden })
     watch(
       () => {
         return showing.value
       },
       val => {
-        headBoxStyle.value = { background: val ? 'transparent' : themeMap[UM_NOTE_CONFIG.theme].head_background_hidden }
+        headBoxStyle.value = { background: val ? 'transparent' : themeConfigMap[UM_NOTE_CONFIG.theme].head_background_hidden }
       }
     )
 
@@ -526,6 +542,7 @@ export default defineComponent({
       confirmStyle,
 
       headBoxStyle,
+      btnBackground,
 
       codeList,
       contentChange,

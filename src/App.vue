@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <um-note
+      class="code-outsize"
       ref="abc"
       :width="width"
       language="javascript"
@@ -56,5 +57,5 @@ export default defineComponent({
 
 <style>
 #app { width: 100%; height: 100%; overflow: hidden; position: relative; }
-/* .code-outsize { margin-left: 30%; margin-top: 10px; } */
+.code-outsize { margin-left: 50px; margin-top: 50px; }
 </style>

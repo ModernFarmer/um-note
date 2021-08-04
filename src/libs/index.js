@@ -1,5 +1,5 @@
 import UmNoteTemplate from './template/note/index.vue'
-import { _languageMap, getLanguage, UM_NOTE_CONFIG } from './template/note/staticData'
+import { _languageMap, getLanguage, UM_NOTE_CONFIG, themeConfigMap } from './template/note/staticData'
 import components from 'prismjs/components.js'
 import loadLanguages from './template/note/modified-prism.js'
 
@@ -62,4 +62,6 @@ export const UmNoteConfig = (json) => {
     require('prismjs/themes/prism.css')
     UM_NOTE_CONFIG.theme = 'default'
   }
+  document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themeConfigMap[UM_NOTE_CONFIG.theme].button_hover_delete}; }`)
+  document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themeConfigMap[UM_NOTE_CONFIG.theme].button_hover_add}; }`)
 }
