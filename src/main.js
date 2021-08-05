@@ -24,7 +24,8 @@ UmNoteConfig({
     explain: '确定删除?',
   },
   languages: ['html', 'javascript', 'css', 'c++'],
-  theme: 'default',
+  // theme: 'okaidia',
+  theme: 'dark',
 })
-
+// ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
 createApp(App).use(store).use(router).use(UmNote).mount('#app')
