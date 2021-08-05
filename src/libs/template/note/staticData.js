@@ -31,7 +31,14 @@ export const themeConfigMap = {
     deleteSelect_border: '#b9a58b',
     button_background: 'rgba(0, 0, 0, .05)',
     button_hover_add: '#e90',
-    button_hover_delete: '#07a',
+    button_hover_delete: '#fd971f',
+    edit_container: 'rgba(0, 0, 0, .05)',
+    edit_color: '#6b6b6b',
+    edit_background_hover: 'rgba(0, 0, 0, .3)',
+    edit_color_hover_cancel: 'red',
+    edit_color_hover_ok: '#0fec3f',
+    add_minus_color: 'rgba(0, 0, 0, .2)',
+    confirm_message_color: '#4d4d4d',
   },
   coy: {
     container_background: '',
@@ -47,6 +54,13 @@ export const themeConfigMap = {
     button_background: '',
     button_hover_add: '',
     button_hover_delete: '',
+    edit_container: '',
+    edit_color: '',
+    edit_background_hover: '',
+    edit_color_hover_cancel: '',
+    edit_color_hover_ok: '',
+    add_minus_color: '',
+    confirm_message_color: '',
   },
   dark: {
     container_background: '',
@@ -62,6 +76,13 @@ export const themeConfigMap = {
     button_background: '',
     button_hover_add: '',
     button_hover_delete: '',
+    edit_container: '',
+    edit_color: '',
+    edit_background_hover: '',
+    edit_color_hover_cancel: '',
+    edit_color_hover_ok: '',
+    add_minus_color: '',
+    confirm_message_color: '',
   },
   funky: {
     container_background: '',
@@ -77,6 +98,13 @@ export const themeConfigMap = {
     button_background: '',
     button_hover_add: '',
     button_hover_delete: '',
+    edit_container: '',
+    edit_color: '',
+    edit_background_hover: '',
+    edit_color_hover_cancel: '',
+    edit_color_hover_ok: '',
+    add_minus_color: '',
+    confirm_message_color: '',
   },
   okaidia: {
     container_background: '#272822', // 最外层容器背景颜色
@@ -89,9 +117,16 @@ export const themeConfigMap = {
     languageSelect_container: '#474747', // 添加弹框和删除弹框背景颜色
     languageSelect_border: '#0A84D7', // 添加弹框的包边线条颜色
     deleteSelect_border: '#f92672', // 删除弹框的包边线条颜色
-    button_background: 'rgba(255, 255, 255, .1)', // 添加弹框和删除弹框里面的按钮的背景颜色
+    button_background: 'rgba(255, 255, 255, .1)', // 弹框里面的按钮的背景颜色
     button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
     button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
+    edit_container: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框背景颜色
+    edit_color: 'white', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'red', // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f', // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672', // 删除代码块弹框的提示信息字体颜色
   },
   solarizedlight: {
     container_background: '',
@@ -107,6 +142,13 @@ export const themeConfigMap = {
     button_background: '',
     button_hover_add: '',
     button_hover_delete: '',
+    edit_container: '',
+    edit_color: '',
+    edit_background_hover: '',
+    edit_color_hover_cancel: '',
+    edit_color_hover_ok: '',
+    add_minus_color: '',
+    confirm_message_color: '',
   },
   tomorrow: {
     container_background: '',
@@ -122,6 +164,13 @@ export const themeConfigMap = {
     button_background: '',
     button_hover_add: '',
     button_hover_delete: '',
+    edit_container: '',
+    edit_color: '',
+    edit_background_hover: '',
+    edit_color_hover_cancel: '',
+    edit_color_hover_ok: '',
+    add_minus_color: '',
+    confirm_message_color: '',
   },
   twilight: {
     container_background: '',
@@ -137,6 +186,13 @@ export const themeConfigMap = {
     button_background: '',
     button_hover_add: '',
     button_hover_delete: '',
+    edit_container: '',
+    edit_color: '',
+    edit_background_hover: '',
+    edit_color_hover_cancel: '',
+    edit_color_hover_ok: '',
+    add_minus_color: '',
+    confirm_message_color: '',
   },
 }
 

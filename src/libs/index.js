@@ -62,9 +62,16 @@ export const UmNoteConfig = (json) => {
     require('prismjs/themes/prism.css')
     UM_NOTE_CONFIG.theme = 'default'
   }
-  document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themeConfigMap[UM_NOTE_CONFIG.theme].button_hover_delete}; }`)
-  document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themeConfigMap[UM_NOTE_CONFIG.theme].button_hover_add}; }`)
-  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ${themeConfigMap[UM_NOTE_CONFIG.theme].container_background}; cursor: pointer; }`)
-  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-thumb { background: ${themeConfigMap[UM_NOTE_CONFIG.theme].soroll_thumb_background}; border-radius: 2px; }`)
-  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-corner { background: ${themeConfigMap[UM_NOTE_CONFIG.theme].container_background}; }`)
+  const themesData = themeConfigMap[UM_NOTE_CONFIG.theme]
+  document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themesData.button_hover_delete}; }`)
+  document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themesData.button_hover_add}; }`)
+  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ${themesData.container_background}; cursor: pointer; }`)
+  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-thumb { background: ${themesData.soroll_thumb_background}; border-radius: 2px; }`)
+  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-corner { background: ${themesData.container_background}; }`)
+  document.styleSheets[0].insertRule(`._um-_submit-item-cancel,._um-_submit-item-ok { background: ${themesData.button_background}; color: ${themesData.edit_color}; }`)
+  document.styleSheets[0].insertRule(`._um-_submit-item-cancel:hover { color: ${themesData.edit_color_hover_cancel}; background: ${themesData.edit_background_hover}; }`)
+  document.styleSheets[0].insertRule(`._um-_submit-item-ok:hover { color: ${themesData.edit_color_hover_ok}; background: ${themesData.edit_background_hover}; }`)
+  document.styleSheets[0].insertRule(`._um-_sign-add, ._um-_sign-minus { color: ${themesData.add_minus_color}; }`)
+  document.styleSheets[0].insertRule(`._um-_sign-add:hover { color: ${themesData.edit_color_hover_ok}; }`)
+  document.styleSheets[0].insertRule(`._um-_sign-minus:hover { color: ${themesData.edit_color_hover_cancel}; }`)
 }

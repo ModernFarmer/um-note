@@ -30,10 +30,11 @@
       ></div>
       <div
         class="_um-_submit-confirm"
+        :style="{ background: confirmBackground }"
         v-if="submit"
         @click.stop
       >
-        <div class="_um-_submit-item-cancel" @click="submit = false">×</div>
+        <div class="_um-_submit-item-cancel" @click="submit = false"><span class="_um-submit-span">×</span></div>
         <div class="_um-_submit-item-ok" @click="toHandleSubmit">√</div>
       </div>
     </div>
@@ -80,6 +81,7 @@
       v-if="remove && index === removeIndex"
     ><div
       class="_um-_confirm-message"
+      :style="{ color: confirmMessageColor }"
     >{{ deleteObj.explain }}</div><div
       class="_um-_confirm-item _um-_not-chooseable"
       :style="{background: btnBackground}"
@@ -312,6 +314,8 @@ export default defineComponent({
       right: '47px',
     })
     const btnBackground = ref(themesData.button_background)
+    const confirmBackground = ref(themesData.edit_container)
+    const confirmMessageColor = ref(themesData.confirm_message_color)
     const unfoldColor = ref(themesData.unfold_text_color)
     const arrowColor = ref(themesData.unfold_arrow_color)
     let last_lang = 0
@@ -545,6 +549,8 @@ export default defineComponent({
       confirmStyle,
       headBoxStyle,
       btnBackground,
+      confirmBackground,
+      confirmMessageColor,
       unfoldColor,
       arrowColor,
       codeList,
