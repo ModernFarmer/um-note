@@ -63,8 +63,8 @@ export const UmNoteConfig = (json) => {
     UM_NOTE_CONFIG.theme = 'default'
   }
   const themesData = themeConfigMap[UM_NOTE_CONFIG.theme]
-  document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themesData.button_hover_delete}; }`)
-  document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themesData.button_hover_add}; }`)
+  document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themesData.button_hover_delete}; background: ${themesData.button_hover_background} }`)
+  document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themesData.button_hover_add}; background: ${themesData.button_hover_background} }`)
   document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ${themesData.container_background}; cursor: pointer; }`)
   document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-thumb { background: ${themesData.soroll_thumb_background}; border-radius: 2px; }`)
   document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-corner { background: ${themesData.container_background}; }`)
@@ -74,4 +74,5 @@ export const UmNoteConfig = (json) => {
   document.styleSheets[0].insertRule(`._um-_sign-add, ._um-_sign-minus { color: ${themesData.add_minus_color}; }`)
   document.styleSheets[0].insertRule(`._um-_sign-add:hover { color: ${themesData.edit_color_hover_ok}; }`)
   document.styleSheets[0].insertRule(`._um-_sign-minus:hover { color: ${themesData.edit_color_hover_cancel}; }`)
+  if (UM_NOTE_CONFIG.theme === 'funky') document.styleSheets[0].insertRule(`pre[class*="language-"] { background: url('data:image/svg+xml;charset=utf-8,<svg%20version%3D"1.1"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"%20width%3D"100"%20height%3D"100"%20fill%3D"rgba(0%2C0%2C0%2C.05)">%0D%0A<polygon%20points%3D"0%2C50%2050%2C0%200%2C0"%20%2F>%0D%0A<polygon%20points%3D"0%2C100%2050%2C100%20100%2C50%20100%2C0"%20%2F>%0D%0A<%2Fsvg>') !important; background-size: 1em 1em !important; }`)
 }
