@@ -1,6 +1,6 @@
 <template>
   <div class="_um-_note-container" :style="containerStyle">
-    <div class="_um-_note-headbox"
+    <div class="_um-_note-headbox _um-_not-chooseable"
       :style="headBoxStyle"
     >
       <div class="_um-_unfold-box"
@@ -71,7 +71,6 @@
       v-if="add && index === addIndex"
     ><div
       class="_um-_select-item _um-_not-chooseable"
-      :style="{background: btnBackground}"
       v-for="val in languageList"
       :key="val"
       @click="toHandleAdd(val, index, item.key)"
@@ -84,7 +83,6 @@
       :style="{ color: confirmMessageColor }"
     >{{ deleteObj.explain }}</div><div
       class="_um-_confirm-item _um-_not-chooseable"
-      :style="{background: btnBackground}"
       v-for="val in deleteObj.list"
       :key="val"
       @click="toHandleRemove(val.key, item.key, index)"
@@ -313,7 +311,6 @@ export default defineComponent({
       bottom: '-5px',
       right: '47px',
     })
-    const btnBackground = ref(themesData.button_background)
     const confirmBackground = ref(themesData.edit_container)
     const confirmMessageColor = ref(themesData.confirm_message_color)
     const unfoldColor = ref(themesData.unfold_text_color)
@@ -383,6 +380,11 @@ export default defineComponent({
         submit.value = bl
       },
     }
+    const close = () => {
+      add.value = false
+      remove.value = false
+      submit.value = false
+    }
     const toAdd = (index, elementKey) => {
       remove.value = false
       submit.value = false
@@ -420,6 +422,7 @@ export default defineComponent({
         key,
         language: val.fnKey,
         showingLanguage: val.value,
+        code: '',
         processedCode: '',
       })
       setCore(coreObj, key)
@@ -436,6 +439,8 @@ export default defineComponent({
       }
     }
     const toSubmit = () => {
+      add.value = false
+      remove.value = false
       if (UM_NOTE_CONFIG.submitConfigure) {
         UM_NOTE_CONFIG.submitConfigure(submitConfig)
       } else {
@@ -448,7 +453,7 @@ export default defineComponent({
         Reflect.deleteProperty(json, 'key')
         return json
       })
-      emit('submit', data)
+      emit('submit', { data, close })
     }
     const toRemove = (index) => {
       add.value = false
@@ -548,7 +553,6 @@ export default defineComponent({
       selectStyle,
       confirmStyle,
       headBoxStyle,
-      btnBackground,
       confirmBackground,
       confirmMessageColor,
       unfoldColor,

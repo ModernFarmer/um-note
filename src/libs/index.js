@@ -63,7 +63,9 @@ export const UmNoteConfig = (json) => {
     UM_NOTE_CONFIG.theme = 'default'
   }
   const themesData = themeConfigMap[UM_NOTE_CONFIG.theme]
+  document.styleSheets[0].insertRule(`._um-_confirm-item { background: ${themesData.button_background} }`)
   document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themesData.button_hover_delete}; background: ${themesData.button_hover_background} }`)
+  document.styleSheets[0].insertRule(`._um-_select-item { background: ${themesData.button_background} }`)
   document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themesData.button_hover_add}; background: ${themesData.button_hover_background} }`)
   document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ${themesData.container_background}; cursor: pointer; }`)
   document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-thumb { background: ${themesData.soroll_thumb_background}; border-radius: 2px; }`)

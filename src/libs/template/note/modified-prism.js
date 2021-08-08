@@ -1,6 +1,3 @@
-// const components = require('../components.js');
-// const getLoader = require('../dependencies');
-
 const components = require('prismjs/components.js');
 const getLoader = require('prismjs/dependencies.js');
 

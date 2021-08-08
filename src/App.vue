@@ -68,8 +68,9 @@ getLanguage.list = _languageMap.lanList
       }]
     }, 2000) */
 
-    const submit = (data) => {
+    const submit = ({data, close}) => {
       console.log(data)
+      close()
     }
 
     onMounted(() => {

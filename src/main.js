@@ -25,7 +25,7 @@ UmNoteConfig({
   },
   languages: ['html', 'javascript', 'css', 'c++'],
   // theme: 'okaidia',
-  theme: 'solarizedlight',
+  theme: 'default',
 })
 // ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
 createApp(App).use(store).use(router).use(UmNote).mount('#app')
