@@ -102,7 +102,7 @@
 
 <script>
 import { defineComponent, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG, themeConfigMap } from './staticData'
+import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG, themeConfigMap } from './publicData'
 
 let domClick = null
 
@@ -572,9 +572,6 @@ export default defineComponent({
       toSubmit,
       toFoldOrUnfold,
     }
-  },
-  mounted () {
-    
   },
 })
 </script>

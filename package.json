@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "build:package": "vue-cli-service build --target lib ./src/libs/index.js --dest um-note --name um-note"
   },
   "dependencies": {
     "core-js": "^3.6.5",

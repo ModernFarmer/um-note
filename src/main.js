@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 
 import { UmNote, UmNoteConfig } from '@/libs'
+// import { UmNote, UmNoteConfig } from '../um-note/um-note.umd'
+// require('../um-note/um-note.css')
 
 UmNoteConfig({
   addConfigure (config) {
@@ -25,7 +27,7 @@ UmNoteConfig({
   },
   languages: ['html', 'javascript', 'css', 'c++'],
   // theme: 'okaidia',
-  theme: 'default',
+  theme: 'twilight',
 })
 // ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
 createApp(App).use(store).use(router).use(UmNote).mount('#app')

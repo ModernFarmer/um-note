@@ -7,7 +7,6 @@ pre[class*="language-"] {
 	-moz-box-sizing: content-box !important;
 	box-sizing: content-box !important;
 	border: none !important;
-	border-radius: 0 !important;
 }
 
 ._um-_note-container { min-width: 260px; overflow: hidden; border-radius: 3px; transition: .3s; position: relative; }
@@ -37,22 +36,3 @@ pre[class*="language-"] {
 ._um-_confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }
 /* ._um-_code-class 这里的display务必要写inline-bolock, 不能写bolock, 因为bolock的情况下编辑点回车的时候code标签下会直接产生一个div标签, 而不是添加换行符 */
 ._um-_code-class { min-width: calc(100% - 1rem); display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }
-
-
-/* 一些颜色方案 */
-.ColorScheme { background: #002b36; }
-.ColorScheme { background: #073642; }
-.ColorScheme { background: #586e75; }
-.ColorScheme { background: #657b83; }
-.ColorScheme { background: #839496; }
-.ColorScheme { background: #93a1a1; }
-.ColorScheme { background: #eee8d5; }
-.ColorScheme { background: #fdf6e3; }
-.ColorScheme { background: #b58900; }
-.ColorScheme { background: #cb4b16; }
-.ColorScheme { background: #dc322f; }
-.ColorScheme { background: #d33682; }
-.ColorScheme { background: #6c71c4; }
-.ColorScheme { background: #268bd2; }
-.ColorScheme { background: #2aa198; }
-.ColorScheme { background: #859900; }

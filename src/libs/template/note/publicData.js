@@ -1,4 +1,4 @@
-import './style.css'
+// import './style.css' // 开发调试样式用
 import 'prismjs'
 window.Prism = window.Prism || {}
 Prism.manual = true
