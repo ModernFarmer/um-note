@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import { UmNote, UmNoteConfig } from '@/libs'
+import { UmNote, UmNoteConfig } from '@/libs' // 本地调试
 // import { UmNote, UmNoteConfig } from '../um-note/um-note.umd'
 
 // console.log(Prism.allLanguages)

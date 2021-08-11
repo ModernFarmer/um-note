@@ -1,7 +1,25 @@
 {
   "name": "um-note",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "bugs": {
+    "url": "https://github.com/ModernFarmer/um-note/issues",
+    "email": "850558682@qq.com"
+  },
+  "homepage": "https://github.com/ModernFarmer/um-note",
+  "description": "",
+  "main": "um-note/um-note.umd.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ModernFarmer/um-note.git"
+  },
+  "keywords": [
+    "highlight",
+    "code",
+    "prism",
+    "pre"
+  ],
+  "author": "unclemao",
+  "license": "ISC",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

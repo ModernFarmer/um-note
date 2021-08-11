@@ -28727,14 +28727,14 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
-var es_object_entries = __webpack_require__("4fad");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
 var es_array_for_each = __webpack_require__("4160");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
+var es_object_entries = __webpack_require__("4fad");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.is-array.js
 var es_array_is_array = __webpack_require__("277d");
@@ -28754,7 +28754,7 @@ var es_array_concat = __webpack_require__("99af");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./src/libs/template/note/index.vue?vue&type=template&id=0f57bfbe
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./src/libs/template/note/index.vue?vue&type=template&id=0d7928ea
 
 
 
@@ -28911,7 +28911,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 40, ["id", "contenteditable", "innerHTML", "onInput", "onKeydown", "onPaste", "onCompositionstart", "onCompositionend"])], 8, ["id"]);
   }), 128))], 36)], 4);
 }
-// CONCATENATED MODULE: ./src/libs/template/note/index.vue?vue&type=template&id=0f57bfbe
+// CONCATENATED MODULE: ./src/libs/template/note/index.vue?vue&type=template&id=0d7928ea
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
@@ -30417,7 +30417,7 @@ var domClick = null;
       submit.value = false;
 
       if (UM_NOTE_CONFIG.addConfigure) {
-        if (addIndex.value !== index) {
+        if (add.value || addIndex.value !== index) {
           add.value = false;
 
           _u_resetStyle();
@@ -30470,7 +30470,11 @@ var domClick = null;
 
     var toEdit = function toEdit() {
       if (UM_NOTE_CONFIG.editConfigure) {
-        UM_NOTE_CONFIG.editConfigure(editConfig);
+        if (edit.value) {
+          edit.value = false;
+        } else {
+          UM_NOTE_CONFIG.editConfigure(editConfig);
+        }
       } else {
         edit.value = !edit.value;
       }
@@ -30481,7 +30485,11 @@ var domClick = null;
       remove.value = false;
 
       if (UM_NOTE_CONFIG.submitConfigure) {
-        UM_NOTE_CONFIG.submitConfigure(submitConfig);
+        if (submit.value) {
+          submit.value = false;
+        } else {
+          UM_NOTE_CONFIG.submitConfigure(submitConfig);
+        }
       } else {
         submit.value = !submit.value;
       }
@@ -30507,8 +30515,11 @@ var domClick = null;
       _u_resetStyle();
 
       if (UM_NOTE_CONFIG.removeConfigure) {
-        if (removeIndex.value !== index) remove.value = false;
-        UM_NOTE_CONFIG.removeConfigure(removeConfig);
+        if (remove.value || removeIndex.value !== index) {
+          remove.value = false;
+        } else {
+          UM_NOTE_CONFIG.removeConfigure(removeConfig);
+        }
       } else {
         if (removeIndex.value === index) {
           remove.value = !remove.value;
@@ -30659,14 +30670,15 @@ var modified_prism_default = /*#__PURE__*/__webpack_require__.n(modified_prism);
 
 
 
-console.log(Object.entries(components_default.a.languages));
 var fullMap = {};
+var allLanguages = [];
 Object.entries(components_default.a.languages).forEach(function (item) {
   if (item[0] !== 'meta') {
     var json = {
       fnTitle: item[0],
       showTitle: item[1].title
     };
+    allLanguages.push(json.showTitle);
     fullMap[item[0]] = fullMap[item[1].title.toLowerCase()] = json;
     var alias = item[1].alias;
 
@@ -30681,7 +30693,12 @@ Object.entries(components_default.a.languages).forEach(function (item) {
     }
   }
 });
-console.log(fullMap);
+window.Prism.allLanguages = allLanguages;
+
+window.Prism.hasLanguage = function (language) {
+  return fullMap[language.toLowerCase()] === undefined ? false : true;
+};
+
 var UmNote = {
   install: function install(Vue) {
     Vue.component('UmNote', note);
@@ -30699,7 +30716,7 @@ var libs_UmNoteConfig = function UmNoteConfig(json) {
     var lanList = [];
     var fnKeyList = [];
     json.languages.forEach(function (val) {
-      var item = fullMap[val];
+      var item = fullMap[val.toLowerCase()];
 
       if (item) {
         lanMap[item.fnTitle] = lanMap[item.showTitle.toLowerCase()] = item;
