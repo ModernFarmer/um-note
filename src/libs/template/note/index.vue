@@ -102,7 +102,8 @@
 
 <script>
 import { defineComponent, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG, themeConfigMap } from './publicData'
+import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG } from './publicData'
+import { themeConfigMap } from './theme'
 
 let domClick = null
 
@@ -170,7 +171,7 @@ export default defineComponent({
                 language,
                 showingLanguage,
                 code: item.code || '',
-                processedCode: Prism.highlight(item.code || '', Prism.languages[language], language),
+                processedCode: window.Prism.highlight(item.code || '', window.Prism.languages[language], language),
               }
             })
           } else {
@@ -196,7 +197,7 @@ export default defineComponent({
               language,
               showingLanguage,
               code: codes.code || '',
-              processedCode: Prism.highlight(codes.code || '', Prism.languages[language], language),
+              processedCode: window.Prism.highlight(codes.code || '', window.Prism.languages[language], language),
             }
           ]
         } else { // 如果props.codes是一个字符串
@@ -210,7 +211,7 @@ export default defineComponent({
               language,
               showingLanguage,
               code: codes || '',
-              processedCode: Prism.highlight(codes || '', Prism.languages[language], language),
+              processedCode: window.Prism.highlight(codes || '', window.Prism.languages[language], language),
             }
           ]
         }
@@ -262,7 +263,7 @@ export default defineComponent({
       }
 
       targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, (totalOffset, textContent) => {
-        const realContent = Prism.highlight(textContent, Prism.languages[item.language], item.language)
+        const realContent = window.Prism.highlight(textContent, window.Prism.languages[item.language], item.language)
         // 当realContent === item.processedCode时, 不会触发页面更新, 须手动更新
         // 适用于当全选内容并粘贴的情况
         if (realContent === item.processedCode) {
@@ -389,7 +390,7 @@ export default defineComponent({
       remove.value = false
       submit.value = false
       if (UM_NOTE_CONFIG.addConfigure) {
-        if (addIndex.value !== index) {
+        if (add.value || addIndex.value !== index) {
           add.value = false
           _u_resetStyle()
         }
@@ -433,7 +434,11 @@ export default defineComponent({
     }
     const toEdit = () => {
       if (UM_NOTE_CONFIG.editConfigure) {
-        UM_NOTE_CONFIG.editConfigure(editConfig)
+        if (edit.value) {
+          edit.value = false
+        } else {
+          UM_NOTE_CONFIG.editConfigure(editConfig)
+        }
       } else {
         edit.value = !edit.value
       }
@@ -442,7 +447,11 @@ export default defineComponent({
       add.value = false
       remove.value = false
       if (UM_NOTE_CONFIG.submitConfigure) {
-        UM_NOTE_CONFIG.submitConfigure(submitConfig)
+        if (submit.value) {
+          submit.value = false
+        } else {
+          UM_NOTE_CONFIG.submitConfigure(submitConfig)
+        }
       } else {
         submit.value = !submit.value
       }
@@ -460,8 +469,11 @@ export default defineComponent({
       submit.value = false
       _u_resetStyle()
       if (UM_NOTE_CONFIG.removeConfigure) {
-        if (removeIndex.value !== index) remove.value = false
-        UM_NOTE_CONFIG.removeConfigure(removeConfig)
+        if (remove.value || removeIndex.value !== index) {
+          remove.value = false
+        } else {
+          UM_NOTE_CONFIG.removeConfigure(removeConfig)
+        }
       } else {
         if (removeIndex.value === index) {
           remove.value = !remove.value

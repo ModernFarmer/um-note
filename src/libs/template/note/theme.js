@@ -1,4 +1,210 @@
-export default {
+/**
+ * 主题颜色配置相关数据
+ */
+export const themeConfigMap = {
+  default: {
+    container_background: '#f5f2f0', // 最外层容器背景颜色
+    head_background_hidden: 'rgb(0, 0, 0, .1)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: '#07a', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#690', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0, 0, 0, .05)', // 滚动条滑块颜色
+    language_color: 'rgb(180, 180, 180)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(230, 230, 230)', // 分割线样式
+    languageSelect_container: '#eae6e3', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(0, 0, 0, .2)', // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(0, 0, 0, .2)', // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .05)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#e90', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#e90', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .08)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .05)', // 编辑二次确认弹框背景颜色
+    edit_color: '#6b6b6b', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .1)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'white', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: 'white', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: 'rgba(0, 0, 0, .4)', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: 'rgba(0, 0, 0, .4)', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .2)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#4d4d4d', // 删除代码块弹框的提示信息字体颜色
+  },
+  coy: {
+    container_background: '#fdfdfd', // 最外层容器背景颜色
+    head_background_hidden: 'rgb(0, 0, 0, .02)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: '#e90', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#a67f59', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0, 0, 0, .04)', // 滚动条滑块颜色
+    language_color: 'rgb(220, 220, 220)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(240, 240, 240)', // 分割线样式
+    languageSelect_container: 'rgb(245, 245, 245)', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(0, 0, 0, .15)', // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(0, 0, 0, .15)', // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .08)', // 弹框里面的按钮的背景颜色
+    button_hover_add: 'white', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: 'white', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .15)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .05)', // 编辑二次确认弹框背景颜色
+    edit_color: '#6b6b6b', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .2)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'white', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: 'white', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#979797', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#979797', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .2)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#4d4d4d', // 删除代码块弹框的提示信息字体颜色
+  },
+  dark: {
+    container_background: '#272822', // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255,255,255,.25)', // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)', // 分割线样式
+    languageSelect_container: '#383838', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(255, 255, 255, .2)', // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(255, 255, 255, .2)', // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框背景颜色
+    edit_color: 'white', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: 'rgb(180, 180, 180)', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: 'rgb(180, 180, 180)', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: 'hsl(350, 40%, 70%)', // 删除代码块弹框的提示信息字体颜色
+  },
+  funky: {
+    container_background: 'rgba(0, 0, 0, .1)', // 最外层容器背景颜色
+    head_background_hidden: 'rgba(0, 0, 0, .05)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'rgba(0, 0, 0, .7)', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: 'rgba(0, 0, 0, .5)', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0,0,0,.15)', // 滚动条滑块颜色
+    language_color: 'rgba(0, 0, 0, .2)', // 语言提示字体的颜色
+    block_hr_background: 'rgba(0, 0, 0, .1)', // 分割线样式
+    languageSelect_container: 'rgba(0, 0, 0, .2)', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(255, 255, 255, .2)', // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(255, 255, 255, .2)', // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .15)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .25)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .1)', // 编辑二次确认弹框背景颜色
+    edit_color: '#6b6b6b', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .25)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'white', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: 'white', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: 'orange', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: 'orange', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .25)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: 'rgba(255, 255, 255, 08)', // 删除代码块弹框的提示信息字体颜色
+  },
+  okaidia: {
+    container_background: '#272822', // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255, 255, 255, .2)', // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)', // 分割线样式
+    languageSelect_container: '#474747', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#0A84D7', // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672', // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框背景颜色
+    edit_color: 'white', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#e6db74', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#e6db74', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672', // 删除代码块弹框的提示信息字体颜色
+  },
+  solarizedlight: {
+    container_background: '#fdf6e3', // 最外层容器背景颜色
+    head_background_hidden: '#eee8d5', // 折叠代码时头部bar背景颜色
+    unfold_text_color: '#cb4b16', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#93a1a1', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0, 0, 0, .05)', // 滚动条滑块颜色
+    language_color: 'rgba(0, 0, 0, .2)', // 语言提示字体的颜色
+    block_hr_background: 'rgba(0, 0, 0, .05)', // 分割线样式
+    languageSelect_container: '#eee8d5', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#93a1a1', // 添加弹框的包边线条颜色
+    deleteSelect_border: '#93a1a1', // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .08)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#fdf6e3', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#fdf6e3', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .2)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .05)', // 编辑二次确认弹框背景颜色
+    edit_color: 'white', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .12)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#268bd2', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#268bd2', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .3)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#657b83', // 删除代码块弹框的提示信息字体颜色
+  },
+  tomorrow: {
+    container_background: '#2d2d2d', // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255, 255, 255, .2)', // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)', // 分割线样式
+    languageSelect_container: '#474747', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#0A84D7', // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672', // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框背景颜色
+    edit_color: 'white', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#e6db74', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#e6db74', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672', // 删除代码块弹框的提示信息字体颜色
+  },
+  twilight: {
+    container_background: 'hsl(0, 0%, 8%)', // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)', // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange', // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74', // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255, 255, 255, .2)', // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)', // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)', // 分割线样式
+    languageSelect_container: '#474747', // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#0A84D7', // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672', // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)', // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f', // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef', // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)', // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框背景颜色
+    edit_color: 'white', // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)', // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f', // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f', // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#e6db74', // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#e6db74', // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)', // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672', // 删除代码块弹框的提示信息字体颜色
+  },
+}
+
+export const themeChoice = {
   twilight () {
     document.styleSheets[0].insertRule(`pre[class*="language-"] { color: white; background: hsl(0, 0%, 8%); font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; text-shadow: 0 -.1em .2em black; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; box-shadow: 1px 1px .5em black inset; }`)
     try { document.styleSheets[0].insertRule(`pre[class*="language-"] ::selection { text-shadow: none; background: hsla(0, 0%, 93%, 0.15); }`) } catch {}
@@ -175,4 +381,23 @@ export default {
     document.styleSheets[0].insertRule(`._um-_confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }`)
     document.styleSheets[0].insertRule(`._um-_code-class { min-width: calc(100% - 1rem); display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }`)
   },
+}
+
+export const injectCSS = theme => {
+  themeChoice.public()
+  themeChoice[theme]()
+  const themesData = themeConfigMap[theme]
+  document.styleSheets[0].insertRule(`._um-_confirm-item { background: ${themesData.button_background} }`)
+  document.styleSheets[0].insertRule(`._um-_confirm-item:hover { color: ${themesData.button_hover_delete}; background: ${themesData.button_hover_background} }`)
+  document.styleSheets[0].insertRule(`._um-_select-item { background: ${themesData.button_background} }`)
+  document.styleSheets[0].insertRule(`._um-_select-item:hover { color: ${themesData.button_hover_add}; background: ${themesData.button_hover_background} }`)
+  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ${themesData.container_background}; cursor: pointer; }`)
+  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-thumb { background: ${themesData.soroll_thumb_background}; border-radius: 2px; }`)
+  document.styleSheets[0].insertRule(`._um-_pre-class::-webkit-scrollbar-corner { background: ${themesData.container_background}; }`)
+  document.styleSheets[0].insertRule(`._um-_submit-item-cancel,._um-_submit-item-ok { background: ${themesData.button_background}; color: ${themesData.edit_color}; }`)
+  document.styleSheets[0].insertRule(`._um-_submit-item-cancel:hover { color: ${themesData.edit_color_hover_cancel}; background: ${themesData.edit_background_hover}; }`)
+  document.styleSheets[0].insertRule(`._um-_submit-item-ok:hover { color: ${themesData.edit_color_hover_ok}; background: ${themesData.edit_background_hover}; }`)
+  document.styleSheets[0].insertRule(`._um-_sign-add, ._um-_sign-minus { color: ${themesData.add_minus_color}; }`)
+  document.styleSheets[0].insertRule(`._um-_sign-add:hover { color: ${themesData.delete_button_hover_add}; }`)
+  document.styleSheets[0].insertRule(`._um-_sign-minus:hover { color: ${themesData.delete_button_hover_minus}; }`)
 }

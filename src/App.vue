@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    sdfsdfsdfsdf
+    <button>Log In</button>
+    <button>Log Out</button>
     <um-note
       class="code-outsize"
-      ref="abc"
       :width="width"
       :height="'300px'"
       language="javascript"
@@ -18,11 +18,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const abc = ref()
     const width = ref('500px')
     const code = ref([{
       language: 'javascript',
@@ -59,27 +58,12 @@ getLanguage.list = _languageMap.lanList
       `
     }])
 
-    /* setTimeout(() => {
-      code.value = [{
-        language: 'javascript',
-        code: `function bbc () { console.log('bbc') }`
-      }, {
-        language: 'html',
-        code: `<div>hello word</div>`
-      }]
-    }, 2000) */
-
     const submit = ({data, close}) => {
       console.log(data)
       close()
     }
 
-    onMounted(() => {
-      // console.log(abc.value.submit)
-    })
-
     return {
-      abc,
       code,
       width,
       submit,

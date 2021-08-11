@@ -25,7 +25,7 @@ function loadLanguages(languages) {
 
 	// the user might have loaded languages via some other way or used `prism.js` which already includes some
 	// we don't need to validate the ids because `getLoader` will ignore invalid ones
-	const loaded = [...loadedLanguages, ...Object.keys(Prism.languages)];
+	const loaded = [...loadedLanguages, ...Object.keys(window.Prism.languages)];
 
 	getLoader(components, languages, loaded).load(lang => {
 		if (!(lang in components.languages)) {
@@ -38,7 +38,7 @@ function loadLanguages(languages) {
 		// remove from require cache and from Prism
 		// delete require.cache[require.resolve(`./prism-${lang}`)];
 		delete require.cache[require.resolve(`prismjs/components/prism-${lang}`)];
-		delete Prism.languages[lang];
+		delete window.Prism.languages[lang];
 
 		require(`prismjs/components/prism-${lang}`);
 

@@ -5,10 +5,21 @@ import store from './store'
 
 import { UmNote, UmNoteConfig } from '@/libs'
 // import { UmNote, UmNoteConfig } from '../um-note/um-note.umd'
-// require('../um-note/um-note.css')
+
+// console.log(Prism.allLanguages)
+// console.log(Prism.hasLanguage('html'))
 
 UmNoteConfig({
   addConfigure (config) {
+    // const num = Math.ceil(Math.random() * 100)
+    // console.log(num)
+    // setTimeout(() => {
+    //   if (num % 2 === 0) {
+    //     config.done = true
+    //   } else {
+    //     alert('Oh, no!!!')
+    //   }
+    // }, 1000)
     config.done = !config.done
   },
   editConfigure (config) {
@@ -18,6 +29,7 @@ UmNoteConfig({
     config.done = !config.done
   },
   submitConfigure (config) {
+    console.log('in')
     config.done = !config.done
   },
   contentNames: {
@@ -25,9 +37,9 @@ UmNoteConfig({
     confirm: '确定',
     explain: '确定删除?',
   },
-  languages: ['html', 'javascript', 'css', 'c++'],
+  languages: ['html', 'javascript', 'css', 'c++', 'ASP.NET (C#)'],
   // theme: 'okaidia',
-  theme: 'twilight',
+  theme: '',
 })
 // ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
 createApp(App).use(store).use(router).use(UmNote).mount('#app')

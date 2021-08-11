@@ -1221,13 +1221,6 @@ Prism.languages.applescript={comment:[/\(\*(?:\(\*(?:[^*]|\*(?!\)))*\*\)|(?!\(\*
 
 /***/ }),
 
-/***/ "13c4":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "13d8":
 /***/ (function(module, exports) {
 
@@ -7546,13 +7539,6 @@ module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
 
 /***/ }),
 
-/***/ "5792":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "57d8":
 /***/ (function(module, exports) {
 
@@ -9416,13 +9402,6 @@ Prism.languages.smalltalk={comment:/"(?:""|[^"])*"/,character:{pattern:/\$./,ali
 /***/ (function(module, exports) {
 
 Prism.languages.unrealscript={comment:/\/\/.*|\/\*[\s\S]*?\*\//,string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},category:{pattern:/(\b(?:(?:autoexpand|hide|show)categories|var)\s*\()[^()]+(?=\))/,lookbehind:!0,greedy:!0,alias:"property"},metadata:{pattern:/(\w\s*)<\s*\w+\s*=[^<>|=\r\n]+(?:\|\s*\w+\s*=[^<>|=\r\n]+)*>/,lookbehind:!0,greedy:!0,inside:{property:/\b\w+(?=\s*=)/,operator:/=/,punctuation:/[<>|]/}},macro:{pattern:/`\w+/,alias:"property"},"class-name":{pattern:/(\b(?:class|enum|extends|interface|state(?:\(\))?|struct|within)\s+)\w+/,lookbehind:!0},keyword:/\b(?:abstract|actor|array|auto|autoexpandcategories|bool|break|byte|case|class|classgroup|client|coerce|collapsecategories|config|const|continue|default|defaultproperties|delegate|dependson|deprecated|do|dontcollapsecategories|editconst|editinlinenew|else|enum|event|exec|export|extends|final|float|for|forcescriptorder|foreach|function|goto|guid|hidecategories|hidedropdown|if|ignores|implements|inherits|input|int|interface|iterator|latent|local|material|name|native|nativereplication|noexport|nontransient|noteditinlinenew|notplaceable|operator|optional|out|pawn|perobjectconfig|perobjectlocalized|placeable|postoperator|preoperator|private|protected|reliable|replication|return|server|showcategories|simulated|singular|state|static|string|struct|structdefault|structdefaultproperties|switch|texture|transient|travel|unreliable|until|var|vector|while|within)\b/,function:/\b[a-z_]\w*(?=\s*\()/i,boolean:/\b(?:false|true)\b/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/>>|<<|--|\+\+|\*\*|[-+*/~!=<>$@]=?|&&?|\|\|?|\^\^?|[?:%]|\b(?:Cross|Dot|ClockwiseFrom)\b/,punctuation:/[()[\]{};,.]/},Prism.languages.uc=Prism.languages.uscript=Prism.languages.unrealscript;
-
-/***/ }),
-
-/***/ "6b2c":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -12802,13 +12781,6 @@ module.exports = function (object, key, value) {
 /***/ (function(module, exports) {
 
 !function(p){var a=p.languages.javadoclike={parameter:{pattern:/(^[\t ]*(?:\/{3}|\*|\/\*\*)\s*@(?:param|arg|arguments)\s+)\w+/m,lookbehind:!0},keyword:{pattern:/(^[\t ]*(?:\/{3}|\*|\/\*\*)\s*|\{)@[a-z][a-zA-Z-]+\b/m,lookbehind:!0},punctuation:/[{}]/};Object.defineProperty(a,"addSupport",{value:function(a,e){"string"==typeof a&&(a=[a]),a.forEach(function(a){!function(a,e){var n="doc-comment",t=p.languages[a];if(t){var r=t[n];if(!r){var o={"doc-comment":{pattern:/(^|[^\\])\/\*\*[^/][\s\S]*?(?:\*\/|$)/,lookbehind:!0,alias:"comment"}};r=(t=p.languages.insertBefore(a,"comment",o))[n]}if(r instanceof RegExp&&(r=t[n]={pattern:r}),Array.isArray(r))for(var i=0,s=r.length;i<s;i++)r[i]instanceof RegExp&&(r[i]={pattern:r[i]}),e(r[i]);else e(r)}}(a,function(a){a.inside||(a.inside={}),a.inside.rest=e})})}}),a.addSupport(["java","javascript","php"],a)}(Prism);
-
-/***/ }),
-
-/***/ "84bf":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -16612,13 +16584,6 @@ module.exports = patchedExec;
 
 /***/ }),
 
-/***/ "92bf":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "9384":
 /***/ (function(module, exports) {
 
@@ -19126,13 +19091,6 @@ Prism.languages["firestore-security-rules"]=Prism.languages.extend("clike",{comm
 
 /***/ }),
 
-/***/ "a878":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "a894":
 /***/ (function(module, exports) {
 
@@ -19251,7 +19209,7 @@ function loadLanguages(languages) {
   // we don't need to validate the ids because `getLoader` will ignore invalid ones
 
 
-  var loaded = [].concat(_toConsumableArray(loadedLanguages), _toConsumableArray(Object.keys(Prism.languages)));
+  var loaded = [].concat(_toConsumableArray(loadedLanguages), _toConsumableArray(Object.keys(window.Prism.languages)));
   getLoader(components, languages, loaded).load(function (lang) {
     if (!(lang in components.languages)) {
       if (!loadLanguages.silent) {
@@ -19264,7 +19222,7 @@ function loadLanguages(languages) {
 
 
     delete __webpack_require__.c[/*require.resolve*/(__webpack_require__("3ada").resolve("./prism-".concat(lang)))];
-    delete Prism.languages[lang];
+    delete window.Prism.languages[lang];
 
     __webpack_require__("3ada")("./prism-".concat(lang));
 
@@ -21059,13 +21017,6 @@ Prism.languages.aql = {
 /***/ (function(module, exports) {
 
 !function(e){var s=/\b(?:double|float|[su]?int(?:32|64)|s?fixed(?:32|64)|bool|string|bytes)\b/;e.languages.protobuf=e.languages.extend("clike",{"class-name":[{pattern:/(\b(?:enum|extend|message|service)\s+)[A-Za-z_]\w*(?=\s*\{)/,lookbehind:!0},{pattern:/(\b(?:rpc\s+\w+|returns)\s*\(\s*(?:stream\s+)?)\.?[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*(?=\s*\))/,lookbehind:!0}],keyword:/\b(?:enum|extend|extensions|import|message|oneof|option|optional|package|public|repeated|required|reserved|returns|rpc(?=\s+\w)|service|stream|syntax|to)\b(?!\s*=\s*\d)/,function:/\b[a-z_]\w*(?=\s*\()/i}),e.languages.insertBefore("protobuf","operator",{map:{pattern:/\bmap<\s*[\w.]+\s*,\s*[\w.]+\s*>(?=\s+[a-z_]\w*\s*[=;])/i,alias:"class-name",inside:{punctuation:/[<>.,]/,builtin:s}},builtin:s,"positional-class-name":{pattern:/(?:\b|\B\.)[a-z_]\w*(?:\.[a-z_]\w*)*(?=\s+[a-z_]\w*\s*[=;])/i,alias:"class-name",inside:{punctuation:/\./}},annotation:{pattern:/(\[\s*)[a-z_]\w*(?=\s*=)/i,lookbehind:!0}})}(Prism);
-
-/***/ }),
-
-/***/ "be55":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -23904,6 +23855,29 @@ module.exports = function (object, names) {
 
 /***/ }),
 
+/***/ "caad":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var $includes = __webpack_require__("4d64").includes;
+var addToUnscopables = __webpack_require__("44d2");
+
+// `Array.prototype.includes` method
+// https://tc39.es/ecma262/#sec-array.prototype.includes
+$({ target: 'Array', proto: true }, {
+  includes: function includes(el /* , fromIndex = 0 */) {
+    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('includes');
+
+
+/***/ }),
+
 /***/ "cab0":
 /***/ (function(module, exports) {
 
@@ -25579,13 +25553,6 @@ module.exports = Object.keys || function keys(O) {
 /***/ (function(module, exports) {
 
 Prism.languages.q={string:/"(?:\\.|[^"\\\r\n])*"/,comment:[{pattern:/([\t )\]}])\/.*/,lookbehind:!0,greedy:!0},{pattern:/(^|\r?\n|\r)\/[\t ]*(?:(?:\r?\n|\r)(?:.*(?:\r?\n|\r(?!\n)))*?(?:\\(?=[\t ]*(?:\r?\n|\r))|$)|\S.*)/,lookbehind:!0,greedy:!0},{pattern:/^\\[\t ]*(?:\r?\n|\r)[\s\S]+/m,greedy:!0},{pattern:/^#!.+/m,greedy:!0}],symbol:/`(?::\S+|[\w.]*)/,datetime:{pattern:/0N[mdzuvt]|0W[dtz]|\d{4}\.\d\d(?:m|\.\d\d(?:T(?:\d\d(?::\d\d(?::\d\d(?:[.:]\d\d\d)?)?)?)?)?[dz]?)|\d\d:\d\d(?::\d\d(?:[.:]\d\d\d)?)?[uvt]?/,alias:"number"},number:/\b(?![01]:)(?:0[wn]|0W[hj]?|0N[hje]?|0x[\da-fA-F]+|\d+(?:\.\d*)?(?:e[+-]?\d+)?[hjfeb]?)/,keyword:/\\\w+\b|\b(?:abs|acos|aj0?|all|and|any|asc|asin|asof|atan|attr|avgs?|binr?|by|ceiling|cols|cor|cos|count|cov|cross|csv|cut|delete|deltas|desc|dev|differ|distinct|div|do|dsave|ej|enlist|eval|except|exec|exit|exp|fby|fills|first|fkeys|flip|floor|from|get|getenv|group|gtime|hclose|hcount|hdel|hopen|hsym|iasc|identity|idesc|if|ij|in|insert|inter|inv|keys?|last|like|list|ljf?|load|log|lower|lsq|ltime|ltrim|mavg|maxs?|mcount|md5|mdev|med|meta|mins?|mmax|mmin|mmu|mod|msum|neg|next|not|null|or|over|parse|peach|pj|plist|prds?|prev|prior|rand|rank|ratios|raze|read0|read1|reciprocal|reval|reverse|rload|rotate|rsave|rtrim|save|scan|scov|sdev|select|set|setenv|show|signum|sin|sqrt|ssr?|string|sublist|sums?|sv|svar|system|tables|tan|til|trim|txf|type|uj|ungroup|union|update|upper|upsert|value|var|views?|vs|wavg|where|while|within|wj1?|wsum|ww|xasc|xbar|xcols?|xdesc|xexp|xgroup|xkey|xlog|xprev|xrank)\b/,adverb:{pattern:/['\/\\]:?|\beach\b/,alias:"function"},verb:{pattern:/(?:\B\.\B|\b[01]:|<[=>]?|>=?|[:+\-*%,!?~=|$&#@^]):?|\b_\b:?/,alias:"operator"},punctuation:/[(){}\[\];.]/};
-
-/***/ }),
-
-/***/ "dff1":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -28698,13 +28665,6 @@ Prism.languages.gamemakerlanguage=Prism.languages.gml=Prism.languages.extend("cl
 
 /***/ }),
 
-/***/ "fa97":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "faac":
 /***/ (function(module, exports) {
 
@@ -28767,14 +28727,14 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
+var es_object_entries = __webpack_require__("4fad");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
 var es_array_for_each = __webpack_require__("4160");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.entries.js
-var es_object_entries = __webpack_require__("4fad");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.is-array.js
 var es_array_is_array = __webpack_require__("277d");
@@ -28785,13 +28745,16 @@ var es_regexp_exec = __webpack_require__("ac1f");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.replace.js
 var es_string_replace = __webpack_require__("5319");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
+var es_array_includes = __webpack_require__("caad");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
 var es_array_concat = __webpack_require__("99af");
 
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./src/libs/template/note/index.vue?vue&type=template&id=eddfea24
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./src/libs/template/note/index.vue?vue&type=template&id=0f57bfbe
 
 
 
@@ -28948,7 +28911,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 40, ["id", "contenteditable", "innerHTML", "onInput", "onKeydown", "onPaste", "onCompositionstart", "onCompositionend"])], 8, ["id"]);
   }), 128))], 36)], 4);
 }
-// CONCATENATED MODULE: ./src/libs/template/note/index.vue?vue&type=template&id=eddfea24
+// CONCATENATED MODULE: ./src/libs/template/note/index.vue?vue&type=template&id=0f57bfbe
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
@@ -29092,20 +29055,17 @@ var es_array_splice = __webpack_require__("a434");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.reflect.delete-property.js
 var es_reflect_delete_property = __webpack_require__("ac16");
 
-// EXTERNAL MODULE: ./src/libs/template/note/style.css
-var style = __webpack_require__("be55");
-
 // EXTERNAL MODULE: ./node_modules/prismjs/prism.js
 var prism = __webpack_require__("c197");
 
-// CONCATENATED MODULE: ./src/libs/template/note/staticData.js
+// CONCATENATED MODULE: ./src/libs/template/note/publicData.js
 
 
 
-
+// import './style.css' // 开发调试样式用
 
 window.Prism = window.Prism || {};
-Prism.manual = true; // ---------------------------------------------------------------------------------------------------------------------------------
+window.Prism.manual = true; // ---------------------------------------------------------------------------------------------------------------------------------
 
 /**
  * 权限及主题等配置相关数据
@@ -29113,365 +29073,6 @@ Prism.manual = true; // --------------------------------------------------------
 
 var UM_NOTE_CONFIG = {
   theme: 'default'
-}; // ---------------------------------------------------------------------------------------------------------------------------------
-
-/**
- * 主题颜色配置相关数据
- */
-
-var themeConfigMap = {
-  "default": {
-    container_background: '#f5f2f0',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgb(0, 0, 0, .1)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: '#07a',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#690',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(0, 0, 0, .05)',
-    // 滚动条滑块颜色
-    language_color: 'rgb(180, 180, 180)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgb(230, 230, 230)',
-    // 分割线样式
-    languageSelect_container: '#eae6e3',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: 'rgba(0, 0, 0, .2)',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: 'rgba(0, 0, 0, .2)',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(0, 0, 0, .05)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#e90',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#e90',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(0, 0, 0, .08)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(0, 0, 0, .05)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: '#6b6b6b',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(0, 0, 0, .1)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: 'white',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: 'white',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgba(0, 0, 0, .2)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: '#4d4d4d' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  coy: {
-    container_background: '#fdfdfd',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgb(0, 0, 0, .02)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: '#e90',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#a67f59',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(0, 0, 0, .04)',
-    // 滚动条滑块颜色
-    language_color: 'rgb(220, 220, 220)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgb(240, 240, 240)',
-    // 分割线样式
-    languageSelect_container: 'rgb(245, 245, 245)',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: 'rgba(0, 0, 0, .15)',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: 'rgba(0, 0, 0, .15)',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(0, 0, 0, .08)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: 'white',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: 'white',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(0, 0, 0, .15)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(0, 0, 0, .05)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: '#6b6b6b',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(0, 0, 0, .2)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: 'white',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: 'white',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgba(0, 0, 0, .2)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: '#4d4d4d' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  dark: {
-    container_background: '#272822',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgb(114, 114, 114)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: 'orange',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#e6db74',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(255,255,255,.25)',
-    // 滚动条滑块颜色
-    language_color: 'rgb(114, 114, 114)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgb(50, 50, 50)',
-    // 分割线样式
-    languageSelect_container: '#383838',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: 'rgba(255, 255, 255, .2)',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: 'rgba(255, 255, 255, .2)',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(255, 255, 255, .1)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#0fec3f',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#66d9ef',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(255, 255, 255, .2)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: 'white',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: '#f96f6f',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: '#0fec3f',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgb(114, 114, 114)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: 'hsl(350, 40%, 70%)' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  funky: {
-    container_background: 'rgba(0, 0, 0, .1)',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgba(0, 0, 0, .05)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: 'rgba(0, 0, 0, .7)',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: 'rgba(0, 0, 0, .5)',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(0,0,0,.15)',
-    // 滚动条滑块颜色
-    language_color: 'rgba(0, 0, 0, .2)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgba(0, 0, 0, .1)',
-    // 分割线样式
-    languageSelect_container: 'rgba(0, 0, 0, .2)',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: 'rgba(255, 255, 255, .2)',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: 'rgba(255, 255, 255, .2)',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(0, 0, 0, .15)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#0fec3f',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#66d9ef',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(0, 0, 0, .25)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(0, 0, 0, .1)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: '#6b6b6b',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(0, 0, 0, .25)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: 'white',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: 'white',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgba(0, 0, 0, .25)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: 'rgba(255, 255, 255, 08)' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  okaidia: {
-    container_background: '#272822',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgb(114, 114, 114)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: 'orange',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#e6db74',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(255, 255, 255, .2)',
-    // 滚动条滑块颜色
-    language_color: 'rgb(114, 114, 114)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgb(50, 50, 50)',
-    // 分割线样式
-    languageSelect_container: '#474747',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: '#0A84D7',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: '#f92672',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(255, 255, 255, .1)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#0fec3f',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#66d9ef',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(255, 255, 255, .2)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: 'white',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: '#f96f6f',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: '#0fec3f',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgb(114, 114, 114)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: '#f92672' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  solarizedlight: {
-    container_background: '#fdf6e3',
-    // 最外层容器背景颜色
-    head_background_hidden: '#eee8d5',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: '#cb4b16',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#93a1a1',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(0, 0, 0, .05)',
-    // 滚动条滑块颜色
-    language_color: 'rgba(0, 0, 0, .2)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgba(0, 0, 0, .05)',
-    // 分割线样式
-    languageSelect_container: '#eee8d5',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: '#93a1a1',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: '#93a1a1',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(0, 0, 0, .08)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#fdf6e3',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#fdf6e3',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(0, 0, 0, .2)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(0, 0, 0, .05)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: 'white',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(0, 0, 0, .12)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: '#f96f6f',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: '#0fec3f',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgba(0, 0, 0, .3)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: '#657b83' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  tomorrow: {
-    container_background: '#2d2d2d',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgb(114, 114, 114)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: 'orange',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#e6db74',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(255, 255, 255, .2)',
-    // 滚动条滑块颜色
-    language_color: 'rgb(114, 114, 114)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgb(50, 50, 50)',
-    // 分割线样式
-    languageSelect_container: '#474747',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: '#0A84D7',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: '#f92672',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(255, 255, 255, .1)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#0fec3f',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#66d9ef',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(255, 255, 255, .2)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: 'white',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: '#f96f6f',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: '#0fec3f',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgb(114, 114, 114)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: '#f92672' // 删除代码块弹框的提示信息字体颜色
-
-  },
-  twilight: {
-    container_background: 'hsl(0, 0%, 8%)',
-    // 最外层容器背景颜色
-    head_background_hidden: 'rgb(114, 114, 114)',
-    // 折叠代码时头部bar背景颜色
-    unfold_text_color: 'orange',
-    // 左上角折叠展开按钮的字体颜色
-    unfold_arrow_color: '#e6db74',
-    // 左上角折叠展开箭头的颜色
-    soroll_thumb_background: 'rgba(255, 255, 255, .2)',
-    // 滚动条滑块颜色
-    language_color: 'rgb(114, 114, 114)',
-    // 语言提示字体的颜色
-    block_hr_background: 'rgb(50, 50, 50)',
-    // 分割线样式
-    languageSelect_container: '#474747',
-    // 添加弹框和删除弹框背景颜色
-    languageSelect_border: '#0A84D7',
-    // 添加弹框的包边线条颜色
-    deleteSelect_border: '#f92672',
-    // 删除弹框的包边线条颜色
-    button_background: 'rgba(255, 255, 255, .1)',
-    // 弹框里面的按钮的背景颜色
-    button_hover_add: '#0fec3f',
-    // 添加弹框里面的按钮hover状态下的字体颜色
-    button_hover_delete: '#66d9ef',
-    // 删除弹框里面的按钮hover状态下的字体颜色
-    button_hover_background: 'rgba(255, 255, 255, .2)',
-    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
-    edit_container: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框背景颜色
-    edit_color: 'white',
-    // 编辑二次确认弹框按钮的字体颜色
-    edit_background_hover: 'rgba(255, 255, 255, .2)',
-    // 编辑二次确认弹框按钮hover状态下的背景颜色
-    edit_color_hover_cancel: '#f96f6f',
-    // 编辑二次确认弹框取消按钮和删除代码块按钮hover状态下的字体颜色
-    edit_color_hover_ok: '#0fec3f',
-    // 编辑二次确认弹框确认按钮和添加代码块按钮hover状态下的字体颜色
-    add_minus_color: 'rgb(114, 114, 114)',
-    // 添加删除代码块按钮的字体颜色
-    confirm_message_color: '#f92672' // 删除代码块弹框的提示信息字体颜色
-
-  }
 }; // ---------------------------------------------------------------------------------------------------------------------------------
 
 var _languageMap = {
@@ -29840,7 +29441,635 @@ var setCore = function setCore(target, key) {
     getRealDomAndOffset: _getRealDomAndOffset()
   };
 }; // ---------------------------------------------------------------------------------------------------------------------------------
+// CONCATENATED MODULE: ./src/libs/template/note/theme.js
+
+
+/**
+ * 主题颜色配置相关数据
+ */
+var themeConfigMap = {
+  "default": {
+    container_background: '#f5f2f0',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgb(0, 0, 0, .1)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: '#07a',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#690',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0, 0, 0, .05)',
+    // 滚动条滑块颜色
+    language_color: 'rgb(180, 180, 180)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgb(230, 230, 230)',
+    // 分割线样式
+    languageSelect_container: '#eae6e3',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(0, 0, 0, .2)',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(0, 0, 0, .2)',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .05)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#e90',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#e90',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .08)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .05)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: '#6b6b6b',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .1)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'white',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: 'white',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: 'rgba(0, 0, 0, .4)',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: 'rgba(0, 0, 0, .4)',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .2)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#4d4d4d' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  coy: {
+    container_background: '#fdfdfd',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgb(0, 0, 0, .02)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: '#e90',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#a67f59',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0, 0, 0, .04)',
+    // 滚动条滑块颜色
+    language_color: 'rgb(220, 220, 220)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgb(240, 240, 240)',
+    // 分割线样式
+    languageSelect_container: 'rgb(245, 245, 245)',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(0, 0, 0, .15)',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(0, 0, 0, .15)',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .08)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: 'white',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: 'white',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .15)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .05)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: '#6b6b6b',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .2)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'white',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: 'white',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#979797',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#979797',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .2)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#4d4d4d' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  dark: {
+    container_background: '#272822',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255,255,255,.25)',
+    // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)',
+    // 分割线样式
+    languageSelect_container: '#383838',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(255, 255, 255, .2)',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(255, 255, 255, .2)',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: 'white',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: 'rgb(180, 180, 180)',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: 'rgb(180, 180, 180)',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: 'hsl(350, 40%, 70%)' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  funky: {
+    container_background: 'rgba(0, 0, 0, .1)',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgba(0, 0, 0, .05)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'rgba(0, 0, 0, .7)',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: 'rgba(0, 0, 0, .5)',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0,0,0,.15)',
+    // 滚动条滑块颜色
+    language_color: 'rgba(0, 0, 0, .2)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgba(0, 0, 0, .1)',
+    // 分割线样式
+    languageSelect_container: 'rgba(0, 0, 0, .2)',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: 'rgba(255, 255, 255, .2)',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: 'rgba(255, 255, 255, .2)',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .15)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .25)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .1)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: '#6b6b6b',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .25)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: 'white',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: 'white',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: 'orange',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: 'orange',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .25)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: 'rgba(255, 255, 255, 08)' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  okaidia: {
+    container_background: '#272822',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255, 255, 255, .2)',
+    // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)',
+    // 分割线样式
+    languageSelect_container: '#474747',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#0A84D7',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: 'white',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#e6db74',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#e6db74',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  solarizedlight: {
+    container_background: '#fdf6e3',
+    // 最外层容器背景颜色
+    head_background_hidden: '#eee8d5',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: '#cb4b16',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#93a1a1',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(0, 0, 0, .05)',
+    // 滚动条滑块颜色
+    language_color: 'rgba(0, 0, 0, .2)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgba(0, 0, 0, .05)',
+    // 分割线样式
+    languageSelect_container: '#eee8d5',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#93a1a1',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: '#93a1a1',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(0, 0, 0, .08)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#fdf6e3',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#fdf6e3',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(0, 0, 0, .2)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(0, 0, 0, .05)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: 'white',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(0, 0, 0, .12)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#268bd2',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#268bd2',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgba(0, 0, 0, .3)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#657b83' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  tomorrow: {
+    container_background: '#2d2d2d',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255, 255, 255, .2)',
+    // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)',
+    // 分割线样式
+    languageSelect_container: '#474747',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#0A84D7',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: 'white',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#e6db74',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#e6db74',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672' // 删除代码块弹框的提示信息字体颜色
+
+  },
+  twilight: {
+    container_background: 'hsl(0, 0%, 8%)',
+    // 最外层容器背景颜色
+    head_background_hidden: 'rgb(114, 114, 114)',
+    // 折叠代码时头部bar背景颜色
+    unfold_text_color: 'orange',
+    // 左上角折叠展开按钮的字体颜色
+    unfold_arrow_color: '#e6db74',
+    // 左上角折叠展开箭头的颜色
+    soroll_thumb_background: 'rgba(255, 255, 255, .2)',
+    // 滚动条滑块颜色
+    language_color: 'rgb(114, 114, 114)',
+    // 语言提示字体的颜色
+    block_hr_background: 'rgb(50, 50, 50)',
+    // 分割线样式
+    languageSelect_container: '#474747',
+    // 添加弹框和删除弹框背景颜色
+    languageSelect_border: '#0A84D7',
+    // 添加弹框的包边线条颜色
+    deleteSelect_border: '#f92672',
+    // 删除弹框的包边线条颜色
+    button_background: 'rgba(255, 255, 255, .1)',
+    // 弹框里面的按钮的背景颜色
+    button_hover_add: '#0fec3f',
+    // 添加弹框里面的按钮hover状态下的字体颜色
+    button_hover_delete: '#66d9ef',
+    // 删除弹框里面的按钮hover状态下的字体颜色
+    button_hover_background: 'rgba(255, 255, 255, .2)',
+    // 添加弹框和删除弹框里面的按钮hover状态下的背景颜色
+    edit_container: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框背景颜色
+    edit_color: 'white',
+    // 编辑二次确认弹框按钮的字体颜色
+    edit_background_hover: 'rgba(255, 255, 255, .2)',
+    // 编辑二次确认弹框按钮hover状态下的背景颜色
+    edit_color_hover_cancel: '#f96f6f',
+    // 编辑二次确认弹框取消按钮hover状态下的字体颜色
+    edit_color_hover_ok: '#0fec3f',
+    // 编辑二次确认弹框确认按钮hover状态下的字体颜色
+    delete_button_hover_minus: '#e6db74',
+    // 删除代码块按钮hover下的字体颜色
+    delete_button_hover_add: '#e6db74',
+    // 添加代码块按钮hover下的字体颜色
+    add_minus_color: 'rgb(114, 114, 114)',
+    // 添加删除代码块按钮的字体颜色
+    confirm_message_color: '#f92672' // 删除代码块弹框的提示信息字体颜色
+
+  }
+};
+var themeChoice = {
+  twilight: function twilight() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: white; background: hsl(0, 0%, 8%); font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; text-shadow: 0 -.1em .2em black; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; box-shadow: 1px 1px .5em black inset; }");
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"] ::selection { text-shadow: none; background: hsla(0, 0%, 93%, 0.15); }");
+    } catch (_unused) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"] ::-moz-selection { text-shadow: none; background: hsla(0, 0%, 93%, 0.15); }");
+    } catch (_unused2) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"]::selection { text-shadow: none; background: hsla(0, 0%, 93%, 0.15); }");
+    } catch (_unused3) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"]::-moz-selection { text-shadow: none; background: hsla(0, 0%, 93%, 0.15); }");
+    } catch (_unused4) {}
+
+    document.styleSheets[0].insertRule(".token.comment, .token.prolog, .token.doctype, .token.cdata { color: hsl(0, 0%, 47%); }");
+    document.styleSheets[0].insertRule(".token.punctuation { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.tag, .token.boolean, .token.number, .token.deleted { color: hsl(14, 58%, 55%); }");
+    document.styleSheets[0].insertRule(".token.keyword, .token.property, .token.selector, .token.constant, .token.symbol, .token.builtin { color: hsl(53, 89%, 79%); }");
+    document.styleSheets[0].insertRule(".token.attr-name, .token.attr-value, .token.string, .token.char, .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string, .token.variable, .token.inserted { color: hsl(76, 21%, 52%); }");
+    document.styleSheets[0].insertRule(".token.atrule { color: hsl(218, 22%, 55%); }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important { color: hsl(42, 75%, 65%); }");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+    document.styleSheets[0].insertRule("pre[data-line] { padding: 1em 0 1em 3em; position: relative; }");
+    document.styleSheets[0].insertRule(".language-markup .token.tag, .language-markup .token.attr-name, .language-markup .token.punctuation { color: hsl(33, 33%, 52%); }");
+    document.styleSheets[0].insertRule(".token { position: relative; z-index: 1; }");
+    document.styleSheets[0].insertRule(".line-highlight { background: hsla(0, 0%, 33%, 0.25); background: linear-gradient(to right, hsla(0, 0%, 33%, .1) 70%, hsla(0, 0%, 33%, 0)); border-bottom: 1px dashed hsl(0, 0%, 33%); border-top: 1px dashed hsl(0, 0%, 33%); left: 0; line-height: inherit; margin-top: 0.75em; padding: inherit 0; pointer-events: none; position: absolute; right: 0; white-space: pre; z-index: 0; }");
+    document.styleSheets[0].insertRule(".line-highlight:before, .line-highlight[data-end]:after { background-color: hsl(215, 15%, 59%); border-radius: 999px; box-shadow: 0 1px white; color: hsl(24, 20%, 95%); content: attr(data-start); font: bold 65%/1.5 sans-serif; left: .6em; min-width: 1em; padding: 0 .5em; position: absolute; text-align: center; text-shadow: none; top: .4em; vertical-align: .3em; }");
+    document.styleSheets[0].insertRule(".line-highlight[data-end]:after { bottom: .4em; content: attr(data-end); top: auto; }");
+  },
+  tomorrow: function tomorrow() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: #ccc; background: #2d2d2d; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; }");
+    document.styleSheets[0].insertRule(".token.comment, .token.block-comment, .token.prolog, .token.doctype, .token.cdata { color: #999; }");
+    document.styleSheets[0].insertRule(".token.punctuation { color: #ccc; }");
+    document.styleSheets[0].insertRule(".token.tag, .token.attr-name, .token.namespace, .token.deleted { color: #e2777a; }");
+    document.styleSheets[0].insertRule(".token.function-name { color: #6196cc; }");
+    document.styleSheets[0].insertRule(".token.boolean, .token.number, .token.function { color: #f08d49; }");
+    document.styleSheets[0].insertRule(".token.property, .token.class-name, .token.constant, .token.symbol { color: #f8c555; }");
+    document.styleSheets[0].insertRule(".token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin { color: #cc99cd; }");
+    document.styleSheets[0].insertRule(".token.string, .token.char, .token.attr-value, .token.regex, .token.variable { color: #7ec699; }");
+    document.styleSheets[0].insertRule(".token.operator, .token.entity, .token.url { color: #67cdcc; }");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+    document.styleSheets[0].insertRule(".token.inserted { color: green; }");
+  },
+  solarizedlight: function solarizedlight() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: #657b83; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; background: #fdf6e3; }");
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"] ::selection { background: #073642; }");
+    } catch (_unused5) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"] ::-moz-selection { background: #073642; }");
+    } catch (_unused6) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"]::selection { background: #073642; }");
+    } catch (_unused7) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"]::-moz-selection { background: #073642; }");
+    } catch (_unused8) {}
+
+    document.styleSheets[0].insertRule(".token.comment, .token.prolog, .token.doctype, .token.cdata { color: #93a1a1; }");
+    document.styleSheets[0].insertRule(".token.punctuation { color: #586e75; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #268bd2; }");
+    document.styleSheets[0].insertRule(".token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.url, .token.inserted { color: #2aa198; }");
+    document.styleSheets[0].insertRule(".token.entity { color: #657b83; background: #eee8d5; }");
+    document.styleSheets[0].insertRule(".token.atrule, .token.attr-value, .token.keyword { color: #859900; }");
+    document.styleSheets[0].insertRule(".token.function, .token.class-name { color: #b58900; }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important, .token.variable { color: #cb4b16; }");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+  },
+  okaidia: function okaidia() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: #f8f8f2; text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; background: #272822; }");
+    document.styleSheets[0].insertRule(".token.comment, .token.prolog, .token.doctype, .token.cdata { color: #8292a2; }");
+    document.styleSheets[0].insertRule(".token.punctuation { color: #f8f8f2; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.property, .token.tag, .token.constant, .token.symbol, .token.deleted { color: #f92672; }");
+    document.styleSheets[0].insertRule(".token.boolean, .token.number { color: #ae81ff; }");
+    document.styleSheets[0].insertRule(".token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a6e22e; }");
+    document.styleSheets[0].insertRule(".token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string, .token.variable { color: #f8f8f2; }");
+    document.styleSheets[0].insertRule(".token.atrule, .token.attr-value, .token.function, .token.class-name { color: #e6db74; }");
+    document.styleSheets[0].insertRule(".token.keyword { color: #66d9ef; }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important { color: #fd971f; }");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+  },
+  funky: function funky() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; background: url('data:image/svg+xml;charset=utf-8,<svg%20version%3D\"1.1\"%20xmlns%3D\"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg\"%20width%3D\"100\"%20height%3D\"100\"%20fill%3D\"rgba(0%2C0%2C0%2C.05)\">%0D%0A<polygon%20points%3D\"0%2C50%2050%2C0%200%2C0\"%20%2F>%0D%0A<polygon%20points%3D\"0%2C100%2050%2C100%20100%2C50%20100%2C0\"%20%2F>%0D%0A<%2Fsvg>'); background-size: 1em 1em; }");
+    document.styleSheets[0].insertRule(".token.comment, .token.prolog, .token.doctype, .token.cdata { color: #aaa; }");
+    document.styleSheets[0].insertRule(".token.punctuation { color: #999; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol { color: #0cf; }");
+    document.styleSheets[0].insertRule(".token.selector, .token.attr-name, .token.string, .token.char, .token.builtin { color: yellow; }");
+    document.styleSheets[0].insertRule(".token.operator, .token.entity, .token.url, .language-css .token.string, .token.variable, .token.inserted { color: yellowgreen; }");
+    document.styleSheets[0].insertRule(".token.atrule, .token.attr-value, .token.keyword { color: deeppink; }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important { color: orange; }");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+    document.styleSheets[0].insertRule(".token.deleted { color: red; }");
+    document.styleSheets[0].insertRule("pre.diff-highlight.diff-highlight > code .token.deleted:not(.prefix), pre > code.diff-highlight.diff-highlight .token.deleted:not(.prefix) { background-color: rgba(255, 0, 0, .3); display: inline; }");
+    document.styleSheets[0].insertRule("pre.diff-highlight.diff-highlight > code .token.inserted:not(.prefix), pre > code.diff-highlight.diff-highlight .token.inserted:not(.prefix) { background-color: rgba(0, 255, 128, .3); display: inline; }");
+  },
+  dark: function dark() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: white; text-shadow: 0 -.1em .2em black; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; background: hsl(30, 20%, 25%); box-shadow: 1px 1px .5em black inset; }");
+    document.styleSheets[0].insertRule("@media print { pre[class*=\"language-\"] { text-shadow: none; } }");
+    document.styleSheets[0].insertRule(".token.comment, .token.prolog, .token.doctype, .token.cdata { color: hsl(30, 20%, 50%); }");
+    document.styleSheets[0].insertRule(".token.punctuation { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol { color: hsl(350, 40%, 70%); }");
+    document.styleSheets[0].insertRule(".token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: hsl(75, 70%, 60%); }");
+    document.styleSheets[0].insertRule(".token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string, .token.variable { color: hsl(40, 90%, 60%); }");
+    document.styleSheets[0].insertRule(".token.atrule, .token.attr-value, .token.keyword { color: hsl(350, 40%, 70%); }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important { color: #e90; } ");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+    document.styleSheets[0].insertRule(".token.deleted { color: red; }");
+  },
+  coy: function coy() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: black; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; position: relative; background: #fdfdfd; }");
+    document.styleSheets[0].insertRule(".token.comment, .token.block-comment, .token.prolog, .token.doctype, .token.cdata { color: #7D8B99; }");
+    document.styleSheets[0].insertRule(".token.punctuation { color: #5F6364; }");
+    document.styleSheets[0].insertRule(".token.property, .token.tag, .token.boolean, .token.number, .token.function-name, .token.constant, .token.symbol, .token.deleted { color: #c92c2c; }");
+    document.styleSheets[0].insertRule(".token.selector, .token.attr-name, .token.string, .token.char, .token.function, .token.builtin, .token.inserted { color: #2f9c0a; }");
+    document.styleSheets[0].insertRule(".token.operator, .token.entity, .token.url, .token.variable { color: #a67f59; background: rgba(255, 255, 255, 0.5); }");
+    document.styleSheets[0].insertRule(".token.atrule, .token.attr-value, .token.keyword, .token.class-name { color: #1990b8; }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important { color: #e90; }");
+    document.styleSheets[0].insertRule(".language-css .token.string, .style .token.string { color: #a67f59; background: rgba(255, 255, 255, 0.5); }");
+    document.styleSheets[0].insertRule(".token.important { font-weight: normal; }");
+    document.styleSheets[0].insertRule(".token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"].line-numbers.line-numbers { padding-left: 0; }");
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"].line-numbers.line-numbers code { padding-left: 3.8em; }");
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"].line-numbers.line-numbers .line-numbers-rows { left: 0; }");
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"][data-line] { padding-top: 0; padding-bottom: 0; padding-left: 0; }");
+    document.styleSheets[0].insertRule("pre[data-line] code { position: relative; padding-left: 4em; }");
+    document.styleSheets[0].insertRule("pre .line-highlight { margin-top: 0; }");
+  },
+  "default": function _default() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { color: black; background: #f5f2f0; text-shadow: 0 1px white; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; font-size: 1em; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.5; -moz-tab-size: 4; -o-tab-size: 4; tab-size: 4; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; }");
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"] ::selection { text-shadow: none; background: #b3d4fc; }");
+    } catch (_unused9) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"] ::-moz-selection { text-shadow: none; background: #b3d4fc; }");
+    } catch (_unused10) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"]::selection { text-shadow: none; background: #b3d4fc; }");
+    } catch (_unused11) {}
+
+    try {
+      document.styleSheets[0].insertRule("pre[class*=\"language-\"]::-moz-selection { text-shadow: none; background: #b3d4fc; }");
+    } catch (_unused12) {}
+
+    document.styleSheets[0].insertRule("@media print { pre[class*=\"language-\"] { text-shadow: none; } }");
+    document.styleSheets[0].insertRule(".token.comment, .token.prolog, .token.doctype, .token.cdata { color: slategray; }");
+    document.styleSheets[0].insertRule(".token.punctuation { color: #999; }");
+    document.styleSheets[0].insertRule(".token.namespace { opacity: .7; }");
+    document.styleSheets[0].insertRule(".token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #905; }");
+    document.styleSheets[0].insertRule(".token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #690; }");
+    document.styleSheets[0].insertRule(".token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #9a6e3a; background: hsla(0, 0%, 100%, .5); }");
+    document.styleSheets[0].insertRule(".token.atrule, .token.attr-value, .token.keyword { color: #07a; }");
+    document.styleSheets[0].insertRule(".token.function, .token.class-name { color: #DD4A68; }");
+    document.styleSheets[0].insertRule(".token.regex, .token.important, .token.variable { color: #e90; }");
+    document.styleSheets[0].insertRule(".token.important, .token.bold { font-weight: bold; }");
+    document.styleSheets[0].insertRule(".token.italic { font-style: italic; }");
+    document.styleSheets[0].insertRule(".token.entity { cursor: help; }");
+  },
+  "public": function _public() {
+    document.styleSheets[0].insertRule("pre[class*=\"language-\"] { border-radius: none !important; padding: 0 0 1rem 1rem !important; margin: 3px 0 0 0 !important; overflow: auto !important; -webkit-box-sizing: content-box !important; -moz-box-sizing: content-box !important; box-sizing: content-box !important; border: none !important; }");
+    document.styleSheets[0].insertRule("._um-_note-container { min-width: 260px; overflow: hidden; border-radius: 3px; transition: .3s; position: relative; }");
+    document.styleSheets[0].insertRule("._um-_note-headbox { width: 100%; height: 16px; transition: .3s; overflow: hidden; position: relative; z-index: 100; }");
+    document.styleSheets[0].insertRule("._um-_unfold-box { height: 30px; font-size: 10px; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }");
+    document.styleSheets[0].insertRule("._um-_unfold-text { display: inline-block; transition: .3s; position: absolute; top: 4px; }");
+    document.styleSheets[0].insertRule("._um-_unflod-arrow { display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }");
+    document.styleSheets[0].insertRule("._um-_note-config-edit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; float: right; margin-right: 3px; margin-top: 3px; }");
+    document.styleSheets[0].insertRule("._um-_note-config-submit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: orange; float: right; margin-right: 3px; margin-top: 3px; }");
+    document.styleSheets[0].insertRule("._um-_submit-confirm { height: 12px; margin-top: 2px; margin-right: 5px; padding: 0 2px; border-radius: 2px; overflow: hidden; float: right; position: relative; z-index: 10; }");
+    document.styleSheets[0].insertRule("._um-_submit-item-cancel,._um-_submit-item-ok { width: 20px; height: 12px; line-height: 12px; text-align: center; border-radius: 6px; font-size: 12px; display: inline-block; margin: 0 4px; cursor: pointer; position: relative; top: -4px; }");
+    document.styleSheets[0].insertRule("._um-submit-span { position: relative; top: -1px; }");
+    document.styleSheets[0].insertRule("._um-_pre-class { min-width: calc(260px - 1rem); position: relative; }");
+    document.styleSheets[0].insertRule("._um-_not-chooseable { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }");
+    document.styleSheets[0].insertRule("._um-_code-box { position: relative; }");
+    document.styleSheets[0].insertRule("._um-_sign-public { font-size: 10px; position: absolute; }");
+    document.styleSheets[0].insertRule("._um-_line-dashed { position: absolute; }");
+    document.styleSheets[0].insertRule("._um-_sign-add { width: 16px; height: 18px; line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; position: absolute; }");
+    document.styleSheets[0].insertRule("._um-_sign-minus { width: 12px; height: 18px; transform: scale(1.3, 1); line-height: 16px; text-align: center; cursor: pointer; font-size: 18px; position: absolute; }");
+    document.styleSheets[0].insertRule("._um-_select-container { max-width: calc(100% - 40px); box-shadow: 3px 3px 7px rgba(0, 0, 0, .3); padding: 2px; position: absolute; z-index: 10; }");
+    document.styleSheets[0].insertRule("._um-_select-item { line-height: 20px; padding: 0 5px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }");
+    document.styleSheets[0].insertRule("._um-_confirm-container { padding: 2px; box-shadow: 3px 3px 7px rgba(0, 0, 0, .3); position: absolute; z-index: 10; }");
+    document.styleSheets[0].insertRule("._um-_confirm-message { font-size: 10px; padding: 2px 2px 4px 2px; }");
+    document.styleSheets[0].insertRule("._um-_confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }");
+    document.styleSheets[0].insertRule("._um-_code-class { min-width: calc(100% - 1rem); display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }");
+  }
+};
+var injectCSS = function injectCSS(theme) {
+  themeChoice["public"]();
+  themeChoice[theme]();
+  var themesData = themeConfigMap[theme];
+  document.styleSheets[0].insertRule("._um-_confirm-item { background: ".concat(themesData.button_background, " }"));
+  document.styleSheets[0].insertRule("._um-_confirm-item:hover { color: ".concat(themesData.button_hover_delete, "; background: ").concat(themesData.button_hover_background, " }"));
+  document.styleSheets[0].insertRule("._um-_select-item { background: ".concat(themesData.button_background, " }"));
+  document.styleSheets[0].insertRule("._um-_select-item:hover { color: ".concat(themesData.button_hover_add, "; background: ").concat(themesData.button_hover_background, " }"));
+  document.styleSheets[0].insertRule("._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ".concat(themesData.container_background, "; cursor: pointer; }"));
+  document.styleSheets[0].insertRule("._um-_pre-class::-webkit-scrollbar-thumb { background: ".concat(themesData.soroll_thumb_background, "; border-radius: 2px; }"));
+  document.styleSheets[0].insertRule("._um-_pre-class::-webkit-scrollbar-corner { background: ".concat(themesData.container_background, "; }"));
+  document.styleSheets[0].insertRule("._um-_submit-item-cancel,._um-_submit-item-ok { background: ".concat(themesData.button_background, "; color: ").concat(themesData.edit_color, "; }"));
+  document.styleSheets[0].insertRule("._um-_submit-item-cancel:hover { color: ".concat(themesData.edit_color_hover_cancel, "; background: ").concat(themesData.edit_background_hover, "; }"));
+  document.styleSheets[0].insertRule("._um-_submit-item-ok:hover { color: ".concat(themesData.edit_color_hover_ok, "; background: ").concat(themesData.edit_background_hover, "; }"));
+  document.styleSheets[0].insertRule("._um-_sign-add, ._um-_sign-minus { color: ".concat(themesData.add_minus_color, "; }"));
+  document.styleSheets[0].insertRule("._um-_sign-add:hover { color: ".concat(themesData.delete_button_hover_add, "; }"));
+  document.styleSheets[0].insertRule("._um-_sign-minus:hover { color: ".concat(themesData.delete_button_hover_minus, "; }"));
+};
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--0-1!./src/libs/template/note/index.vue?vue&type=script&lang=js
+
 
 
 
@@ -29926,7 +30155,7 @@ var domClick = null;
               language: language,
               showingLanguage: showingLanguage,
               code: item.code || '',
-              processedCode: Prism.highlight(item.code || '', Prism.languages[language], language)
+              processedCode: window.Prism.highlight(item.code || '', window.Prism.languages[language], language)
             };
           });
         } else {
@@ -29955,7 +30184,7 @@ var domClick = null;
           language: language,
           showingLanguage: showingLanguage,
           code: codes.code || '',
-          processedCode: Prism.highlight(codes.code || '', Prism.languages[language], language)
+          processedCode: window.Prism.highlight(codes.code || '', window.Prism.languages[language], language)
         }];
       } else {
         // 如果props.codes是一个字符串
@@ -29971,7 +30200,7 @@ var domClick = null;
           language: _language2,
           showingLanguage: _showingLanguage,
           code: codes || '',
-          processedCode: Prism.highlight(codes || '', Prism.languages[_language2], _language2)
+          processedCode: window.Prism.highlight(codes || '', window.Prism.languages[_language2], _language2)
         }];
       }
 
@@ -30030,7 +30259,7 @@ var domClick = null;
       }
 
       targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, function (totalOffset, textContent) {
-        var realContent = Prism.highlight(textContent, Prism.languages[item.language], item.language); // 当realContent === item.processedCode时, 不会触发页面更新, 须手动更新
+        var realContent = window.Prism.highlight(textContent, window.Prism.languages[item.language], item.language); // 当realContent === item.processedCode时, 不会触发页面更新, 须手动更新
         // 适用于当全选内容并粘贴的情况
 
         if (realContent === item.processedCode) {
@@ -30429,6 +30658,8 @@ var modified_prism_default = /*#__PURE__*/__webpack_require__.n(modified_prism);
 
 
 
+
+console.log(Object.entries(components_default.a.languages));
 var fullMap = {};
 Object.entries(components_default.a.languages).forEach(function (item) {
   if (item[0] !== 'meta') {
@@ -30450,6 +30681,7 @@ Object.entries(components_default.a.languages).forEach(function (item) {
     }
   }
 });
+console.log(fullMap);
 var UmNote = {
   install: function install(Vue) {
     Vue.component('UmNote', note);
@@ -30484,52 +30716,18 @@ var libs_UmNoteConfig = function UmNoteConfig(json) {
   }
 
   if (json.theme && typeof json.theme === 'string') {
-    // const validThemesMap = ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
-    // if (json.theme === 'default' || !validThemesMap.includes(json.theme)) {
-    //   require('prismjs/themes/prism.css')
-    //   UM_NOTE_CONFIG.theme = 'default'
-    // } else {
-    //   require(`prismjs/themes/prism-${json.theme}.css`)
-    //   UM_NOTE_CONFIG.theme = json.theme
-    // }
-    if (json.theme === 'coy') {
-      __webpack_require__("6b2c");
-    } else if (json.theme === 'dark') {
-      __webpack_require__("5792");
-    } else if (json.theme === 'funky') {
-      __webpack_require__("dff1");
-    } else if (json.theme === 'okaidia') {
-      __webpack_require__("fa97");
-    } else if (json.theme === 'solarizedlight') {
-      __webpack_require__("13c4");
-    } else if (json.theme === 'tomorrow') {
-      __webpack_require__("84bf");
-    } else if (json.theme === 'twilight') {
-      __webpack_require__("92bf");
+    var validThemesMap = ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight'];
+
+    if (json.theme === 'default' || !validThemesMap.includes(json.theme)) {
+      UM_NOTE_CONFIG.theme = 'default';
     } else {
-      __webpack_require__("a878");
+      UM_NOTE_CONFIG.theme = json.theme;
     }
   } else {
-    __webpack_require__("a878");
-
     UM_NOTE_CONFIG.theme = 'default';
   }
 
-  var themesData = themeConfigMap[UM_NOTE_CONFIG.theme];
-  document.styleSheets[0].insertRule("._um-_confirm-item { background: ".concat(themesData.button_background, " }"));
-  document.styleSheets[0].insertRule("._um-_confirm-item:hover { color: ".concat(themesData.button_hover_delete, "; background: ").concat(themesData.button_hover_background, " }"));
-  document.styleSheets[0].insertRule("._um-_select-item { background: ".concat(themesData.button_background, " }"));
-  document.styleSheets[0].insertRule("._um-_select-item:hover { color: ".concat(themesData.button_hover_add, "; background: ").concat(themesData.button_hover_background, " }"));
-  document.styleSheets[0].insertRule("._um-_pre-class::-webkit-scrollbar { width: 8px; height: 8px; background: ".concat(themesData.container_background, "; cursor: pointer; }"));
-  document.styleSheets[0].insertRule("._um-_pre-class::-webkit-scrollbar-thumb { background: ".concat(themesData.soroll_thumb_background, "; border-radius: 2px; }"));
-  document.styleSheets[0].insertRule("._um-_pre-class::-webkit-scrollbar-corner { background: ".concat(themesData.container_background, "; }"));
-  document.styleSheets[0].insertRule("._um-_submit-item-cancel,._um-_submit-item-ok { background: ".concat(themesData.button_background, "; color: ").concat(themesData.edit_color, "; }"));
-  document.styleSheets[0].insertRule("._um-_submit-item-cancel:hover { color: ".concat(themesData.edit_color_hover_cancel, "; background: ").concat(themesData.edit_background_hover, "; }"));
-  document.styleSheets[0].insertRule("._um-_submit-item-ok:hover { color: ".concat(themesData.edit_color_hover_ok, "; background: ").concat(themesData.edit_background_hover, "; }"));
-  document.styleSheets[0].insertRule("._um-_sign-add, ._um-_sign-minus { color: ".concat(themesData.add_minus_color, "; }"));
-  document.styleSheets[0].insertRule("._um-_sign-add:hover { color: ".concat(themesData.edit_color_hover_ok, "; }"));
-  document.styleSheets[0].insertRule("._um-_sign-minus:hover { color: ".concat(themesData.edit_color_hover_cancel, "; }"));
-  if (UM_NOTE_CONFIG.theme === 'funky') document.styleSheets[0].insertRule("pre[class*=\"language-\"] { background: url('data:image/svg+xml;charset=utf-8,<svg%20version%3D\"1.1\"%20xmlns%3D\"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg\"%20width%3D\"100\"%20height%3D\"100\"%20fill%3D\"rgba(0%2C0%2C0%2C.05)\">%0D%0A<polygon%20points%3D\"0%2C50%2050%2C0%200%2C0\"%20%2F>%0D%0A<polygon%20points%3D\"0%2C100%2050%2C100%20100%2C50%20100%2C0\"%20%2F>%0D%0A<%2Fsvg>') !important; background-size: 1em 1em !important; }");
+  injectCSS(UM_NOTE_CONFIG.theme);
 };
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib-no-default.js
 
