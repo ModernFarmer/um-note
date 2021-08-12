@@ -348,38 +348,17 @@ export default defineComponent({
       }
     }
 
-    const addConfig = {
-      get done () {
-        return add.value
-      },
-      set done (bl) {
-        add.value = bl
-        if (!add.value) _u_resetStyle()
-      },
+    const next_add = () => {
+      add.value = true
     }
-    const editConfig = {
-      get done () {
-        return edit.value
-      },
-      set done (bl) {
-        edit.value = bl
-      },
+    const next_edit = () => {
+      edit.value = true
     }
-    const removeConfig = {
-      get done () {
-        return remove.value
-      },
-      set done (bl) {
-        remove.value = bl
-      },
+    const next_remove = () => {
+      remove.value = true
     }
-    const submitConfig = {
-      get done () {
-        return submit.value
-      },
-      set done (bl) {
-        submit.value = bl
-      },
+    const next_submit = () => {
+      submit.value = true
     }
     const close = () => {
       add.value = false
@@ -390,11 +369,12 @@ export default defineComponent({
       remove.value = false
       submit.value = false
       if (UM_NOTE_CONFIG.addConfigure) {
-        if (add.value || addIndex.value !== index) {
+        if (add.value || (addIndex.value !== null && addIndex.value !== index)) {
           add.value = false
           _u_resetStyle()
+        } else {
+          UM_NOTE_CONFIG.addConfigure(next_add)
         }
-        UM_NOTE_CONFIG.addConfigure(addConfig)
       } else {
         if (addIndex.value === index) {
           add.value = !add.value
@@ -437,7 +417,7 @@ export default defineComponent({
         if (edit.value) {
           edit.value = false
         } else {
-          UM_NOTE_CONFIG.editConfigure(editConfig)
+          UM_NOTE_CONFIG.editConfigure(next_edit)
         }
       } else {
         edit.value = !edit.value
@@ -450,7 +430,7 @@ export default defineComponent({
         if (submit.value) {
           submit.value = false
         } else {
-          UM_NOTE_CONFIG.submitConfigure(submitConfig)
+          UM_NOTE_CONFIG.submitConfigure(next_submit)
         }
       } else {
         submit.value = !submit.value
@@ -469,10 +449,10 @@ export default defineComponent({
       submit.value = false
       _u_resetStyle()
       if (UM_NOTE_CONFIG.removeConfigure) {
-        if (remove.value || removeIndex.value !== index) {
+        if (remove.value || (removeIndex.value !== null && removeIndex.value !== index)) {
           remove.value = false
         } else {
-          UM_NOTE_CONFIG.removeConfigure(removeConfig)
+          UM_NOTE_CONFIG.removeConfigure(next_remove)
         }
       } else {
         if (removeIndex.value === index) {
