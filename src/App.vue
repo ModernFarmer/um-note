@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <button @click="toLogin">Log In</button>
-    <button @click="toLogout">Log Out</button>
+    <button class="btn" @click="toLogin">Log In</button>
+    <button class="btn" @click="toLogout">Log Out</button><br>
     <um-note
       class="code-outsize"
       :width="width"
@@ -9,88 +9,95 @@
       language="javascript"
       editable
       :foldable="true"
-      :unfold="true"
+      :unfold="false"
       :codes="code1"
-      @submit="submit"
+      @submit="submit1"
     />
-    <!-- <router-view/> -->
+    <um-note
+      class="code-outsize"
+      :width="width"
+      language="javascript"
+      editable
+      :foldable="true"
+      :unfold="false"
+      :codes="code2"
+      @submit="submit2"
+    />
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
-const exampleCode = `
-/**
- * 节流
- * 
- * @param {Function} fn 需要进行节流的函数 
- * @param {Number} [ms = 500] 节流时间间隔(毫秒) 
- * 
- * @returns {Function} 柯里化处理后的节流函数 
- * 
- * @example 例子在下方 ↓↓↓
- * 
- */
-export const _throttle = (fn, ms = 500) => {
-  let status = true
-  return (...arg) => {
-    if (status) {
-      status = false
-      fn(...arg)
-      setTimeout(() => {
-        status = true
-      }, ms)
-    }
-  }
-}
-/**
- * @example 
- * 需要节流处理的函数: 
-  const needFn = (a, b) => {
-    console.log(a, b)
-  }
- * 用法: 
-  const antiShake_needFn = _antiShake(needFn, 1000)
- * 调用: 
-  antiShake_needFn('aaa', 'bbb') // 打印出: 'aaa', 'bbb'
- * 
- */
-`
+
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const dispatch = useStore().dispatch
     const width = ref('500px')
-    const code1 = ref([
-      {
-        language: 'javascript',
-        code: exampleCode
-      }
-    ])
+    const code1 = ref([])
+    const code2 = ref([])
+
+    dispatch('getCode1').then(res => { // 模拟接口-获取code1数据
+      console.log(res)
+      code1.value = res
+    })
+
+    dispatch('getCode2').then(res => { // 模拟接口-获取code2数据
+      code2.value = res
+    })
 
     const toLogin = () => {
-      store.commit('toLogin', true)
+      dispatch('toLogin', true).then(res => { // 模拟接口-登录
+        alert('You are now logged in!')
+      })
     }
-    const toLogout = () => {
-      store.commit('toLogin', false)
+    const toLogout = () => { // 模拟接口-登出
+      dispatch('toLogin', false).then(res => {
+        alert('You are now logged out!')
+      })
     }
-    const submit = ({data, close}) => {
-      console.log(data)
-      close()
+
+    const submit1 = ({data, close}) => {
+      console.log('submitData1', data)
+      dispatch('submit_code1', data).then(() => {
+        close()
+        dispatch('getCode1').then(res => {
+          code1.value = res
+        })
+      }).catch(err => {
+        close()
+        console.error(err)
+      })
+    }
+
+    const submit2 = ({data, close}) => {
+      console.log('submitData2', data)
+      dispatch('submit_code2', data).then(() => {
+        close()
+        dispatch('getCode2').then(res => {
+          code2.value = res
+        })
+      }).catch(err => {
+        close()
+        console.error(err)
+      })
     }
 
     return {
       code1,
+      code2,
       width,
-      submit,
       toLogin,
       toLogout,
+      submit1,
+      submit2,
     }
   },
 })
 </script>
 
 <style>
-#app { width: 100%; height: 100%; overflow: hidden; position: relative; }
-.code-outsize { margin-left: 50px; margin-top: 50px; }
+#app { width: 100%; overflow: hidden; position: relative; }
+.btn { margin-left: 20px; margin-top: 20px; }
+.code-outsize { margin-left: 20px; margin-top: 20px; margin-bottom: 50px; float: left; }
 </style>

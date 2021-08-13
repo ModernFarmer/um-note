@@ -152,6 +152,73 @@ export default defineComponent({
       ]
     })
 
+    const setContainerHeight = () => {
+      containerStyle.value.height = `${preRef.value.offsetHeight + 19}px`
+    }
+    const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
+    const containerStyle = ref({
+      width: ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px'),
+      height: ref(showing.value ? 'auto' : '16px'),
+      background: themesData.container_background,
+    })
+
+    const toFoldOrUnfold = () => {
+      showing.value = !showing.value
+      if (showing.value) {
+        containerStyle.value.width = `${preRef.value.offsetWidth}px`
+        setContainerHeight()
+      } else {
+        edit.value = false
+        containerStyle.value.width = '260px'
+        containerStyle.value.height = '16px'
+      }
+    }
+
+    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themesData.head_background_hidden })
+    watch(
+      () => {
+        return showing.value
+      },
+      val => {
+        headBoxStyle.value = { background: val ? 'transparent' : themesData.head_background_hidden }
+      }
+    )
+
+    const preRef = ref()
+    const lanStyle = ref({ color: themesData.language_color, left: 0, top: 0 })
+    const addStyle = ref({ left: `calc(100% - 22px)`, bottom: 0 })
+    const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
+    const dashedStyle = ref({ width: 'calc(100% - 1rem)', borderBottom: `1px dashed ${themesData.block_hr_background}`, left: 0, bottom: '8px' })
+    const selectStyle = ref({
+      border: `1px solid ${themesData.languageSelect_border}`,
+      background: themesData.languageSelect_container,
+      outline: `2px solid ${themesData.languageSelect_container}`,
+      bottom: '-5px',
+      right: '27px',
+    })
+    const confirmStyle = ref({
+      border: `1px solid ${themesData.deleteSelect_border}`,
+      background: themesData.languageSelect_container,
+      outline: `2px solid ${themesData.languageSelect_container}`,
+      bottom: '-5px',
+      right: '47px',
+    })
+    const confirmBackground = ref(themesData.edit_container)
+    const confirmMessageColor = ref(themesData.confirm_message_color)
+    const unfoldColor = ref(themesData.unfold_text_color)
+    const arrowColor = ref(themesData.unfold_arrow_color)
+    let last_lang = 0
+    const handleScroll = (e) => {
+      const offset = preRef.value.scrollLeft
+      if (last_lang !== offset) {
+        lanStyle.value.left = dashedStyle.value.left = `${offset}px`
+        addStyle.value.left = `calc(100% + ${offset - 22}px)`
+        minusStyle.value.left = `calc(100% + ${offset - 38}px)`
+        selectStyle.value.right = `calc(27px - ${offset}px)`
+        last_lang = offset
+      }
+    }
+
     const codeList = ref([])
     let coreObj = {} // 核心数据对象, 包含codeList数组内代表的每个dom的核心方法(getFrontOffset, getRealDomAndOffset)、根元素(root)、光标所在元素(container)、需要插入的内容(inset)
     watch(
@@ -218,7 +285,7 @@ export default defineComponent({
         coreObj = coreObjJson
         contentChange.value = false
 
-        if (props.height === 'auto') {
+        if (containerStyle.value.height === 'auto' && props.height === 'auto') {
           nextTick(() => {
             add.value = false
             remove.value = false
@@ -293,41 +360,6 @@ export default defineComponent({
       }
     }
 
-    const preRef = ref()
-    const lanStyle = ref({ color: themesData.language_color, left: 0, top: 0 })
-    const addStyle = ref({ left: `calc(100% - 22px)`, bottom: 0 })
-    const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
-    const dashedStyle = ref({ width: 'calc(100% - 1rem)', borderBottom: `1px dashed ${themesData.block_hr_background}`, left: 0, bottom: '8px' })
-    const selectStyle = ref({
-      border: `1px solid ${themesData.languageSelect_border}`,
-      background: themesData.languageSelect_container,
-      outline: `2px solid ${themesData.languageSelect_container}`,
-      bottom: '-5px',
-      right: '27px',
-    })
-    const confirmStyle = ref({
-      border: `1px solid ${themesData.deleteSelect_border}`,
-      background: themesData.languageSelect_container,
-      outline: `2px solid ${themesData.languageSelect_container}`,
-      bottom: '-5px',
-      right: '47px',
-    })
-    const confirmBackground = ref(themesData.edit_container)
-    const confirmMessageColor = ref(themesData.confirm_message_color)
-    const unfoldColor = ref(themesData.unfold_text_color)
-    const arrowColor = ref(themesData.unfold_arrow_color)
-    let last_lang = 0
-    const handleScroll = (e) => {
-      const offset = preRef.value.scrollLeft
-      if (last_lang !== offset) {
-        lanStyle.value.left = dashedStyle.value.left = `${offset}px`
-        addStyle.value.left = `calc(100% + ${offset - 22}px)`
-        minusStyle.value.left = `calc(100% + ${offset - 38}px)`
-        selectStyle.value.right = `calc(27px - ${offset}px)`
-        last_lang = offset
-      }
-    }
-
     const add = ref(false)
     const edit = ref(false)
     const remove = ref(false)
@@ -362,6 +394,7 @@ export default defineComponent({
     }
     const close = () => {
       add.value = false
+      edit.value = false
       remove.value = false
       submit.value = false
     }
@@ -481,38 +514,6 @@ export default defineComponent({
         } else {
           dashedStyle.value.width = 'calc(100% - 1rem)'
         }
-      }
-    )
-
-    const setContainerHeight = () => {
-      containerStyle.value.height = `${preRef.value.offsetHeight + 19}px`
-    }
-    const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
-    const containerStyle = ref({
-      width: ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px'),
-      height: ref(showing.value ? 'auto' : '16px'),
-      background: themesData.container_background,
-    })
-
-    const toFoldOrUnfold = () => {
-      showing.value = !showing.value
-      if (showing.value) {
-        containerStyle.value.width = `${preRef.value.offsetWidth}px`
-        setContainerHeight()
-      } else {
-        edit.value = false
-        containerStyle.value.width = '260px'
-        containerStyle.value.height = '16px'
-      }
-    }
-
-    const headBoxStyle = ref({ background: showing.value ? 'transparent' : themesData.head_background_hidden })
-    watch(
-      () => {
-        return showing.value
-      },
-      val => {
-        headBoxStyle.value = { background: val ? 'transparent' : themesData.head_background_hidden }
       }
     )
 
