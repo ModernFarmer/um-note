@@ -67,5 +67,5 @@ export const UmNoteConfig = (json) => {
   } else {
     UM_NOTE_CONFIG.theme = 'default'
   }
-  injectCSS(UM_NOTE_CONFIG.theme)
+  injectCSS(UM_NOTE_CONFIG.theme) // 这里注入全局公用样式, 开发调试样式时须注释掉这里
 }

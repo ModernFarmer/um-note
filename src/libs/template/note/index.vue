@@ -215,6 +215,7 @@ export default defineComponent({
         addStyle.value.left = `calc(100% + ${offset - 22}px)`
         minusStyle.value.left = `calc(100% + ${offset - 38}px)`
         selectStyle.value.right = `calc(27px - ${offset}px)`
+        confirmStyle.value.right = `calc(47px - ${offset}px)`
         last_lang = offset
       }
     }
