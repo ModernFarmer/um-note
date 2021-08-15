@@ -46,7 +46,6 @@
     ><div
       :id="`${item.key}_codeBox`"
       class="_um-_code-box"
-      style="position: relative;"
       v-for="(item, index) in codeList" :key="`${item.key}_${index}`"
     ><div
       class="_um-_sign-public"
@@ -268,7 +267,7 @@ export default defineComponent({
               processedCode: window.Prism.highlight(codes.code || '', window.Prism.languages[language], language),
             }
           ]
-        } else { // 如果props.codes是一个字符串
+        } else if (typeof codes === 'string') { // 如果props.codes是一个字符串
           const language = getLanguage(props.language)
           const showingLanguage = getShowingLanguage(language)
           const key = getKey()
@@ -282,6 +281,8 @@ export default defineComponent({
               processedCode: window.Prism.highlight(codes || '', window.Prism.languages[language], language),
             }
           ]
+        } else {
+          throw `The prop 'codes' must be an array or object or a string!`
         }
         coreObj = coreObjJson
         contentChange.value = false

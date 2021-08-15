@@ -1,6 +1,5 @@
 <template>
-  <um-note/>
-  <!-- <div id="app">
+  <div id="app">
     <button class="btn" @click="toLogin">Log In</button>
     <button class="btn" @click="toLogout">Log Out</button><br>
     <um-note
@@ -24,7 +23,7 @@
       :codes="code2"
       @submit="submit2"
     />
-  </div> -->
+  </div>
 </template>
 
 <script>
