@@ -384,6 +384,7 @@ export const themeChoice = {
 }
 
 export const injectCSS = theme => {
+  if (!document.styleSheets.length) document.head.appendChild(document.createElement('style'))
   themeChoice.public()
   themeChoice[theme]()
   const themesData = themeConfigMap[theme]

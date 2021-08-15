@@ -29,13 +29,15 @@ window.Prism.hasLanguage = (language) => {
   return fullMap[language.toLowerCase()] === undefined ? false : true
 }
 
+if (window.Vue) window.Vue.component('UmNote', UmNoteTemplate)
+
 export const UmNote = {
   install: function (Vue) {
     Vue.component('UmNote', UmNoteTemplate)
   }
 }
 
-export const UmNoteConfig = (json) => {
+export const UmNoteConfig = (json = {}) => {
   if (json.addConfigure) UM_NOTE_CONFIG.addConfigure = json.addConfigure
   if (json.editConfigure) UM_NOTE_CONFIG.editConfigure = json.editConfigure
   if (json.removeConfigure) UM_NOTE_CONFIG.removeConfigure = json.removeConfigure
@@ -67,5 +69,5 @@ export const UmNoteConfig = (json) => {
   } else {
     UM_NOTE_CONFIG.theme = 'default'
   }
-  injectCSS(UM_NOTE_CONFIG.theme) // 这里注入全局公用样式, 开发调试样式时须注释掉这里
+  injectCSS(UM_NOTE_CONFIG.theme)
 }
