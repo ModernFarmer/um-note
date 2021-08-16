@@ -13,6 +13,13 @@ import { UmNote, UmNoteConfig } from 'um-note'
 console.log(Prism.allLanguages)
 
 /**
+ * 所有支持的主题
+ * 
+ * @returns {Array} 所有支持的主题
+ */
+console.log(Prism.allThemes)
+
+/**
  * 检测语言是否被支持
  * 
  * @param {String} 被检测的语言字符串

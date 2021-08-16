@@ -24,6 +24,7 @@ Object.entries(components.languages).forEach(item => {
   }
 })
 
+window.Prism.allThemes = ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
 window.Prism.allLanguages = allLanguages
 window.Prism.hasLanguage = (language) => {
   return fullMap[language.toLowerCase()] === undefined ? false : true
