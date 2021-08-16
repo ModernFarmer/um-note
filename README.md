@@ -1,9 +1,9 @@
 <br>
 
-<font size="5">um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交</font>
-<br><br>
+## um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交
+<br>
 
-<font size="5">完整demo -> **[Um-note Demo && Sound Code](https://github.com/ModernFarmer/um-note)**</font>
+## 完整demo -> **[Um-note Demo && Sound Code](https://github.com/ModernFarmer/um-note)**
 <br><br>
 
 ![](https://pic.imgdb.cn/item/6119d4815132923bf86613b3.gif)
@@ -28,7 +28,7 @@ UmNoteConfig()
 
 createApp(App).use(UmNote).mount('#app')
 ```
-<font color="green" size="5">\*</font> [UmNoteConfig 配置](#UmNoteConfig)
+\* [UmNoteConfig 配置](#UmNoteConfig)
 <br>
 
 \-&nbsp;&nbsp;&nbsp;.vue文件中使用
@@ -74,9 +74,9 @@ export default defineComponent({
 |array|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: 'javascript' ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: '' ]<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'html',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`\<div>{{ msg }}\<div>\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'javascript',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`const msg = 'Hello Word!'\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|
 <br>
 
-## \-\- <a id="UmNoteConfig">UmNoteConfig 配置</a> \-\- &nbsp;&nbsp;<font size="3">\[[完整UmNoteConfig示例](#UmNoteConfig-example)\]</font>
+## \-\- <a id="UmNoteConfig">UmNoteConfig 配置</a> \-\- &nbsp;&nbsp;\[[完整UmNoteConfig示例](#UmNoteConfig-example)\]
 
-\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red" size="5">*</font><font color="salmon">UmNoteConfig必须在组件挂在之前被调用</font>
+\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* *`UmNoteConfig必须在组件挂在之前被调用`*
 <br>
 
 |名称|类型|功能|回调参数|回调参数类型|回调参数说明|
