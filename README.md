@@ -28,7 +28,7 @@ UmNoteConfig()
 
 createApp(App).use(UmNote).mount('#app')
 ```
-<span style="font-size: 20px; color: green;">\*</span> [UmNoteConfig 配置](#UmNoteConfig)
+<font color="green" size="5">\*</font> [UmNoteConfig 配置](#UmNoteConfig)
 <br>
 
 \-&nbsp;&nbsp;&nbsp;.vue文件中使用
@@ -74,9 +74,9 @@ export default defineComponent({
 |array|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: 'javascript' ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: '' ]<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'html',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`\<div>{{ msg }}\<div>\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'javascript',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`const msg = 'Hello Word!'\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|
 <br>
 
-## \-\- <a id="UmNoteConfig">UmNoteConfig 配置</a> \-\- &nbsp;&nbsp;<span style="font-size: 14px;">\[[完整UmNoteConfig示例](#UmNoteConfig-example)\]</span>
+## \-\- <a id="UmNoteConfig">UmNoteConfig 配置</a> \-\- &nbsp;&nbsp;<font size="3">\[[完整UmNoteConfig示例](#UmNoteConfig-example)\]</font>
 
-\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 20px; color: red;">*</span><span style="color: salmon;">UmNoteConfig必须在组件挂在之前被调用</span>
+\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red" size="5">*</font><font color="salmon">UmNoteConfig必须在组件挂在之前被调用</font>
 <br>
 
 |名称|类型|功能|回调参数|回调参数类型|回调参数说明|
