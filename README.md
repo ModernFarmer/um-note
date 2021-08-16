@@ -1,9 +1,9 @@
 <br>
 
-<font size=5>um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交</font>
+<font size="5">um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交</font>
 <br><br>
 
-<font size=3>完整demo -> **[Um-note Demo && Sound Code](https://github.com/ModernFarmer/um-note)**</font>
+<font size="5">完整demo -> **[Um-note Demo && Sound Code](https://github.com/ModernFarmer/um-note)**</font>
 <br><br>
 
 ![](https://pic.imgdb.cn/item/6119d4815132923bf86613b3.gif)
