@@ -81,7 +81,7 @@ export default defineComponent({
 
 |名称|类型|功能|回调参数|回调参数类型|回调参数说明|
 |-|-|-|-|-|-|
-|UmNoteConfig|function|配置um-note的主题、支持语言、权限等.|UmNoteConfig([Configure](#Configure))|object&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|UmNoteConfig方法的配置对象|
+|UmNoteConfig|function|配置um-note的主题、支持语言、权限等.|[Configure](#Configure)|object|UmNoteConfig方法的配置对象|
 <br>
 
 \-\- <a id="Configure">Configure</a>
@@ -92,10 +92,10 @@ export default defineComponent({
 |theme|string|配置um-note的主题. \[[所有主题](#theme)\]. \[[示例](#example-theme)\].|'default'|-|-|-|
 |languages|array|配置um-note支持的语言. \[[所有可被支持的语言](#language)\]. \[[示例](#example-language)\]|['html', 'javascript', 'css']|-|-|-|
 |contentNames|object|配置um-note中删除代码块弹框中的相关文字描述. \[[示例](#contentNames)|undefined|-|-|-|
-|editConfigure|function|配置um-note中的编辑权限. \[[示例](#editConfigure)|undefined|function(`next`)|function&nbsp;|继续下一步.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|addConfigure|function|配置um-note中添加代码块权限. \[[示例](#addConfigure)|undefined|function(`next`)|function&nbsp;|继续下一步.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|removeConfigure|function|配置um-note中删除代码块权限. \[[示例](#removeConfigure)|undefined|function(`next`)|function&nbsp;|继续下一步.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-|submitConfigure|function|配置um-note中的提交权限. \[[示例](#submitConfigure)|undefined|function(`next`)|function&nbsp;|继续下一步.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|editConfigure|function|配置um-note中的编辑权限. \[[示例](#editConfigure)|undefined|`next`|function|继续下一步.|
+|addConfigure|function|配置um-note中添加代码块权限. \[[示例](#addConfigure)|undefined|`next`|function|继续下一步.|
+|removeConfigure|function|配置um-note中删除代码块权限. \[[示例](#removeConfigure)|undefined|`next`|function|继续下一步.|
+|submitConfigure|function|配置um-note中的提交权限. \[[示例](#submitConfigure)|undefined|`next`|function|继续下一步.|
 <br>
 
 ### $ - 配置示例
