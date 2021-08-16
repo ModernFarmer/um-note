@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-    <um-note
-      width="50%"
-      editable
-    />
     <button class="btn1" @click="toLogin">Log In</button>
-    <!-- <button class="btn1" @click="toLogin">Log In</button>
     <button class="btn2" @click="toLogout">Log Out</button><br>
     <um-note
       class="code-outsize1"
@@ -27,7 +22,7 @@
       :unfold="false"
       :codes="code2"
       @submit="submit2"
-    /> -->
+    />
   </div>
 </template>
 
@@ -38,7 +33,7 @@ import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
     const dispatch = useStore().dispatch
-    const width = ref('500px')
+    const width = ref('40%')
     const code1 = ref([])
     const code2 = ref([])
 
@@ -103,8 +98,8 @@ export default defineComponent({
 
 <style>
 #app { width: 100%; overflow: hidden; position: relative; }
-.btn1 { margin-left: 200px; margin-top: 20px; }
+.btn1 { margin-left: 10%; margin-top: 20px; }
 .btn2 { margin-left: 20px; margin-top: 20px; }
-.code-outsize1 { margin-left: 200px; margin-top: 20px; margin-bottom: 50px; float: left; }
+.code-outsize1 { margin-left: 10%; margin-top: 20px; margin-bottom: 50px; float: left; }
 .code-outsize2 { margin-left: 20px; margin-top: 20px; margin-bottom: 50px; float: left; }
 </style>

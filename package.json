@@ -10,7 +10,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "prismjs": "1.24.1",
-    "um-note": "^1.0.1",
+    "um-note": "^1.0.3",
     "vue": "^3.0.0",
     "vuex": "^4.0.0-0"
   },
