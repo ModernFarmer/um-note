@@ -1,20 +1,25 @@
 <template>
   <div id="app">
-    <button class="btn" @click="toLogin">Log In</button>
-    <button class="btn" @click="toLogout">Log Out</button><br>
     <um-note
-      class="code-outsize"
+      width="50%"
+      editable
+    />
+    <button class="btn1" @click="toLogin">Log In</button>
+    <!-- <button class="btn1" @click="toLogin">Log In</button>
+    <button class="btn2" @click="toLogout">Log Out</button><br>
+    <um-note
+      class="code-outsize1"
       :width="width"
       :height="'300px'"
       language="javascript"
       editable
       :foldable="true"
-      :unfold="false"
+      :unfold="true"
       :codes="code1"
       @submit="submit1"
     />
     <um-note
-      class="code-outsize"
+      class="code-outsize2"
       :width="width"
       language="javascript"
       editable
@@ -22,7 +27,7 @@
       :unfold="false"
       :codes="code2"
       @submit="submit2"
-    />
+    /> -->
   </div>
 </template>
 
@@ -98,6 +103,8 @@ export default defineComponent({
 
 <style>
 #app { width: 100%; overflow: hidden; position: relative; }
-.btn { margin-left: 20px; margin-top: 20px; }
-.code-outsize { margin-left: 20px; margin-top: 20px; margin-bottom: 50px; float: left; }
+.btn1 { margin-left: 200px; margin-top: 20px; }
+.btn2 { margin-left: 20px; margin-top: 20px; }
+.code-outsize1 { margin-left: 200px; margin-top: 20px; margin-bottom: 50px; float: left; }
+.code-outsize2 { margin-left: 20px; margin-top: 20px; margin-bottom: 50px; float: left; }
 </style>

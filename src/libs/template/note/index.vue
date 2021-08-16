@@ -41,7 +41,7 @@
     <pre
       ref="preRef"
       class="_um-_pre-class language-"
-      :style="{ width, height }"
+      :style="{ height }"
       @scroll="handleScroll"
     ><div
       :id="`${item.key}_codeBox`"
@@ -156,7 +156,7 @@ export default defineComponent({
     }
     const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
     const containerStyle = ref({
-      width: ref(showing.value ? (props.width === 'auto' ? 'auto' : `calc(${props.width} + 1rem)`) : '260px'),
+      width: ref(showing.value ? (props.width === 'auto' ? 'auto' : props.width) : '260px'),
       height: ref(showing.value ? 'auto' : '16px'),
       background: themesData.container_background,
     })
@@ -164,7 +164,7 @@ export default defineComponent({
     const toFoldOrUnfold = () => {
       showing.value = !showing.value
       if (showing.value) {
-        containerStyle.value.width = `${preRef.value.offsetWidth}px`
+        containerStyle.value.width = props.width
         setContainerHeight()
       } else {
         edit.value = false
@@ -187,7 +187,7 @@ export default defineComponent({
     const lanStyle = ref({ color: themesData.language_color, left: 0, top: 0 })
     const addStyle = ref({ left: `calc(100% - 22px)`, bottom: 0 })
     const minusStyle = ref({ left: `calc(100% - 38px)`, bottom: 0 })
-    const dashedStyle = ref({ width: 'calc(100% - 1rem)', borderBottom: `1px dashed ${themesData.block_hr_background}`, left: 0, bottom: '8px' })
+    const dashedStyle = ref({ width: 'calc(100% - 1em)', borderBottom: `1px dashed ${themesData.block_hr_background}`, left: 0, bottom: '8px' })
     const selectStyle = ref({
       border: `1px solid ${themesData.languageSelect_border}`,
       background: themesData.languageSelect_container,
@@ -514,7 +514,7 @@ export default defineComponent({
         if (bl) {
           dashedStyle.value.width = 'calc(100% - 47px)'
         } else {
-          dashedStyle.value.width = 'calc(100% - 1rem)'
+          dashedStyle.value.width = 'calc(100% - 1em)'
         }
       }
     )

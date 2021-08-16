@@ -356,7 +356,7 @@ export const themeChoice = {
     document.styleSheets[0].insertRule(`.token.entity { cursor: help; }`)
   },
   public () {
-    document.styleSheets[0].insertRule(`pre[class*="language-"] { border-radius: none !important; padding: 0 0 1rem 1rem !important; margin: 3px 0 0 0 !important; overflow: auto !important; -webkit-box-sizing: content-box !important; -moz-box-sizing: content-box !important; box-sizing: content-box !important; border: none !important; }`)
+    document.styleSheets[0].insertRule(`pre[class*="language-"] { border-radius: none !important; padding: 0 0 1em 1em !important; margin: 3px 0 0 0 !important; overflow: auto !important; -webkit-box-sizing: content-box !important; -moz-box-sizing: content-box !important; box-sizing: content-box !important; border: none !important; }`)
     document.styleSheets[0].insertRule(`._um-_note-container { min-width: 260px; overflow: hidden; border-radius: 3px; transition: .3s; position: relative; }`)
     document.styleSheets[0].insertRule(`._um-_note-headbox { width: 100%; height: 16px; transition: .3s; overflow: hidden; position: relative; z-index: 100; }`)
     document.styleSheets[0].insertRule(`._um-_unfold-box { height: 30px; font-size: 10px; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }`)
@@ -367,7 +367,7 @@ export const themeChoice = {
     document.styleSheets[0].insertRule(`._um-_submit-confirm { height: 12px; margin-top: 2px; margin-right: 5px; padding: 0 2px; border-radius: 2px; overflow: hidden; float: right; position: relative; z-index: 10; }`)
     document.styleSheets[0].insertRule(`._um-_submit-item-cancel,._um-_submit-item-ok { width: 20px; height: 12px; line-height: 12px; text-align: center; border-radius: 6px; font-size: 12px; display: inline-block; margin: 0 4px; cursor: pointer; position: relative; top: -4px; }`)
     document.styleSheets[0].insertRule(`._um-submit-span { position: relative; top: -1px; }`)
-    document.styleSheets[0].insertRule(`._um-_pre-class { min-width: calc(260px - 1rem); position: relative; }`)
+    document.styleSheets[0].insertRule(`._um-_pre-class { width: calc(100% - 1em); position: relative; }`)
     document.styleSheets[0].insertRule(`._um-_not-chooseable { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }`)
     document.styleSheets[0].insertRule(`._um-_code-box { position: relative; }`)
     document.styleSheets[0].insertRule(`._um-_sign-public { font-size: 10px; position: absolute; }`)
@@ -379,7 +379,7 @@ export const themeChoice = {
     document.styleSheets[0].insertRule(`._um-_confirm-container { padding: 2px; box-shadow: 3px 3px 7px rgba(0, 0, 0, .3); position: absolute; z-index: 10; }`)
     document.styleSheets[0].insertRule(`._um-_confirm-message { font-size: 10px; padding: 2px 2px 4px 2px; }`)
     document.styleSheets[0].insertRule(`._um-_confirm-item { line-height: 20px; font-size: 12px; padding: 2px 10px; margin: 2px; cursor: pointer; border-radius: 3px; float: left; }`)
-    document.styleSheets[0].insertRule(`._um-_code-class { min-width: calc(100% - 1rem); display: inline-block; padding-right: 1rem; outline: none; margin: 20px 0 30px 0; }`)
+    document.styleSheets[0].insertRule(`._um-_code-class { min-width: calc(100% - 1em); min-height: 1.5em; display: inline-block; padding-right: 1em; outline: none; margin: 20px 0 30px 0; }`)
   },
 }
 
