@@ -104,8 +104,6 @@ import { defineComponent, ref, watch, nextTick, onBeforeUnmount } from 'vue'
 import { getLanguage, getShowingLanguage, getKey, selection, setCore, _BD, _unBD, UM_NOTE_CONFIG } from './publicData'
 import { themeConfigMap } from './theme'
 
-let domClick = null
-
 export default defineComponent({
   props: {
     language: {
@@ -287,12 +285,14 @@ export default defineComponent({
         coreObj = coreObjJson
         contentChange.value = false
 
-        nextTick(() => {
-          add.value = false
-          remove.value = false
-          submit.value = false
-          setContainerHeight()
-        })
+        if (showing.value) {
+          nextTick(() => {
+            add.value = false
+            remove.value = false
+            submit.value = false
+            setContainerHeight()
+          })
+        }
       },
       { immediate: true }
     )
@@ -518,7 +518,7 @@ export default defineComponent({
       }
     )
 
-    domClick = () => {
+    let domClick = () => {
       add.value = false
       _u_resetStyle()
       remove.value = false
@@ -527,6 +527,8 @@ export default defineComponent({
     _BD(document, 'click', domClick)
     onBeforeUnmount(() => {
       _unBD(document, 'click', domClick)
+      domClick = null
+      last_lang = null
     })
 
     return {
