@@ -156,8 +156,8 @@ export default defineComponent({
     }
     const showing = ref(props.foldable === false ? true : (props.unfold || props.unfold === '' ? true : false))
     const containerStyle = ref({
-      width: ref(showing.value ? (props.width === 'auto' ? 'auto' : props.width) : '260px'),
-      height: ref(showing.value ? 'auto' : '16px'),
+      width: showing.value ? (props.width === 'auto' ? 'auto' : props.width) : '260px',
+      height: showing.value ? 'auto' : '16px',
       background: themesData.container_background,
     })
 
@@ -287,13 +287,12 @@ export default defineComponent({
         coreObj = coreObjJson
         contentChange.value = false
 
-        if (containerStyle.value.height === 'auto' && props.height === 'auto') {
-          nextTick(() => {
-            add.value = false
-            remove.value = false
-            setContainerHeight()
-          })
-        }
+        nextTick(() => {
+          add.value = false
+          remove.value = false
+          submit.value = false
+          setContainerHeight()
+        })
       },
       { immediate: true }
     )
