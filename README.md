@@ -1,9 +1,9 @@
 <br>
 
-## um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交
+### um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交
 <br>
 
-## 完整demo -> **[Um-note Demo && Sound Code](https://github.com/ModernFarmer/um-note)**
+## 完整demo -> **[Demo & Sound Code](https://github.com/ModernFarmer/um-note)**
 <br>
 
 ![](https://pic.imgdb.cn/item/6119d4815132923bf86613b3.gif)
@@ -51,7 +51,7 @@ export default defineComponent({
 ```
 <br>
 
-## \-\- 组件props \-\-
+## \-\- props \-\-
 <br>
 
 |参数|说明|类型|默认值|
@@ -65,6 +65,14 @@ export default defineComponent({
 |language|组件的默认语言.|string|'javascript'|
 <br>
 
+## \-\- event \-\-
+<br>
+
+|名称|说明|回调参数|回调参数类型|回调参数说明|
+|-|-|-|-|-|
+|submit|组件提交操作时的回调函数. [完整示例demo](https://github.com/ModernFarmer/um-note)|[submitInfo](#submitInfo)|object|当前提交的内容信息和初始化编辑状态方法.|
+<br>
+
 ### \-\-\- <a id="codeFormat">codes的格式</a> \-\-\-
 
 |类型|格式|示例|
@@ -72,6 +80,14 @@ export default defineComponent({
 |string|-|\`const value = 'Hello Word!'\`|
 |object|{<br>&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: 'javascript' ],<br>&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: '' ]<br>}|{<br>&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'javascript',<br>&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`const value = 'Hello Word!'\`<br>}|
 |array|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: 'javascript' ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;[ `string` \| *可选* \| 默认: '' ]<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'html',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`\<div>{{ msg }}\<div>\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'javascript',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`const msg = 'Hello Word!'\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|
+<br>
+
+### \-\-\- <a id="submitInfo">submitInfo</a> \-\-\-
+
+|submitInfo的属性|类型|说明|
+|-|-|-|
+|data|array|需要提交的数据. \[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code : \[ 原始展示用代码 \| string \],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language : \[ 实际代码语言 \| string \],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;processedCode : \[ prismjs处理过的代码 \| string \],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;showingLanguage : \[ 展示的语言 \| string \]<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>\]|
+|close|function|初始化组件的编辑状态为'未编辑'状态.|
 <br>
 
 ## \-\- <a id="UmNoteConfig">UmNoteConfig 配置</a> \-\- &nbsp;&nbsp;\[[完整UmNoteConfig示例](#UmNoteConfig-example)\]
@@ -84,8 +100,7 @@ export default defineComponent({
 |UmNoteConfig|function|配置um-note的主题、支持语言、权限等.|[Configure](#Configure)|object|UmNoteConfig方法的配置对象|
 <br>
 
-\-\- <a id="Configure">Configure</a>
-<br>
+### \-\-\- <a id="Configure">Configure</a> \-\-\-
 
 |Configure的属性|类型|功能|默认值|回调参数|回调参数类型|回调参数说明|
 |-|-|-|-|-|-|-|
