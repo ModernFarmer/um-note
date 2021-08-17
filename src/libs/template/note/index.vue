@@ -176,8 +176,8 @@ export default defineComponent({
       () => {
         return showing.value
       },
-      val => {
-        headBoxStyle.value = { background: val ? 'transparent' : themesData.head_background_hidden }
+      bl => {
+        headBoxStyle.value = { background: bl ? 'transparent' : themesData.head_background_hidden }
       }
     )
 
@@ -204,7 +204,7 @@ export default defineComponent({
     const confirmMessageColor = ref(themesData.confirm_message_color)
     const unfoldColor = ref(themesData.unfold_text_color)
     const arrowColor = ref(themesData.unfold_arrow_color)
-    let last_lang = 0
+    let last_lang = 0 // 上一次组件内容横向滚动的距离, 用于固定定位添加删除功能等功能按钮
     const handleScroll = (e) => {
       const offset = preRef.value.scrollLeft
       if (last_lang !== offset) {
@@ -223,7 +223,7 @@ export default defineComponent({
       () => props.codes,
       codes => {
         const coreObjJson = {}
-        if (Array.isArray(codes)) { // 如果props.codes是一个数组
+        if (Array.isArray(codes)) { // 如果codes是一个数组
           if (codes.length) {
             codeList.value = codes.map(item => {
               const _language = getLanguage(item.language)
@@ -250,7 +250,7 @@ export default defineComponent({
               processedCode: '',
             }]
           }
-        } else if (typeof codes === 'object') { // 如果props.codes是一个json
+        } else if (typeof codes === 'object') { // 如果codes是一个json
           const _language = getLanguage(codes.language)
           const language = _language === 'javascript' ? getLanguage(props.language) : _language
           const showingLanguage = getShowingLanguage(language)
@@ -265,7 +265,7 @@ export default defineComponent({
               processedCode: window.Prism.highlight(codes.code || '', window.Prism.languages[language], language),
             }
           ]
-        } else if (typeof codes === 'string') { // 如果props.codes是一个字符串
+        } else if (typeof codes === 'string') { // 如果codes是一个字符串
           const language = getLanguage(props.language)
           const showingLanguage = getShowingLanguage(language)
           const key = getKey()
@@ -294,7 +294,7 @@ export default defineComponent({
           })
         }
       },
-      { immediate: true }
+      { immediate: true, deep: true }
     )
 
     let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
@@ -322,7 +322,7 @@ export default defineComponent({
           selection.deleteContents()
           targetObj.inset = clipboard.getData("text/plain").toString()
         } else {
-          alert('不支持粘贴, 请手动输入.')
+          alert('Paste is not supported, please enter it manually!')
           return
         }
       } else if (isPaste) { // input事件(粘贴时会触发input事件, 这里要拦截)
@@ -333,7 +333,7 @@ export default defineComponent({
       targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, (totalOffset, textContent) => {
         const realContent = window.Prism.highlight(textContent, window.Prism.languages[item.language], item.language)
         // 当realContent === item.processedCode时, 不会触发页面更新, 须手动更新
-        // 适用于当全选内容并粘贴的情况
+        // 适用于全选内容并粘贴的情况
         if (realContent === item.processedCode) {
           targetObj.root.innerHTML = realContent
         } else {
@@ -367,8 +367,8 @@ export default defineComponent({
     const submit = ref(false)
     const addIndex = ref(null)
     const removeIndex = ref(null)
-    let codeTagEl = null
-    let codeTagHeightOrigin = null
+    let codeTagEl = null // 当添加弹框内的语言数量过多, 可能会导致弹框高度超过代码块高度, codeTagEl用于储存最近一次打开添加弹框的代码块div, 便于关闭弹框时初始化它的高度
+    let codeTagHeightOrigin = null // 未打开弹框时代码块div的原始高度, 用于初始化codeTagEl的高度
 
     const _u_resetStyle = () => {
       if (codeTagEl) {
@@ -529,6 +529,12 @@ export default defineComponent({
       _unBD(document, 'click', domClick)
       domClick = null
       last_lang = null
+      coreObj = null
+      isPaste = null
+      canInput = null
+      codeTagEl = null
+      codeTagHeightOrigin = null
+      _u_resetStyle = null
     })
 
     return {
