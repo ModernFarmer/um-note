@@ -11,13 +11,14 @@ pre[class*="language-"] {
 
 ._um-_note-container { min-width: 260px; overflow: hidden; border-radius: 3px; transition: .3s; position: relative; }
 ._um-_note-headbox { width: 100%; height: 16px; transition: .3s; overflow: hidden; position: relative; z-index: 100; }
-._um-_unfold-box { height: 30px; font-size: 10px; display: inline-block; cursor: pointer; zoom: .75; position: absolute; left: 5px; top: -3px; }
-._um-_unfold-text { display: inline-block; transition: .3s; position: absolute; top: 4px; }
-._um-_unflod-arrow { display: inline-block; zoom: 1.3; transform-origin: left center; transition: .3s; position: absolute; top: 1px; }
+._um-_unfold-box { height: 16px; line-height: 16px; font-size: 10px; cursor: pointer; position: absolute; left: 5px; top: 0; }
+._um-_unfold-text { transition: .3s; position: absolute; top: 0; }
+._um-_unfold-scale-text { transform: scale(.75); -webkit-transform: scale(.75); -moz-transform: scale(.75); -o-transform: scale(.75); -ms-transform: scale(.75); transform-origin: left center; -webkit-transform-origin: left center; -moz-transform-origin: left center; -o-transform-origin: left center; -ms-transform-origin: left center; }
+._um-_unflod-arrow { line-height: 16px; transform-origin: left center; transition: .3s; position: absolute; top: -1px; }
 ._um-_note-config-edit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; float: right; margin-right: 3px; margin-top: 3px; }
 ._um-_note-config-submit { width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: orange; float: right; margin-right: 3px; margin-top: 3px; }
 ._um-_submit-confirm { height: 12px; margin-top: 2px; margin-right: 5px; padding: 0 2px; border-radius: 2px; overflow: hidden; float: right; position: relative; z-index: 10; }
-._um-_submit-item-cancel,._um-_submit-item-ok { width: 20px; height: 12px; line-height: 12px; text-align: center; border-radius: 6px; font-size: 12px; display: inline-block; margin: 0 4px; cursor: pointer; position: relative; top: -4px; }
+._um-_submit-item-cancel,._um-_submit-item-ok { width: 20px; height: 12px; line-height: 12px; text-align: center; border-radius: 6px; font-size: 12px; float: left; margin: 0 4px; cursor: pointer; }
 ._um-submit-span { position: relative; top: -1px; }
 
 ._um-_pre-class { width: calc(100% - 1em); position: relative; }

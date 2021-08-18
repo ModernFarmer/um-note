@@ -1,12 +1,14 @@
 <br>
 
-### um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮vue3组件, 支持编辑和提交
+### um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮`vue3`组件, 支持编辑和提交
+
+### &diams; `vue2版um-note` -> 请看[doc-note](https://www.npmjs.com/package/doc-note)
 <br>
 
 ## 完整demo -> **[Demo & Sound Code](https://github.com/ModernFarmer/um-note)**
 <br>
 
-![](https://pic.imgdb.cn/item/6119d4815132923bf86613b3.gif)
+![](https://pic.imgdb.cn/item/611befad4907e2d39c137f7a.gif)
 <br><br>
 
 ## \-\- 基本用法 \-\-
@@ -23,7 +25,7 @@ npm i um-note -S
 // main.js
 import { UmNote, UmNoteConfig } from 'um-note'
 
-// UmNoteConfig是um-note组件的配置方法, 相当于初始化方法, 必须在Vue.use(UmNote)之前执行.
+// UmNoteConfig是um-note组件的配置方法, 相当于初始化方法, 必须在createApp(App).use(UmNote)之前执行.
 UmNoteConfig()
 
 createApp(App).use(UmNote).mount('#app')
@@ -34,7 +36,7 @@ createApp(App).use(UmNote).mount('#app')
 \-&nbsp;&nbsp;&nbsp;.vue文件中使用
 ```html
 <template>
-  <um-note :codes="code1"/>
+  <um-note :codes="code"/>
 </template>
 ```
 ```javascript
@@ -161,7 +163,7 @@ UmNoteConfig({
   languages: ['html', 'javascript', 'css', 'c++', 'ASP.NET (C#)']
 })
 ```
-![](https://pic.imgdb.cn/item/611a42c85132923bf844d5b9.png)
+![](https://pic.imgdb.cn/item/611befad4907e2d39c138035.png)
 
 ----------
 <br>
@@ -178,7 +180,7 @@ UmNoteConfig({
   }
 })
 ```
-![](https://pic.imgdb.cn/item/611a48045132923bf857090f.png)
+![](https://pic.imgdb.cn/item/611befad4907e2d39c137fd6.png)
 
 ----------
 <br>

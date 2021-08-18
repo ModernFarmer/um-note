@@ -5,7 +5,7 @@
     <um-note
       class="code-outsize1"
       :width="width"
-      :height="'300px'"
+      height="300px"
       language="javascript"
       editable
       :foldable="true"
@@ -65,7 +65,6 @@ export default defineComponent({
           code1.value = res
         })
       }).catch(err => {
-        close()
         console.error(err)
       })
     }
@@ -78,7 +77,6 @@ export default defineComponent({
           code2.value = res
         })
       }).catch(err => {
-        close()
         console.error(err)
       })
     }

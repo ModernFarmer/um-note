@@ -5,14 +5,16 @@
     >
       <div class="_um-_unfold-box"
         v-if="foldable || foldable === ''"
-        :style="{ width: showing ? 'calc(100% - 55px)' : 'calc(100% - 30px)' }"
+        :style="{ width: showing ? 'calc(100% - 42px)' : 'calc(100% - 27px)' }"
         @click="toFoldOrUnfold"
       >
         <div class="_um-_unfold-text"
-          :style="{ left: showing ? '20px' : '0', color: unfoldColor }"
-        >{{ showing ? 'fold' : 'unfold note' }}</div>
+          :style="{ left: showing ? '16px' : '0', color: unfoldColor }"
+        >
+          <div class="_um-_unfold-scale-text">{{ showing ? 'fold' : 'unfold note' }}</div>
+        </div>
         <div class="_um-_unflod-arrow"
-          :style="{ left: showing ? '0' : '57px', color: arrowColor }"
+          :style="{ left: showing ? '0' : '55px', color: arrowColor }"
         >{{ showing ? '‹‹‹' : '›››' }}</div>
       </div>
       <div
@@ -70,8 +72,8 @@
       v-if="add && index === addIndex"
     ><div
       class="_um-_select-item _um-_not-chooseable"
-      v-for="val in languageList"
-      :key="val"
+      v-for="(val, ind) in languageList"
+      :key="`${val.fnKey}_${ind}`"
       @click="toHandleAdd(val, index, item.key)"
     >{{ val.value }}</div></div><div
       class="_um-_confirm-container"
@@ -83,7 +85,7 @@
     >{{ deleteObj.explain }}</div><div
       class="_um-_confirm-item _um-_not-chooseable"
       v-for="val in deleteObj.list"
-      :key="val"
+      :key="`fnBtn_${val.key}`"
       @click="toHandleRemove(val.key, item.key, index)"
     >{{ val.value }}</div></div><code
         :id="item.key"
@@ -403,9 +405,12 @@ export default defineComponent({
       remove.value = false
       submit.value = false
       if (UM_NOTE_CONFIG.addConfigure) {
-        if (add.value || (addIndex.value !== null && addIndex.value !== index)) {
-          add.value = false
-          _u_resetStyle()
+        if (addIndex.value === index) {
+          if (add.value) {
+            add.value = false
+          } else {
+            UM_NOTE_CONFIG.addConfigure(next_add)
+          }
         } else {
           UM_NOTE_CONFIG.addConfigure(next_add)
         }
@@ -483,8 +488,12 @@ export default defineComponent({
       submit.value = false
       _u_resetStyle()
       if (UM_NOTE_CONFIG.removeConfigure) {
-        if (remove.value || (removeIndex.value !== null && removeIndex.value !== index)) {
-          remove.value = false
+        if (removeIndex.value === index) {
+          if (remove.value) {
+            remove.value = false
+          } else {
+            UM_NOTE_CONFIG.removeConfigure(next_remove)
+          }
         } else {
           UM_NOTE_CONFIG.removeConfigure(next_remove)
         }
