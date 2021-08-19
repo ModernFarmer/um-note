@@ -10,11 +10,8 @@
 ### &diams; `um-note for vue2` -> see [doc-note](https://www.npmjs.com/package/doc-note)
 <br>
 
-<h2 align="center">
-
-<a id="chApi">`中文文档`</a> | [English Api](#enApi)
-
-</h2>
+## <a id="chApi">`中文文档`</a> | [English Api](#enApi)
+<br>
 
 ## 完整demo -> **[Demo & Sound Code](https://github.com/ModernFarmer/um-note)**
 <br>
@@ -359,11 +356,8 @@ UmNoteConfig({
 ----------
 <br>
 
-<h2 align="center">
-
-[中文文档](#chApi) | <a id="enApi">`English Api`</a>
-
-</h2>
+## [中文文档](#chApi) | <a id="enApi">`English Api`</a>
+<br>
 
 ## \-\- <a id="chApi">Basic Usage</a> \-\-
 <br>
