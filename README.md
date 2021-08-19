@@ -2,8 +2,19 @@
 
 ### um-note是基于[prismjs](https://prismjs.com/extending.html)开发的语法高亮`vue3`组件, 支持编辑和提交
 
-### &diams; `vue2版um-note` -> 请看[doc-note](https://www.npmjs.com/package/doc-note)
+### &diams; `vue2版um-note` -> 请看 [doc-note](https://www.npmjs.com/package/doc-note)
 <br>
+
+### Um-note is a syntax highlighting `vue3` component developed based on [prismjs](https://prismjs.com/extending.html), which supports editing and submission
+
+### &diams; `um-note for vue2` -> see [doc-note](https://www.npmjs.com/package/doc-note)
+<br>
+
+<h2 align="center">
+
+<a id="chApi">`中文文档`</a> | [English Api](#enApi)
+
+</h2>
 
 ## 完整demo -> **[Demo & Sound Code](https://github.com/ModernFarmer/um-note)**
 <br>
@@ -94,7 +105,7 @@ export default defineComponent({
 
 ## \-\- <a id="UmNoteConfig">UmNoteConfig 配置</a> \-\- &nbsp;&nbsp;\[[完整UmNoteConfig示例](#UmNoteConfig-example)\]
 
-\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* *`UmNoteConfig必须在组件挂在之前被调用`*
+\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* *`UmNoteConfig必须在组件挂载之前被调用`*
 <br>
 
 |名称|类型|功能|回调参数|回调参数类型|回调参数说明|
@@ -108,11 +119,11 @@ export default defineComponent({
 |-|-|-|-|-|-|-|
 |theme|string|配置um-note的主题. \[[所有主题](#theme)\]. \[[示例](#example-theme)\].|'default'|-|-|-|
 |languages|array|配置um-note支持的语言. \[[所有可被支持的语言](#language)\]. \[[示例](#example-language)\]|['html', 'javascript', 'css']|-|-|-|
-|contentNames|object|配置um-note中删除代码块弹框中的相关文字描述. \[[示例](#contentNames)|undefined|-|-|-|
-|editConfigure|function|配置um-note中的编辑权限. \[[示例](#editConfigure)|undefined|`next`|function|继续下一步.|
-|addConfigure|function|配置um-note中添加代码块权限. \[[示例](#addConfigure)|undefined|`next`|function|继续下一步.|
-|removeConfigure|function|配置um-note中删除代码块权限. \[[示例](#removeConfigure)|undefined|`next`|function|继续下一步.|
-|submitConfigure|function|配置um-note中的提交权限. \[[示例](#submitConfigure)|undefined|`next`|function|继续下一步.|
+|contentNames|object|配置um-note中删除代码块弹框中的相关文字描述. \[[示例](#contentNames)\]|undefined|-|-|-|
+|editConfigure|function|配置um-note中的编辑权限. \[[示例](#editConfigure)\]|undefined|`next`|function|继续下一步.|
+|addConfigure|function|配置um-note中添加代码块权限. \[[示例](#addConfigure)\]|undefined|`next`|function|继续下一步.|
+|removeConfigure|function|配置um-note中删除代码块权限. \[[示例](#removeConfigure)\]|undefined|`next`|function|继续下一步.|
+|submitConfigure|function|配置um-note中的提交权限. \[[示例](#submitConfigure)\]|undefined|`next`|function|继续下一步.|
 <br>
 
 ### $ - 配置示例
@@ -340,6 +351,349 @@ UmNoteConfig({
    * 
    * {String} theme
    * 可配置主题一共有8种: ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
+   */
+  theme: 'default',
+})
+```
+
+----------
+<br>
+
+<h2 align="center">
+
+[中文文档](#chApi) | <a id="enApi">`English Api`</a>
+
+</h2>
+
+## \-\- <a id="chApi">Basic Usage</a> \-\-
+<br>
+
+\- Download dependency
+```javascript
+npm i um-note -S
+```
+<br>
+
+\-&nbsp;&nbsp;&nbsp;Register components
+```javascript
+// main.js
+import { UmNote, UmNoteConfig } from 'um-note'
+
+// Umnoteconfig is the configuration method of um-note components, Equivalent to initialization method, Must be executed before createapp(APP).use(UmNote).
+UmNoteConfig()
+
+createApp(App).use(UmNote).mount('#app')
+```
+\* [Umnoteconfig configuration](#UmNoteConfigEn)
+<br>
+
+\-&nbsp;&nbsp;&nbsp;Used in .vue files
+```html
+<template>
+  <um-note :codes="code"/>
+</template>
+```
+```javascript
+import { defineComponent, ref } from 'vue'
+export default defineComponent({
+  setup() {
+    const code = ref(`const helloWord = 'Hello, um-note!'`)
+
+    return {
+      code,
+    }
+  }
+})
+```
+<br>
+
+## \-\- props \-\-
+<br>
+
+|Params|Description|Type|Default|
+|-|-|-|-|
+|width|Width of component. *\*Must bring unit.*|string|'100%'|
+|height|Height of component. *\*Must bring unit.*|string|'auto'|
+|editable|Whether to turn on the editable function. If the value of `editable` is false, the edit switch in the upper right corner of the component is hidden.|boolean|false|
+|foldable|Whether to turn on the folding function. If the value of `foldable` is false, the `unfold` attribute will become invalid and the component will remain unfold.|boolean|true|
+|unfold|Whether to unfold components by default.|boolean|false|
+|\*codes|Code to show. [View the format of attribute codes](#codeFormatEn).|string \| object \| array|[]|
+|language|The default language of the component.|string|'javascript'|
+<br>
+
+## \-\- event \-\-
+<br>
+
+|Name|Description|CB Arguments|Arg Type|Arg Description|
+|-|-|-|-|-|
+|submit|Callback function when component submits operation. [Full sample demo](https://github.com/ModernFarmer/um-note)|[submitInfo](#submitInfoEn)|object|Content information currently submitted and method of initializing editing status.|
+<br>
+
+### \-\-\- <a id="codeFormatEn">Format of codes</a> \-\-\-
+
+|Type|Format|Example|
+|-|-|-|
+|string|-|\`const value = 'Hello Word!'\`|
+|object|{<br>&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;[ `string` \| *Optional* \| Default: 'javascript' ],<br>&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;[ `string` \| *Optional* \| Default: '' ]<br>}|{<br>&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'javascript',<br>&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`const value = 'Hello Word!'\`<br>}|
+|array|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;[ `string` \| *Optional* \| Default: 'javascript' ],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;[ `string` \| *Optional* \| Default: '' ]<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'html',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`\<div>{{ msg }}\<div>\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`language`:&nbsp;&nbsp;'javascript',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`code`:&nbsp;&nbsp;\`const msg = 'Hello Word!'\`<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>]|
+<br>
+
+### \-\-\- <a id="submitInfoEn">submitInfo</a> \-\-\-
+
+|Props of submitinfo|Type|Description|
+|-|-|-|
+|data|array|Data to be submitted. \[<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code : \[ Original display code \| string \],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;language : \[ Actual code language \| string \],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;processedCode : \[ Processed code by prismjs \| string \],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;showingLanguage : \[ Language of presentation \| string \]<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;......<br>\]|
+|close|function|Initialize the edit state of the component to the 'not edited' state.|
+<br>
+
+## \-\- <a id="UmNoteConfigEn">Umnoteconfig configuration</a> \-\- &nbsp;&nbsp;\[[Complete example](#UmNoteConfig-exampleEn)\]
+
+\- UmNoteConfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* *`Umnoteconfig must be called before the component is mounted`*
+<br>
+
+|Name|Type|Description|CB Arguments|Arg Type|Arg Description|
+|-|-|-|-|-|-|
+|UmNoteConfig|function|Configure the theme, supported language, permissions, etc. of um-note.|[Configure](#Configure)|object|Configuration object of UmNoteConfig method|
+<br>
+
+### \-\-\- <a id="Configure">Configure</a> \-\-\-
+
+|Props of Configure|Type|Description|Default|CB Arguments|Arg Type|Arg Description|
+|-|-|-|-|-|-|-|
+|theme|string|Configure topics for um-note. \[[All themes](#themeEn)\]. \[[Example](#example-themeEn)\].|'default'|-|-|-|
+|languages|array|Configure languages supported for 'um-note'. \[[All supported languages](#languageEn)\]. \[[Example](#example-languageEn)\]|\['html', 'javascript', 'css'\]|-|-|-|
+|contentNames|object|Configure the relevant text description in the delete code block pop-up box for 'um-note'. \[[Example](#contentNamesEn)\]|undefined|-|-|-|
+|editConfigure|function|Configure edit permissions for 'um-note'. \[[Example](#editConfigureEn)\]|undefined|`next`|function|Continue to the next step.|
+|addConfigure|function|Configure add code block permissions for 'um-note'. \[[Example](#addConfigureEn)\]|undefined|`next`|function|Continue to the next step.|
+|removeConfigure|function|Configure delete code block permission for 'um-note'. \[[Example](#removeConfigureEn)\]|undefined|`next`|function|Continue to the next step.|
+|submitConfigure|function|Configure submit permissions for 'um-note'. \[[Example](#submitConfigureEn)\]|undefined|`next`|function|Continue to the next step.|
+<br>
+
+### $ - Configuration example
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- Configure theme
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="themeEn">All supported themes</a>
+
+```javascript
+// um-note supports a total of 8 themes: 'default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight'
+// All supported topics can be obtained through the global attribute Prism.allThemes
+console.log(Prism.allThemes) // ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
+```
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="example-themeEn">Theme configuration example</a>
+
+```javascript
+UmNoteConfig({
+  theme: 'okaidia'
+})
+```
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- Configuration language
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="languageEn">All supported languages</a>
+
+```javascript
+// um-note can support 270+ languages
+// All supported languages can be obtained through the global attribute Prism.allLanguages
+console.log(Prism.allLanguages) // ['html', 'javascript', 'css', ...]
+
+// The global method Prism.hasLanguage can be used to determine whether a language is supported
+/**
+ * Check whether the language is supported
+ * 
+ * @param {String} language to be detected
+ * 
+ * @returns {Boolean} 
+ */
+console.log(Prism.hasLanguage('html')) // true
+```
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="example-languageEn">Language configuration example</a>
+
+```javascript
+UmNoteConfig({
+  languages: ['html', 'javascript', 'css', 'c++', 'ASP.NET (C#)']
+})
+```
+![](https://pic.imgdb.cn/item/611befad4907e2d39c138035.png)
+
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="contentNamesEn">Configure delete text</a>
+<br>
+
+```javascript
+UmNoteConfig({
+  contentNames: {
+    cancel: 'cancel', // text of cancel butto
+    confirm: 'done', // text of confirm butto
+    explain: 'Are you sure to delete??', // text of delete popup
+  }
+})
+```
+![](https://pic.imgdb.cn/item/611befad4907e2d39c137fd6.png)
+
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="editConfigureEn">Configure edit permissions</a>
+<br>
+
+```javascript
+UmNoteConfig({
+  // If you do not want to configure 'edit' permission, please do not set 'editconfiguration', or directly call the 'next()' method inside 'editconfiguration'
+  editConfigure (next) {
+    if (store.getters.isLogin) { // If the user is logged in
+      next() // Continue to the next step
+    } else {
+      alert(`You don't have permission! Please log in first!!!`)
+    }
+  }
+})
+```
+
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="addConfigureEn">Configure add permissions</a>
+<br>
+
+```javascript
+UmNoteConfig({
+  // If you do not want to configure 'add' permission, please do not set 'addConfigure', or directly call the 'next()' method inside 'addConfigure'
+  addConfigure (next) {
+    if (store.getters.isLogin) { // If the user is logged in
+      next() // Continue to the next step
+    } else {
+      alert(`You don't have permission! Please log in first!!!`)
+    }
+  }
+})
+```
+
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="removeConfigureEn">Configure delete permissions</a>
+<br>
+
+```javascript
+UmNoteConfig({
+  // If you do not want to configure 'remove' permission, please do not set 'removeConfigure', or directly call the 'next()' method inside 'removeConfigure'
+  removeConfigure (next) {
+    if (store.getters.isLogin) { // If the user is logged in
+      next() // Continue to the next step
+    } else {
+      alert(`You don't have permission! Please log in first!!!`)
+    }
+  }
+})
+```
+
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="submitConfigureEn">Configure submit permissions</a>
+<br>
+
+```javascript
+UmNoteConfig({
+  // If you do not want to configure 'submit' permission, please do not set 'submitConfigure', or directly call the 'next()' method inside 'submitConfigure'
+  submitConfigure (next) {
+    if (store.getters.isLogin) { // If the user is logged in
+      next() // Continue to the next step
+    } else {
+      alert(`You don't have permission! Please log in first!!!`)
+    }
+  }
+})
+```
+
+----------
+<br>
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\- <a id="UmNoteConfig-exampleEn">Full UmNoteConfig configuration</a>
+<br>
+
+```javascript
+UmNoteConfig({
+  /**
+   * Permission configuration-Make the page editable
+   * 
+   * @param {Function} next Continue to the next step
+   */
+  editConfigure (next) { // If you do not want to configure 'edit' permission, please do not set 'editconfiguration', or directly call the 'next()' method inside 'editconfiguration'
+    if (store.getters.isLogin) { // If the user is logged in
+      next()
+    } else {
+      alert(`Oh, no! You don't have 'edit' permission! Please log in first!!!`)
+    }
+  },
+  /**
+   * Permission configuration-Add code block
+   * 
+   * @param {Function} next Continue to the next step
+   */
+  addConfigure (next) { // If you do not want to configure 'add' permission, please do not set 'addConfigure', or directly call the 'next()' method inside 'addConfigure'
+    if (store.getters.isLogin) {
+      next()
+    } else {
+      alert(`Oh, no! You don't have 'add' permission! Please log in first!!!`)
+    }
+  },
+  /**
+   * Permission configuration-Delete code block
+   * 
+   * @param {Function} next Continue to the next step
+   */
+  removeConfigure (next) { // If you do not want to configure 'remove' permission, please do not set 'removeConfigure', or directly call the 'next()' method inside 'removeConfigure'
+    if (store.getters.isLogin) {
+      next()
+    } else {
+      alert(`Oh, no! You don't have 'remove' permission! Please log in first!!!`)
+    }
+  },
+  /**
+   * Permission configuration-Confirm edited code
+   * 
+   * @param {Function} next Continue to the next step
+   */
+  submitConfigure (next) { // If you do not want to configure 'submit' permission, please do not set 'submitConfigure', or directly call the 'next()' method inside 'submitConfigure'
+    if (store.getters.isLogin) {
+      next()
+    } else {
+      alert(`Oh, no! You don't have 'submit' permission! Please log in first!!!`)
+    }
+  },
+  /**
+   * Configure the text description in the delete code block pop-up box
+   * 
+   * {Object} contentNames
+   * {String} contentNames.cancel text of cancel butto
+   * {String} contentNames.confirm text of confirm butto
+   * {String} contentNames.explain text of delete popup
+   */
+  contentNames: {
+    cancel: '取消',
+    confirm: '确定',
+    explain: '确定删除?',
+  },
+  /**
+   * Configure the language that can be selected when adding code blocks
+   * 
+   * {Array} languages
+   * You can print out all supported languages through 'console.log(Prism.allLanguages)', return an array
+   * You can print out whether the '<languename>' language is supported through 'console.log(Prism.hasLanguage(<languageName>))', return true or false
+   */
+  languages: ['html', 'javascript', 'css', 'c++', 'ASP.NET (C#)'],
+  /**
+   * Configure theme
+   * 
+   * {String} theme
+   * There are 8 configurable themes: ['default', 'coy', 'dark', 'funky', 'okaidia', 'solarizedlight', 'tomorrow', 'twilight']
    */
   theme: 'default',
 })

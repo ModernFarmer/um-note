@@ -45,6 +45,7 @@ export const UmNoteConfig = (json = {}) => {
   if (json.submitConfigure) UM_NOTE_CONFIG.submitConfigure = json.submitConfigure
   if (json.contentNames) UM_NOTE_CONFIG.contentNames = json.contentNames
   if (Array.isArray(json.languages)) {
+    json.languages = [...new Set(json.languages)]
     const lanMap = {}
     const lanList = []
     const fnKeyList = []
