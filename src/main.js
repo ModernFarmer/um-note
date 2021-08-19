@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import store from './store'
 
-import { UmNote, UmNoteConfig } from '@/libs' // 开发调试
-// import { UmNote, UmNoteConfig } from 'um-note'
+// import { UmNote, UmNoteConfig } from '@/libs' // 开发调试
+import { UmNote, UmNoteConfig } from 'um-note'
 
 /**
  * 所有被支持的语言
