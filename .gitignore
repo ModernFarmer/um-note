@@ -4,6 +4,7 @@ node_modules
 /dist-um-note
 /um-note
 package-lock.json
+yarn.lock
 
 # local env files
 .env.local
