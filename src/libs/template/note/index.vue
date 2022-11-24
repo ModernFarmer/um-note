@@ -440,6 +440,9 @@ export default defineComponent({
         code: '',
         processedCode: '',
       })
+      for (let key in coreObj) {
+        coreObj[key].root = null
+      }
       setCore(coreObj, key)
       contentChange.value = true
       nextTick(() => {
@@ -505,6 +508,9 @@ export default defineComponent({
       if (val === 1) {
         codeList.value.splice(index, 1)
         Reflect.deleteProperty(coreObj, key)
+        for (let key in coreObj) {
+          coreObj[key].root = null
+        }
         contentChange.value = true
         nextTick(() => {
           setContainerHeight()
