@@ -299,7 +299,6 @@ export default defineComponent({
       { immediate: true, deep: true }
     )
 
-    let isPaste = false // 是否正在粘贴操作(粘贴的时候也会触发input事件, 这里定义一个状态, 用于阻止粘贴操作后的input事件)
     let canInput = true // 输入中文时, 在输入过程中且没有确定中文字符时, input也会触发, 这里限制一下绑定在input上面的监听事件
 
     const handleInput = (e, item, handleType) => {
@@ -319,17 +318,13 @@ export default defineComponent({
         e.preventDefault()
         const clipboard = e.clipboardData || window.clipboardData
         if(clipboard) {
-          isPaste = true
           targetObj.container = selection.getStartContainer()
           selection.deleteContents()
-          targetObj.inset = clipboard.getData("text/plain").toString()
+          targetObj.inset = clipboard.getData("text/plain").toString().replace(/\r\n/g, '\n')
         } else {
           alert('Paste is not supported, please enter it manually!')
           return
         }
-      } else if (isPaste) { // input事件(粘贴时会触发input事件, 这里要拦截)
-        isPaste = false
-        return
       }
 
       targetObj.getFrontOffset(targetObj.root, targetObj.container, targetObj.inset, (totalOffset, textContent) => {
@@ -539,7 +534,6 @@ export default defineComponent({
       domClick = null
       last_lang = null
       coreObj = null
-      isPaste = null
       canInput = null
       codeTagEl = null
       codeTagHeightOrigin = null

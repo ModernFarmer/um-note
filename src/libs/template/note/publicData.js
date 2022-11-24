@@ -195,7 +195,7 @@ export const selection = _selection()
  * const getFrontOffset = _getFrontOffset() 
  * getFrontOffset(root, rangeContainer, inset, callback, sign) 
  * @param {Element} root 根元素 
- * @param {Element} rangeContainer 光标所在的element元素(必然是text节点, 即element.nodeType === 3) 
+ * @param {Element} rangeContainer 光标所在的element元素(root容器内容为空时为root节点; 其余情况必然是text节点, 即element.nodeType === 3) 
  * @param {String} inset 光标前需要插入的字符串(比如按下tab键时, 取消了默认事件, 需要在光标前插入2个空格; 粘贴时, 需要在光标前插入粘贴的内容)
  * @param {Function} callback 回调函数, 该函数的第一个参数就是获取到的光标总偏移量, 第二个参数就是获取到的标签内容(textContent) 
  * @param {String} sign 表明是否第一次调用getFrontOffset, 用来判断是否要初始化_getFrontOffset函数内部的result变量和ok变量 
@@ -208,6 +208,7 @@ export const _getFrontOffset = () => {
   const checkNodes = (root, rangeContainer, inset, callback, sign) => {
     if (sign !== '_is_not_first_') {
       // windows下换行符是'\r\n', 它的length是2, 但是将它作为dom元素的textContent解析时, 它的length是1, 所以在这里必须将2长度的'\r\n'替换为功能一样的'\n'
+      // inset本该需要做同样的处理, 但是除了在粘贴的时候, 其它时候只会是长度为1的字符, 所以这里不处理, 放到重写的粘贴事件里面处理
       rootTextContent = root.textContent.replace(/\r\n/g, '\n')
       result = ''
       ok = false
