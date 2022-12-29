@@ -48,6 +48,7 @@
     ><div
       :id="`${item.key}_codeBox`"
       class="_um-_code-box"
+      :style="{ height: item.processedCode === '' ? '71px' : 'auto' }"
       v-for="(item, index) in codeList" :key="`${item.key}_${index}`"
     ><div
       class="_um-_sign-public"
