@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 
 // import { UmNote, UmNoteConfig } from '@/libs' // 开发调试
+// import { UmNote, UmNoteConfig } from '../um-note/um-note.umd.min.js' // 本地打包测试
 import { UmNote, UmNoteConfig } from 'um-note'
 
 /**
